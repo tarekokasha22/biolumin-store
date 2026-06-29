@@ -9,6 +9,11 @@ import { HomeClosing }     from "@/components/home/HomeClosing";
 import HomeNewsletter      from "@/components/home/HomeNewsletter";
 import WhatsAppFab         from "@/components/layout/WhatsAppFab";
 
+// Render per-request so the featured-drop teasers reflect live one-of-one
+// inventory (SOLD/اتباعت updates instantly) and the build never depends on a
+// cold-start DB connection during static prerender.
+export const dynamic = "force-dynamic";
+
 type Props = { params: Promise<{ locale: string }> };
 
 export default async function HomePage({ params }: Props) {
