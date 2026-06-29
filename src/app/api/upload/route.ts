@@ -1,7 +1,9 @@
 import { prisma } from "@/lib/prisma";
 import { saveUpload } from "@/lib/storage";
 
-const MAX_BYTES = 6 * 1024 * 1024;
+// Keep under Vercel's ~4.5MB serverless request-body limit so oversized uploads
+// fail cleanly with a 413 instead of hanging at the platform edge.
+const MAX_BYTES = 4 * 1024 * 1024;
 const ALLOWED: Record<string, string> = {
   "image/jpeg": "jpg",
   "image/png": "png",

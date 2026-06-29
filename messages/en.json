@@ -281,6 +281,7 @@
     "uploadCta": "Choose image",
     "uploaded": "Uploaded ✓ under review",
     "uploading": "Uploading...",
+    "uploadError": "Upload failed — please try again 🤍",
     "codTitle": "Cash on delivery",
     "codNote": "You'll pay {total} EGP in cash to the courier on delivery.",
     "cardTitle": "Card payment",
