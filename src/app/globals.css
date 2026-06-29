@@ -1,0 +1,495 @@
+@import "tailwindcss";
+
+/* ============================================================
+   BIOLUMIN — Design tokens
+   Palette: Obsidian / Warm Ivory / Champagne Gold / Warm Greige
+   Bio-Glow Aqua is a GLOW ACCENT ONLY — never a layout fill.
+   ============================================================ */
+
+@theme {
+  --color-obsidian: #0e0e10;
+  --color-obsidian-soft: #161619;
+  --color-obsidian-raised: #1d1d21;
+  --color-ivory: #f4f0e9;
+  --color-ivory-dim: #e7e1d5;
+  --color-champagne: #c9a66b;
+  --color-champagne-bright: #e3c895;
+  --color-greige: #8a8175;
+  --color-aqua: #48d6c2;
+
+  --color-background: var(--color-obsidian);
+  --color-foreground: var(--color-ivory);
+
+  --font-display: var(--font-cormorant);
+  --font-body: var(--font-montserrat);
+  --font-display-ar: var(--font-messiri);
+  --font-body-ar: var(--font-tajawal);
+
+  --tracking-luxe: 0.18em;
+  --ease-silk: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+:root {
+  --font-display-active: var(--font-cormorant);
+  --font-body-active: var(--font-montserrat);
+}
+
+html[lang="ar"] {
+  --font-display-active: var(--font-messiri);
+  --font-body-active: var(--font-tajawal);
+}
+
+* {
+  border-color: color-mix(in srgb, var(--color-greige) 22%, transparent);
+}
+
+html {
+  background: var(--color-obsidian);
+  color: var(--color-ivory);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+body {
+  font-family: var(--font-body-active), system-ui, sans-serif;
+  background: var(--color-obsidian);
+  color: var(--color-ivory);
+  overflow-x: hidden;
+}
+
+.font-display {
+  font-family: var(--font-display-active), Georgia, serif;
+}
+.font-body {
+  font-family: var(--font-body-active), system-ui, sans-serif;
+}
+
+/* When Lenis is active it sets classes on <html> */
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+/* ---- Bioluminescent glow primitives ---- */
+.glow-aqua {
+  color: var(--color-aqua);
+  text-shadow:
+    0 0 8px color-mix(in srgb, var(--color-aqua) 55%, transparent),
+    0 0 28px color-mix(in srgb, var(--color-aqua) 35%, transparent);
+}
+.glow-gold {
+  text-shadow:
+    0 0 10px color-mix(in srgb, var(--color-champagne) 40%, transparent),
+    0 0 40px color-mix(in srgb, var(--color-champagne) 18%, transparent);
+}
+.glow-halo {
+  position: relative;
+}
+.glow-halo::before {
+  content: "";
+  position: absolute;
+  inset: -40% -20%;
+  background: radial-gradient(
+    ellipse at center,
+    color-mix(in srgb, var(--color-aqua) 16%, transparent),
+    transparent 62%
+  );
+  filter: blur(28px);
+  z-index: -1;
+  pointer-events: none;
+}
+
+/* Champagne hairline divider */
+.rule-gold {
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    color-mix(in srgb, var(--color-champagne) 70%, transparent),
+    transparent
+  );
+}
+
+/* Grain overlay for editorial depth */
+.grain::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  pointer-events: none;
+  opacity: 0.035;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+::selection {
+  background: color-mix(in srgb, var(--color-champagne) 35%, transparent);
+  color: var(--color-ivory);
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: var(--color-obsidian);
+}
+::-webkit-scrollbar-thumb {
+  background: color-mix(in srgb, var(--color-champagne) 45%, transparent);
+  border-radius: 99px;
+}
+
+@keyframes biopulse {
+  0%, 100% { opacity: 0.55; }
+  50% { opacity: 1; }
+}
+.bio-pulse {
+  animation: biopulse 3.5s var(--ease-silk) infinite;
+}
+
+/* ============================================================
+   Fluid editorial type — scales with the viewport, never breaks
+   ============================================================ */
+.fluid-hero {
+  font-size: clamp(2.85rem, 9.5vw, 9rem);
+  line-height: 0.98;
+  letter-spacing: -0.03em;
+}
+html[lang="ar"] .fluid-hero {
+  line-height: 1.12;
+  letter-spacing: 0;
+}
+.fluid-h2 {
+  font-size: clamp(2rem, 5.5vw, 4.75rem);
+  line-height: 1.06;
+  letter-spacing: -0.02em;
+}
+html[lang="ar"] .fluid-h2 {
+  line-height: 1.3;
+  letter-spacing: 0;
+}
+.fluid-lead {
+  font-size: clamp(1rem, 1.4vw, 1.25rem);
+  line-height: 1.65;
+}
+.fluid-quote {
+  font-size: clamp(1.6rem, 3.6vw, 3.1rem);
+  line-height: 1.4;
+  letter-spacing: -0.01em;
+}
+html[lang="ar"] .fluid-quote {
+  line-height: 1.7;
+  letter-spacing: 0;
+}
+
+/* ============================================================
+   Carried light — a glow that follows the pointer through the
+   dark. The brand's whole idea: light that lives and responds.
+   Positioned behind page content (main is z-10), additive on
+   obsidian. JS lerps .lumina__orb's transform for silky trail.
+   ============================================================ */
+.lumina {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+.lumina__orb {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 46vmax;
+  width: 46vmax;
+  margin-top: -23vmax;
+  margin-left: -23vmax;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    rgba(72, 214, 194, 0.1),
+    rgba(201, 166, 107, 0.055) 36%,
+    transparent 64%
+  );
+  filter: blur(8px);
+  will-change: transform;
+  opacity: 0;
+  transition: opacity 1.4s var(--ease-silk);
+}
+.lumina.is-live .lumina__orb {
+  opacity: 1;
+}
+
+/* ============================================================
+   Bioluminescent spores — tiny living lights drifting upward,
+   like plankton in the deep. Rendered client-side, GPU-only.
+   ============================================================ */
+.spore {
+  position: absolute;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    rgba(72, 214, 194, 0.95),
+    rgba(72, 214, 194, 0) 70%
+  );
+  box-shadow: 0 0 6px rgba(72, 214, 194, 0.5);
+  will-change: transform, opacity;
+  animation:
+    spore-rise linear infinite,
+    spore-flicker ease-in-out infinite;
+}
+@keyframes spore-rise {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(var(--drift, 0px), -118vh, 0);
+  }
+}
+@keyframes spore-flicker {
+  0%, 100% {
+    opacity: 0.12;
+  }
+  50% {
+    opacity: 0.85;
+  }
+}
+
+/* ============================================================
+   Light sweep — a slow band of champagne light crossing a
+   surface on hover. Used on product cards & quiet buttons.
+   ============================================================ */
+.sweep {
+  position: relative;
+  overflow: hidden;
+}
+.sweep::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: -160%;
+  width: 65%;
+  background: linear-gradient(
+    100deg,
+    transparent,
+    color-mix(in srgb, var(--color-champagne) 24%, transparent),
+    transparent
+  );
+  transform: skewX(-16deg);
+  transition: left 0.9s var(--ease-silk);
+  pointer-events: none;
+  z-index: 2;
+}
+.group:hover .sweep::after,
+.sweep:hover::after {
+  left: 160%;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* ============================================================
+   DESIGN OVERHAUL v2 — CSS custom properties + new primitives
+   Used by the new home components via inline styles.
+   ============================================================ */
+:root {
+  --obsidian:          #0e0e10;
+  --obsidian-2:        #161619;
+  --obsidian-3:        #1d1d21;
+  --champagne:         #c9a66b;
+  --champagne-light:   #e3c895;
+  --aqua:              #48d6c2;
+  --cream:             #f4f0e9;
+  --stone:             #8a8175;
+
+  --color-bg:            var(--obsidian);
+  --color-surface:       var(--obsidian-2);
+  --color-surface-2:     var(--obsidian-3);
+  --color-accent:        var(--champagne);
+  --color-accent-light:  var(--champagne-light);
+  --color-glow:          var(--aqua);
+  --color-text:          var(--cream);
+  --color-text-muted:    rgba(244,240,233,.62);
+  --color-text-subtle:   rgba(244,240,233,.40);
+  --color-border:        rgba(138,129,117,.20);
+  --color-border-accent: rgba(201,166,107,.32);
+  --card-radius:   5px;
+  --pill-radius:   99px;
+}
+
+/* ---- New keyframes ---- */
+@keyframes bl-pulse {
+  0%, 100% { opacity: .5; }
+  50%       { opacity:  1; }
+}
+@keyframes bl-rise {
+  from { transform: translate3d(0, 0, 0); }
+  to   { transform: translate3d(var(--dx, 0px), -118vh, 0); }
+}
+@keyframes bl-flick {
+  0%, 100% { opacity: .12; }
+  50%       { opacity: .85; }
+}
+@keyframes bl-marquee {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+@keyframes bl-float {
+  0%, 100% { transform: translateY(0); }
+  50%       { transform: translateY(-7px); }
+}
+@keyframes bl-breathe {
+  0%, 100% { transform: translate(-50%,-50%) scale(1);     opacity: .75; }
+  50%       { transform: translate(-50%,-50%) scale(1.12);  opacity:  1; }
+}
+@keyframes bl-fade-up {
+  from { opacity: 0; transform: translateY(28px); }
+  to   { opacity: 1; transform: none; }
+}
+
+/* ---- New utility classes ---- */
+.bl-sweep { position: relative; overflow: hidden; }
+.bl-sweep::after {
+  content: "";
+  position: absolute;
+  top: 0; bottom: 0; left: -160%;
+  width: 60%;
+  background: linear-gradient(100deg, transparent, rgba(201,166,107,.22), transparent);
+  transform: skewX(-16deg);
+  transition: left .9s cubic-bezier(.22,1,.36,1);
+  pointer-events: none;
+  z-index: 3;
+}
+.bl-card:hover .bl-sweep::after,
+.bl-sweep:hover::after { left: 160%; }
+
+.bl-fade-up {
+  animation: bl-fade-up .9s cubic-bezier(.22,1,.36,1) both;
+}
+.bl-fade-up-1 { animation-delay: .10s; }
+.bl-fade-up-2 { animation-delay: .20s; }
+.bl-fade-up-3 { animation-delay: .30s; }
+.bl-fade-up-4 { animation-delay: .40s; }
+
+.bl-divider {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(201,166,107,.4), transparent);
+}
+
+@keyframes bl-scroll-dot {
+  0%   { transform: translateY(-12px); opacity: 0; }
+  35%  { opacity: 1; }
+  100% { transform: translateY(36px); opacity: 0; }
+}
+.story-scroll-dot {
+  animation: bl-scroll-dot 1.9s ease-in-out infinite;
+}
+@media (prefers-reduced-motion: reduce) {
+  .story-scroll-dot { animation: none; }
+}
+
+/* ── Brand-identity emblem (animated luminous core + orbits) ── */
+@keyframes bl-spin     { to { transform: rotate(360deg); } }
+@keyframes bl-spin-rev { to { transform: rotate(-360deg); } }
+@keyframes bl-emblem-breathe {
+  0%, 100% { transform: scale(1);    opacity: .85; }
+  50%      { transform: scale(1.05); opacity: 1; }
+}
+@keyframes bl-emblem-glow {
+  0%, 100% { opacity: .5; transform: scale(1); }
+  50%      { opacity: .9; transform: scale(1.08); }
+}
+.bl-spin-cw, .bl-spin-ccw, .bl-emblem-breathe {
+  transform-box: view-box;
+  transform-origin: 50% 50%;
+}
+.bl-spin-cw        { animation: bl-spin 30s linear infinite; }
+.bl-spin-ccw       { animation: bl-spin-rev 42s linear infinite; }
+.bl-spin-cw-fast   { animation: bl-spin 20s linear infinite; transform-box: view-box; transform-origin: 50% 50%; }
+.bl-emblem-breathe { animation: bl-emblem-breathe 6.5s ease-in-out infinite; }
+.bl-emblem-glow    { animation: bl-emblem-glow 6.5s ease-in-out infinite; }
+@media (prefers-reduced-motion: reduce) {
+  .bl-spin-cw, .bl-spin-ccw, .bl-spin-cw-fast,
+  .bl-emblem-breathe, .bl-emblem-glow { animation: none; }
+}
+
+/* Rotating conic aurora — a living ring of light sweeping behind the emblem */
+@keyframes bl-aurora-spin { to { transform: rotate(360deg); } }
+.bl-aurora {
+  position: absolute;
+  inset: -14%;
+  border-radius: 50%;
+  background: conic-gradient(
+    from 0deg,
+    rgba(72,214,194,0)    0deg,
+    rgba(72,214,194,.28)  60deg,
+    rgba(201,166,107,.34) 140deg,
+    rgba(72,214,194,0)    215deg,
+    rgba(201,166,107,.20) 300deg,
+    rgba(72,214,194,0)    360deg
+  );
+  filter: blur(28px);
+  -webkit-mask: radial-gradient(circle, transparent 36%, #000 52%, transparent 76%);
+          mask: radial-gradient(circle, transparent 36%, #000 52%, transparent 76%);
+  animation: bl-aurora-spin 26s linear infinite;
+  pointer-events: none;
+  will-change: transform;
+}
+@media (prefers-reduced-motion: reduce) { .bl-aurora { animation: none; } }
+
+.bl-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  border-radius: var(--pill-radius);
+  border: 1px solid rgba(201,166,107,.45);
+  background: rgba(14,14,16,.55);
+  backdrop-filter: blur(6px);
+  padding: 5px 13px;
+  font-size: 9.5px;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  color: var(--champagne-light);
+}
+
+.bl-fab {
+  animation: bl-float 4s ease-in-out infinite;
+}
+
+.bl-spore {
+  position: absolute;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(72,214,194,.95), rgba(72,214,194,0) 70%);
+  box-shadow: 0 0 6px rgba(72,214,194,.5);
+  animation:
+    bl-rise  var(--rise-dur, 18s)  linear  infinite,
+    bl-flick var(--flic-dur, 4s)   ease-in-out infinite;
+}
+
+/* Responsive grid overrides for new home sections (2-up on mobile) */
+@media (max-width: 980px) {
+  .bl-hero-grid  { grid-template-columns: 1fr !important; }
+  .bl-pillar-grid { grid-template-columns: 1fr !important; }
+  .bl-trust-grid  { grid-template-columns: repeat(3,1fr) !important; }
+  .bl-rev-grid    { grid-template-columns: 1fr !important; }
+}
+@media (max-width: 760px) {
+  .bl-drop-grid   { grid-template-columns: 1fr 1fr !important; }
+  .bl-trust-grid  { grid-template-columns: 1fr 1fr !important; }
+}
+@media (max-width: 520px) {
+  .bl-drop-grid   { grid-template-columns: 1fr 1fr !important; gap: 14px !important; }
+  .bl-trust-grid  { grid-template-columns: 1fr 1fr !important; }
+}
