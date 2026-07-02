@@ -222,6 +222,7 @@ export async function createDrop(formData: FormData) {
   const nameEn = String(formData.get("nameEn") ?? "").trim();
   const nameAr = String(formData.get("nameAr") ?? "").trim();
   const releaseAt = String(formData.get("releaseAt") ?? "").trim();
+  const closesAt = String(formData.get("closesAt") ?? "").trim();
   const isLive = formData.get("isLive") === "true";
 
   if (!nameEn || !nameAr || number <= 0) return;
@@ -232,10 +233,12 @@ export async function createDrop(formData: FormData) {
       nameEn,
       nameAr,
       releaseAt: releaseAt ? new Date(releaseAt) : new Date(),
+      closesAt: closesAt ? new Date(closesAt) : null,
       isLive,
     },
   });
   revalidatePath("/admin/drops");
+  revalidatePath("/");
 }
 
 export async function updateDrop(formData: FormData) {
@@ -244,6 +247,7 @@ export async function updateDrop(formData: FormData) {
   const nameEn = String(formData.get("nameEn") ?? "").trim();
   const nameAr = String(formData.get("nameAr") ?? "").trim();
   const releaseAt = String(formData.get("releaseAt") ?? "").trim();
+  const closesAt = String(formData.get("closesAt") ?? "").trim();
   const isLive = formData.get("isLive") === "on";
 
   await prisma.drop.update({
@@ -252,10 +256,12 @@ export async function updateDrop(formData: FormData) {
       nameEn,
       nameAr,
       releaseAt: releaseAt ? new Date(releaseAt) : undefined,
+      closesAt: closesAt ? new Date(closesAt) : null,
       isLive,
     },
   });
   revalidatePath("/admin/drops");
+  revalidatePath("/");
 }
 
 export async function deleteDrop(formData: FormData) {
@@ -305,4 +311,77 @@ export async function deleteDiscount(formData: FormData) {
   const id = String(formData.get("id"));
   await prisma.discountCode.delete({ where: { id } });
   revalidatePath("/admin/discounts");
+}
+
+// ── Reviews ─────────────────────────────────────────────────────────────────
+
+export async function createReview(formData: FormData) {
+  await requireAdmin();
+  const productId = String(formData.get("productId") ?? "");
+  const authorNameEn = String(formData.get("authorNameEn") ?? "").trim();
+  const authorNameAr = String(formData.get("authorNameAr") ?? "").trim();
+  const authorCityEn = String(formData.get("authorCityEn") ?? "").trim();
+  const authorCityAr = String(formData.get("authorCityAr") ?? "").trim();
+  const rating = Math.min(5, Math.max(1, parseInt(String(formData.get("rating") ?? "5"), 10) || 5));
+  const bodyEn = String(formData.get("bodyEn") ?? "").trim();
+  const bodyAr = String(formData.get("bodyAr") ?? "").trim();
+  const featuredOnHome = formData.get("featuredOnHome") === "true";
+
+  if (!productId || !authorNameEn || !authorNameAr || !bodyEn || !bodyAr) return;
+
+  await prisma.review.create({
+    data: {
+      productId, authorNameEn, authorNameAr, authorCityEn, authorCityAr,
+      rating, bodyEn, bodyAr, featuredOnHome,
+    },
+  });
+  revalidatePath("/admin/reviews");
+  revalidatePath("/");
+  redirect("/admin/reviews");
+}
+
+export async function updateReview(formData: FormData) {
+  await requireAdmin();
+  const id = String(formData.get("id"));
+  const productId = String(formData.get("productId") ?? "");
+  const authorNameEn = String(formData.get("authorNameEn") ?? "").trim();
+  const authorNameAr = String(formData.get("authorNameAr") ?? "").trim();
+  const authorCityEn = String(formData.get("authorCityEn") ?? "").trim();
+  const authorCityAr = String(formData.get("authorCityAr") ?? "").trim();
+  const rating = Math.min(5, Math.max(1, parseInt(String(formData.get("rating") ?? "5"), 10) || 5));
+  const bodyEn = String(formData.get("bodyEn") ?? "").trim();
+  const bodyAr = String(formData.get("bodyAr") ?? "").trim();
+  const featuredOnHome = formData.get("featuredOnHome") === "true";
+
+  if (!id || !productId || !authorNameEn || !authorNameAr || !bodyEn || !bodyAr) return;
+
+  await prisma.review.update({
+    where: { id },
+    data: {
+      productId, authorNameEn, authorNameAr, authorCityEn, authorCityAr,
+      rating, bodyEn, bodyAr, featuredOnHome,
+    },
+  });
+  revalidatePath("/admin/reviews");
+  revalidatePath("/");
+  redirect("/admin/reviews?saved=1");
+}
+
+export async function toggleReviewFeatured(formData: FormData) {
+  await requireAdmin();
+  const id = String(formData.get("id"));
+  const review = await prisma.review.findUnique({ where: { id } });
+  if (!review) return;
+  await prisma.review.update({ where: { id }, data: { featuredOnHome: !review.featuredOnHome } });
+  revalidatePath("/admin/reviews");
+  revalidatePath("/");
+}
+
+export async function deleteReview(formData: FormData) {
+  await requireAdmin();
+  const id = String(formData.get("id"));
+  await prisma.review.delete({ where: { id } });
+  revalidatePath("/admin/reviews");
+  revalidatePath("/");
+  redirect("/admin/reviews");
 }

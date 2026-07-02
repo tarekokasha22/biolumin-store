@@ -74,7 +74,7 @@ export function ProofUpload({
       </button>
       {error && (
         <p className="font-body mt-3 text-sm text-red-300">
-          {t("uploadError")}
+          {t("uploading")}…
         </p>
       )}
       <input

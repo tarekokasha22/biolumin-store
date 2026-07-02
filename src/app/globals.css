@@ -16,6 +16,12 @@
   --color-champagne-bright: #e3c895;
   --color-greige: #8a8175;
   --color-aqua: #48d6c2;
+  --color-aqua-light: #a6f2e5;
+
+  /* Mobile-app-shell tokens (design handoff, verified against prototype markup) */
+  --color-page: #070708;
+  --color-panel: #15151a;
+  --color-panel-raised: #1d1d22;
 
   --color-background: var(--color-obsidian);
   --color-foreground: var(--color-ivory);
@@ -27,6 +33,17 @@
 
   --tracking-luxe: 0.18em;
   --ease-silk: cubic-bezier(0.22, 1, 0.36, 1);
+
+  /* Shell layout constants (verified from the literal prototype inline
+     styles, not the handoff README summary — the README's "6px card
+     radius" does not match anything in the actual markup). */
+  --radius-card: 15px;
+  --radius-card-sm: 14px;
+  --radius-button: 13px;
+  --radius-input: 11px;
+  --radius-sheet: 22px;
+  --radius-pill: 99px;
+  --shell-width: 438px;
 }
 
 :root {
@@ -127,6 +144,16 @@ html.lenis body {
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
 }
 
+/* Hidden-scrollbar horizontal-scroll rows (trust strip, reviews,
+   related products, gallery, filter chips) — used throughout the shell. */
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
 ::selection {
   background: color-mix(in srgb, var(--color-champagne) 35%, transparent);
   color: var(--color-ivory);
@@ -149,6 +176,48 @@ html.lenis body {
 }
 .bio-pulse {
   animation: biopulse 3.5s var(--ease-silk) infinite;
+}
+
+/* Logo wordmark's glowing "i" dots — distinct timing/curve from
+   biopulse above, verified against the prototype's own keyframe. */
+@keyframes logo-dot-pulse {
+  0%, 100% { opacity: 0.45; }
+  50% { opacity: 1; }
+}
+
+/* Route loading shimmer — a champagne bar sweeping left→right across the top. */
+@keyframes loading-sweep {
+  0% { transform: translateX(-120%); }
+  100% { transform: translateX(420%); }
+}
+
+/* Announcement marquee — content is duplicated once by the consumer,
+   so translating by exactly -50% loops seamlessly. */
+@keyframes marquee-scroll {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+[dir="rtl"] .marquee-track {
+  animation-direction: reverse;
+}
+
+/* CTA sheen sweep — diagonal band of light crossing a solid button. */
+@keyframes cta-sheen {
+  0% { transform: translateX(-120%) skewX(-16deg); }
+  60%, 100% { transform: translateX(260%) skewX(-16deg); }
+}
+
+/* Confirmation success bloom — radial pulse behind the checkmark. */
+@keyframes success-bloom {
+  0% { opacity: 0; transform: scale(0.5); }
+  45% { opacity: 0.85; }
+  100% { opacity: 0; transform: scale(1.7); }
+}
+
+/* Hero background — slow living drift, not a scroll animation. */
+@keyframes hero-drift {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-7px); }
 }
 
 /* ============================================================
@@ -301,91 +370,14 @@ html[lang="ar"] .fluid-quote {
 }
 
 /* ============================================================
-   DESIGN OVERHAUL v2 — CSS custom properties + new primitives
-   Used by the new home components via inline styles.
+   Preserved primitives for the STORY page + BrandEmblem, which
+   keep their original design. These classes lived in the prior
+   "overhaul v2" block; re-appended here so the story experience
+   renders identically under the new app-shell stylesheet.
    ============================================================ */
-:root {
-  --obsidian:          #0e0e10;
-  --obsidian-2:        #161619;
-  --obsidian-3:        #1d1d21;
-  --champagne:         #c9a66b;
-  --champagne-light:   #e3c895;
-  --aqua:              #48d6c2;
-  --cream:             #f4f0e9;
-  --stone:             #8a8175;
-
-  --color-bg:            var(--obsidian);
-  --color-surface:       var(--obsidian-2);
-  --color-surface-2:     var(--obsidian-3);
-  --color-accent:        var(--champagne);
-  --color-accent-light:  var(--champagne-light);
-  --color-glow:          var(--aqua);
-  --color-text:          var(--cream);
-  --color-text-muted:    rgba(244,240,233,.62);
-  --color-text-subtle:   rgba(244,240,233,.40);
-  --color-border:        rgba(138,129,117,.20);
-  --color-border-accent: rgba(201,166,107,.32);
-  --card-radius:   5px;
-  --pill-radius:   99px;
-}
-
-/* ---- New keyframes ---- */
-@keyframes bl-pulse {
-  0%, 100% { opacity: .5; }
-  50%       { opacity:  1; }
-}
-@keyframes bl-rise {
-  from { transform: translate3d(0, 0, 0); }
-  to   { transform: translate3d(var(--dx, 0px), -118vh, 0); }
-}
-@keyframes bl-flick {
-  0%, 100% { opacity: .12; }
-  50%       { opacity: .85; }
-}
-@keyframes bl-marquee {
-  from { transform: translateX(0); }
-  to   { transform: translateX(-50%); }
-}
-@keyframes bl-float {
-  0%, 100% { transform: translateY(0); }
-  50%       { transform: translateY(-7px); }
-}
-@keyframes bl-breathe {
-  0%, 100% { transform: translate(-50%,-50%) scale(1);     opacity: .75; }
-  50%       { transform: translate(-50%,-50%) scale(1.12);  opacity:  1; }
-}
-@keyframes bl-fade-up {
-  from { opacity: 0; transform: translateY(28px); }
-  to   { opacity: 1; transform: none; }
-}
-
-/* ---- New utility classes ---- */
-.bl-sweep { position: relative; overflow: hidden; }
-.bl-sweep::after {
-  content: "";
-  position: absolute;
-  top: 0; bottom: 0; left: -160%;
-  width: 60%;
-  background: linear-gradient(100deg, transparent, rgba(201,166,107,.22), transparent);
-  transform: skewX(-16deg);
-  transition: left .9s cubic-bezier(.22,1,.36,1);
-  pointer-events: none;
-  z-index: 3;
-}
-.bl-card:hover .bl-sweep::after,
-.bl-sweep:hover::after { left: 160%; }
-
-.bl-fade-up {
-  animation: bl-fade-up .9s cubic-bezier(.22,1,.36,1) both;
-}
-.bl-fade-up-1 { animation-delay: .10s; }
-.bl-fade-up-2 { animation-delay: .20s; }
-.bl-fade-up-3 { animation-delay: .30s; }
-.bl-fade-up-4 { animation-delay: .40s; }
-
 .bl-divider {
   height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(201,166,107,.4), transparent);
+  background: linear-gradient(90deg, transparent, rgba(201, 166, 107, 0.4), transparent);
 }
 
 @keyframes bl-scroll-dot {
@@ -396,20 +388,16 @@ html[lang="ar"] .fluid-quote {
 .story-scroll-dot {
   animation: bl-scroll-dot 1.9s ease-in-out infinite;
 }
-@media (prefers-reduced-motion: reduce) {
-  .story-scroll-dot { animation: none; }
-}
 
-/* ── Brand-identity emblem (animated luminous core + orbits) ── */
 @keyframes bl-spin     { to { transform: rotate(360deg); } }
 @keyframes bl-spin-rev { to { transform: rotate(-360deg); } }
 @keyframes bl-emblem-breathe {
-  0%, 100% { transform: scale(1);    opacity: .85; }
+  0%, 100% { transform: scale(1);    opacity: 0.85; }
   50%      { transform: scale(1.05); opacity: 1; }
 }
 @keyframes bl-emblem-glow {
-  0%, 100% { opacity: .5; transform: scale(1); }
-  50%      { opacity: .9; transform: scale(1.08); }
+  0%, 100% { opacity: 0.5; transform: scale(1); }
+  50%      { opacity: 0.9; transform: scale(1.08); }
 }
 .bl-spin-cw, .bl-spin-ccw, .bl-emblem-breathe {
   transform-box: view-box;
@@ -420,12 +408,7 @@ html[lang="ar"] .fluid-quote {
 .bl-spin-cw-fast   { animation: bl-spin 20s linear infinite; transform-box: view-box; transform-origin: 50% 50%; }
 .bl-emblem-breathe { animation: bl-emblem-breathe 6.5s ease-in-out infinite; }
 .bl-emblem-glow    { animation: bl-emblem-glow 6.5s ease-in-out infinite; }
-@media (prefers-reduced-motion: reduce) {
-  .bl-spin-cw, .bl-spin-ccw, .bl-spin-cw-fast,
-  .bl-emblem-breathe, .bl-emblem-glow { animation: none; }
-}
 
-/* Rotating conic aurora — a living ring of light sweeping behind the emblem */
 @keyframes bl-aurora-spin { to { transform: rotate(360deg); } }
 .bl-aurora {
   position: absolute;
@@ -433,12 +416,12 @@ html[lang="ar"] .fluid-quote {
   border-radius: 50%;
   background: conic-gradient(
     from 0deg,
-    rgba(72,214,194,0)    0deg,
-    rgba(72,214,194,.28)  60deg,
-    rgba(201,166,107,.34) 140deg,
-    rgba(72,214,194,0)    215deg,
-    rgba(201,166,107,.20) 300deg,
-    rgba(72,214,194,0)    360deg
+    rgba(72, 214, 194, 0)    0deg,
+    rgba(72, 214, 194, 0.28) 60deg,
+    rgba(201, 166, 107, 0.34) 140deg,
+    rgba(72, 214, 194, 0)    215deg,
+    rgba(201, 166, 107, 0.2) 300deg,
+    rgba(72, 214, 194, 0)    360deg
   );
   filter: blur(28px);
   -webkit-mask: radial-gradient(circle, transparent 36%, #000 52%, transparent 76%);
@@ -447,49 +430,9 @@ html[lang="ar"] .fluid-quote {
   pointer-events: none;
   will-change: transform;
 }
-@media (prefers-reduced-motion: reduce) { .bl-aurora { animation: none; } }
 
-.bl-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  border-radius: var(--pill-radius);
-  border: 1px solid rgba(201,166,107,.45);
-  background: rgba(14,14,16,.55);
-  backdrop-filter: blur(6px);
-  padding: 5px 13px;
-  font-size: 9.5px;
-  letter-spacing: .2em;
-  text-transform: uppercase;
-  color: var(--champagne-light);
-}
-
-.bl-fab {
-  animation: bl-float 4s ease-in-out infinite;
-}
-
-.bl-spore {
-  position: absolute;
-  border-radius: 50%;
-  background: radial-gradient(circle, rgba(72,214,194,.95), rgba(72,214,194,0) 70%);
-  box-shadow: 0 0 6px rgba(72,214,194,.5);
-  animation:
-    bl-rise  var(--rise-dur, 18s)  linear  infinite,
-    bl-flick var(--flic-dur, 4s)   ease-in-out infinite;
-}
-
-/* Responsive grid overrides for new home sections (2-up on mobile) */
-@media (max-width: 980px) {
-  .bl-hero-grid  { grid-template-columns: 1fr !important; }
-  .bl-pillar-grid { grid-template-columns: 1fr !important; }
-  .bl-trust-grid  { grid-template-columns: repeat(3,1fr) !important; }
-  .bl-rev-grid    { grid-template-columns: 1fr !important; }
-}
-@media (max-width: 760px) {
-  .bl-drop-grid   { grid-template-columns: 1fr 1fr !important; }
-  .bl-trust-grid  { grid-template-columns: 1fr 1fr !important; }
-}
-@media (max-width: 520px) {
-  .bl-drop-grid   { grid-template-columns: 1fr 1fr !important; gap: 14px !important; }
-  .bl-trust-grid  { grid-template-columns: 1fr 1fr !important; }
+@media (prefers-reduced-motion: reduce) {
+  .story-scroll-dot,
+  .bl-spin-cw, .bl-spin-ccw, .bl-spin-cw-fast,
+  .bl-emblem-breathe, .bl-emblem-glow, .bl-aurora { animation: none; }
 }

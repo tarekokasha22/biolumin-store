@@ -1,13 +1,13 @@
 import { setRequestLocale } from "next-intl/server";
-import { getProducts } from "@/lib/catalog";
-import { HomeHero }        from "@/components/home/HomeHero";
-import HomeTrust           from "@/components/home/HomeTrust";
-import HomeDrop            from "@/components/home/HomeDrop";
-import { HomePillars }     from "@/components/home/HomePillars";
-import HomeReviews         from "@/components/home/HomeReviews";
-import { HomeClosing }     from "@/components/home/HomeClosing";
-import HomeNewsletter      from "@/components/home/HomeNewsletter";
-import WhatsAppFab         from "@/components/layout/WhatsAppFab";
+import { getProducts, getLiveDrop } from "@/lib/catalog";
+import { getFeaturedReviews, getRatingSummariesByProductIds } from "@/lib/reviews";
+import { gradientPlaceholder } from "@/lib/placeholder";
+import { HomeHero } from "@/components/home/HomeHero";
+import { HomeTrustStrip } from "@/components/home/HomeTrustStrip";
+import { HomePillars } from "@/components/home/HomePillars";
+import { HomeDrop } from "@/components/home/HomeDrop";
+import { HomeStoryTeaser } from "@/components/home/HomeStoryTeaser";
+import { HomeReviews } from "@/components/home/HomeReviews";
 
 // Render per-request so the featured-drop teasers reflect live one-of-one
 // inventory (SOLD/اتباعت updates instantly) and the build never depends on a
@@ -20,30 +20,43 @@ export default async function HomePage({ params }: Props) {
   const { locale } = await params;
   setRequestLocale(locale);
 
-  const allProducts = await getProducts();
+  const [all, drop, featuredReviews] = await Promise.all([
+    getProducts(),
+    getLiveDrop(),
+    getFeaturedReviews(),
+  ]);
 
-  const products = allProducts.slice(0, 6).map((p) => ({
-    id:     p.id,
-    slug:   p.slug,
+  const featuredRaw = all.filter((p) => p.status !== "SOLD").slice(0, 6);
+  const ratings = await getRatingSummariesByProductIds(featuredRaw.map((p) => p.id));
+  const featured = featuredRaw.map((p) => ({
+    id: p.id,
+    slug: p.slug,
     nameAr: p.nameAr,
     nameEn: p.nameEn,
-    price:  p.price,
-    status: p.status as "AVAILABLE" | "SOLD" | "RESERVED",
-    images: p.images.map((img) => img.url),
-    catEn:  p.category,
-    catAr:  p.category,
+    price: p.price,
+    compareAtPrice: p.compareAtPrice,
+    image: p.images[0]?.url ?? gradientPlaceholder(p.slug, p.nameEn),
+    status: p.status,
+    category: p.category,
+    ratingSummary: ratings.get(p.id),
   }));
+
+  const availableCount = all.filter((p) => p.status === "AVAILABLE").length;
+  const heroSource = all.find((p) => p.status === "AVAILABLE") ?? all[0];
+  const heroImage = heroSource?.images[0]?.url ?? gradientPlaceholder("hero", "BIOLUMIN");
 
   return (
     <>
-      <HomeHero />
-      <HomeTrust />
-      <HomeDrop products={products} />
+      <HomeHero heroImage={heroImage} availableCount={availableCount} />
+      <HomeTrustStrip />
+      <HomeDrop
+        products={featured}
+        availableCount={availableCount}
+        closesAt={drop?.closesAt ? drop.closesAt.toISOString() : null}
+      />
       <HomePillars />
-      <HomeReviews />
-      <HomeClosing />
-      <HomeNewsletter />
-      <WhatsAppFab />
+      <HomeStoryTeaser />
+      <HomeReviews reviews={featuredReviews} />
     </>
   );
 }

@@ -39,15 +39,15 @@ export function Newsletter() {
   };
 
   return (
-    <section className="border-t border-greige/15 bg-obsidian px-6 py-24">
-      <div className="mx-auto max-w-xl text-center">
-        <p className="font-body text-[11px] uppercase tracking-[0.35em] text-champagne">
-          {t("kicker")}
-        </p>
-        <h2 className="font-display mt-4 text-3xl text-ivory sm:text-4xl">
-          {t("title")}
-        </h2>
-        <p className="font-body mx-auto mt-5 max-w-md text-sm leading-relaxed text-ivory/55">
+    <section className="relative mx-4 mb-4.5 overflow-hidden rounded-[20px] border border-champagne/20 bg-linear-to-br from-aqua/8 to-champagne/6 px-[22px] py-[30px] text-center">
+      <div
+        className="pointer-events-none absolute -top-10 end-[-40px] h-[140px] w-[140px] rounded-full blur-[6px]"
+        style={{ background: "radial-gradient(circle, rgba(72,214,194,.18), transparent 70%)" }}
+      />
+      <div className="relative">
+        <p className="font-body mb-2 text-[10px] tracking-[0.28em] text-aqua-light uppercase">{t("kicker")}</p>
+        <h3 className="font-display text-[26px] leading-[1.15] text-white">{t("title")}</h3>
+        <p className="font-body mx-auto mt-2.5 mb-4.5 max-w-[300px] text-[12.5px] leading-[1.6] text-ivory/66">
           {t("note")}
         </p>
 
@@ -55,15 +55,12 @@ export function Newsletter() {
           <motion.p
             initial={{ opacity: 0, y: 8 }}
             animate={{ opacity: 1, y: 0 }}
-            className="font-body mt-10 text-sm text-aqua"
+            className="font-body rounded-(--radius-input) border border-aqua/30 bg-aqua/10 py-4 text-sm text-aqua-light"
           >
             {t("success")}
           </motion.p>
         ) : (
-          <form
-            onSubmit={submit}
-            className="mx-auto mt-10 flex max-w-md flex-col items-center gap-4 sm:flex-row"
-          >
+          <form onSubmit={submit} className="flex flex-col gap-2.5">
             <input
               type="email"
               value={email}
@@ -73,12 +70,12 @@ export function Newsletter() {
               }}
               placeholder={t("placeholder")}
               aria-label={t("placeholder")}
-              className="font-body w-full flex-1 border-b border-ivory/20 bg-transparent px-1 py-2 text-center text-base text-ivory placeholder:text-ivory/30 focus:border-champagne focus:outline-none sm:text-start"
+              className="font-body w-full rounded-(--radius-input) border border-greige/30 bg-[rgba(10,10,12,.55)] px-4 py-3.5 text-sm text-ivory outline-none placeholder:text-ivory/30"
             />
             <button
               type="submit"
               disabled={status === "submitting"}
-              className="font-body whitespace-nowrap border border-champagne/50 px-7 py-2.5 text-xs uppercase tracking-[0.2em] text-champagne transition-colors duration-500 hover:bg-champagne hover:text-obsidian disabled:opacity-50"
+              className="font-body w-full rounded-(--radius-input) bg-linear-to-r from-[#d8b87a] to-champagne py-3.5 text-sm font-semibold text-[#1a160d] disabled:opacity-50"
             >
               {status === "submitting" ? t("submitting") : t("cta")}
             </button>
@@ -86,7 +83,7 @@ export function Newsletter() {
         )}
 
         {(status === "invalid" || status === "error") && (
-          <p className="font-body mt-4 text-xs text-ivory/50">
+          <p className="font-body mt-3 text-xs text-ivory/50">
             {status === "invalid" ? t("invalid") : t("error")}
           </p>
         )}

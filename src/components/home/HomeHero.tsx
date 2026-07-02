@@ -1,281 +1,91 @@
 "use client";
 
-import { useRef } from "react";
 import { useTranslations, useLocale } from "next-intl";
-import { gsap } from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { useGSAP } from "@gsap/react";
 import { Link } from "@/i18n/navigation";
-import { BrandEmblem } from "@/components/brand/BrandEmblem";
 
-export function HomeHero() {
-  const t      = useTranslations();
+type Props = {
+  heroImage: string;
+  availableCount: number;
+};
+
+/**
+ * Cinematic hero — bottom-aligned text over an 84svh image. Unlike the
+ * old desktop hero, this has no scroll-driven GSAP animation at all
+ * (the prototype's hero is static aside from a slow background drift
+ * and the CTA's sheen sweep); GSAP stays in the tree only for /story.
+ */
+export function HomeHero({ heroImage, availableCount }: Props) {
+  const t = useTranslations("home");
   const locale = useLocale();
-  const isAr   = locale === "ar";
-
-  const rootRef      = useRef<HTMLElement>(null);
-  const emblemWrapRef = useRef<HTMLDivElement>(null);
-
-  useGSAP(
-    () => {
-      gsap.registerPlugin(ScrollTrigger);
-      const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-
-      // Refined entrance — copy rises in a soft stagger, emblem unfurls with light
-      const tl = gsap.timeline({ defaults: { ease: "power3.out" } });
-      tl.from(".bl-hero-copy > *", {
-        opacity: 0,
-        y: reduce ? 0 : 26,
-        duration: 1,
-        stagger: 0.12,
-      });
-      tl.from(
-        ".bl-hero-emblem",
-        {
-          opacity: 0,
-          scale: reduce ? 1 : 0.82,
-          rotate: reduce ? 0 : -7,
-          duration: 1.5,
-        },
-        reduce ? "<" : "-=0.9",
-      );
-      tl.from(
-        ".bl-aurora",
-        { opacity: 0, duration: 1.6 },
-        "<",
-      );
-
-      if (reduce) return;
-
-      // Scroll parallax — the emblem drifts up and the aurora deepens as you scroll
-      gsap.to(emblemWrapRef.current, {
-        yPercent: -16,
-        scrollTrigger: {
-          trigger: rootRef.current,
-          start: "top top",
-          end: "bottom top",
-          scrub: 1,
-        },
-      });
-      gsap.to(".bl-aurora", {
-        scale: 1.18,
-        rotate: 40,
-        scrollTrigger: {
-          trigger: rootRef.current,
-          start: "top top",
-          end: "bottom top",
-          scrub: 1.4,
-        },
-      });
-      gsap.to(".bl-hero-copy", {
-        yPercent: -8,
-        opacity: 0.55,
-        scrollTrigger: {
-          trigger: rootRef.current,
-          start: "top top",
-          end: "bottom top",
-          scrub: 1,
-        },
-      });
-    },
-    { scope: rootRef },
-  );
+  const arrow = locale === "ar" ? "←" : "→";
 
   return (
-    <section
-      ref={rootRef}
-      style={{
-        position: "relative",
-        minHeight: "100svh",
-        display: "flex",
-        alignItems: "center",
-        overflow: "hidden",
-        padding: "118px 24px 60px",
-      }}
-    >
+    <section className="relative flex h-[84svh] min-h-[540px] items-end overflow-hidden">
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img
+        src={heroImage}
+        alt=""
+        className="absolute inset-0 h-full w-full object-cover"
+        style={{ objectPosition: "50% 22%", animation: "hero-drift 12s ease-in-out infinite" }}
+      />
       <div
+        className="absolute inset-0"
         style={{
-          position: "absolute", inset: 0, zIndex: -1,
-          background: "radial-gradient(ellipse at 62% 38%, rgba(29,29,33,.95), #0e0e10 72%)",
+          background:
+            "linear-gradient(180deg, rgba(8,8,10,.34) 0%, rgba(8,8,10,.06) 32%, rgba(8,8,10,.5) 72%, rgba(14,14,16,.96) 100%)",
         }}
       />
 
-      <div
-        style={{
-          position: "absolute", left: "62%", top: "42%",
-          width: "min(58vh,40rem)", height: "min(58vh,40rem)",
-          transform: "translate(-50%,-50%)",
-          borderRadius: "50%",
-          background: "radial-gradient(circle,rgba(72,214,194,.20),rgba(201,166,107,.09) 42%,transparent 70%)",
-          filter: "blur(46px)",
-          zIndex: 0,
-          animation: "bl-breathe 7s ease-in-out infinite",
-          pointerEvents: "none",
-          transition: "margin .1s linear",
-        }}
-      />
+      {availableCount > 0 && (
+        <div className="absolute top-4 start-4 inline-flex items-center gap-1.5 rounded-(--radius-pill) border border-aqua/30 bg-[rgba(10,10,12,.5)] px-3 py-1.5 backdrop-blur-sm">
+          <span className="h-1.5 w-1.5 rounded-full bg-aqua shadow-[0_0_8px_#48d6c2]" style={{ animation: "biopulse 1.8s infinite" }} />
+          <span className="font-body text-[10px] tracking-[0.18em] text-aqua-light uppercase">
+            {t("dropAvailable", { count: availableCount })}
+          </span>
+        </div>
+      )}
 
-      <div
-        style={{
-          position: "relative", zIndex: 10,
-          maxWidth: "1280px", margin: "0 auto", width: "100%",
-          display: "grid",
-          gridTemplateColumns: "1fr 1fr",
-          gap: "54px",
-          alignItems: "center",
-        }}
-        className="bl-hero-grid"
-      >
-        {/* Copy */}
-        <div className="bl-hero-copy">
-          <div style={{ display: "flex", alignItems: "center", gap: "11px", marginBottom: "26px" }}>
-            <span style={{ position: "relative", display: "flex", height: "7px", width: "7px" }}>
-              <span
-                style={{
-                  position: "absolute", inset: 0, borderRadius: "99px",
-                  background: "rgba(72,214,194,.7)",
-                  animation: "bl-pulse 2.4s ease-in-out infinite",
-                }}
-              />
-              <span style={{ position: "relative", height: "7px", width: "7px", borderRadius: "99px", background: "#48d6c2" }} />
-            </span>
-            <span style={{ fontSize: "11px", letterSpacing: ".34em", textTransform: "uppercase", color: "#c9a66b" }}>
-              {t("hero.kicker")}
-            </span>
-          </div>
-
-          <h1
+      <div className="relative z-[2] w-full px-[22px] pb-[30px]">
+        <div className="font-body mb-3.5 text-[10.5px] tracking-[0.34em] text-champagne-bright uppercase">
+          {t("heroKicker")}
+        </div>
+        <h1 className="font-display text-[46px] leading-[1.05] font-medium text-white [text-shadow:0_2px_30px_rgba(0,0,0,.5)]">
+          {t("heroLine1")}
+          <br />
+          <span
             style={{
-              fontFamily: "var(--font-display-active, Georgia, serif)",
-              fontWeight: 500,
-              lineHeight: isAr ? 1.18 : 0.98,
-              fontSize: "clamp(2.7rem,6vw,5.2rem)",
-              letterSpacing: isAr ? 0 : "-.02em",
+              background: "linear-gradient(110deg, #f9f0d8, #e3c895 40%, #dcbd80)",
+              WebkitBackgroundClip: "text",
+              backgroundClip: "text",
+              WebkitTextFillColor: "transparent",
             }}
           >
-            <span style={{ display: "block", color: "#f4f0e9" }}>{t("hero.line1")}</span>
+            {t("heroLine2")}
+          </span>
+        </h1>
+        <p className="font-body mt-4 max-w-[330px] text-sm leading-[1.7] text-ivory/78">{t("heroSub")}</p>
+
+        <div className="mt-5.5 flex flex-col gap-2.5">
+          <Link
+            href="/shop"
+            className="relative flex items-center justify-center gap-2 overflow-hidden rounded-(--radius-button) bg-linear-to-r from-[#d8b87a] to-champagne px-4 py-4 font-body text-sm font-semibold text-[#1a160d] shadow-[0_10px_30px_-8px_rgba(201,166,107,.5)]"
+          >
             <span
+              className="absolute inset-0 w-2/5"
               style={{
-                display: "block", color: "#c9a66b",
-                textShadow: "0 0 26px rgba(201,166,107,.32),0 0 60px rgba(201,166,107,.14)",
-                marginTop: "4px",
+                background: "linear-gradient(100deg, transparent, rgba(255,255,255,.45), transparent)",
+                animation: "cta-sheen 4.5s ease-in-out infinite",
               }}
-            >
-              {t("hero.line2")}
-            </span>
-          </h1>
-
-          <p
-            style={{
-              marginTop: "26px", maxWidth: "30rem",
-              fontSize: "15px", lineHeight: 1.75,
-              color: "rgba(244,240,233,.66)",
-            }}
-          >
-            {t("hero.sub")}
-          </p>
-
-          <div style={{ display: "flex", flexWrap: "wrap", gap: "14px", marginTop: "34px" }}>
-            <Link
-              href="/#drop"
-              className="bl-sweep"
-              style={{
-                display: "inline-flex", alignItems: "center",
-                gap: "10px", borderRadius: "99px",
-                background: "#c9a66b", color: "#0e0e10",
-                padding: "15px 30px",
-                fontSize: "11.5px", letterSpacing: ".22em", textTransform: "uppercase",
-                fontWeight: 600, textDecoration: "none",
-                transition: "all .4s",
-                boxShadow: "0 0 0 1px rgba(201,166,107,.5)",
-              }}
-            >
-              {t("hero.cta")}
-              <span>{isAr ? "←" : "→"}</span>
-            </Link>
-
-            <a
-              href={`https://wa.me/${process.env.NEXT_PUBLIC_WHATSAPP_NUMBER ?? "201131701911"}?text=${encodeURIComponent(t("hero.waMessage"))}`}
-              target="_blank"
-              rel="noreferrer"
-              style={{
-                display: "inline-flex", alignItems: "center", gap: "9px",
-                borderRadius: "99px", border: "1px solid rgba(138,129,117,.5)",
-                color: "#f4f0e9", padding: "15px 26px",
-                fontSize: "11.5px", letterSpacing: ".18em", textTransform: "uppercase",
-                textDecoration: "none", transition: "all .4s",
-              }}
-            >
-              <svg viewBox="0 0 24 24" width="15" height="15" fill="#48d6c2">
-                <path d="M12 2a10 10 0 00-8.6 15l-1.3 4.7 4.8-1.3A10 10 0 1012 2zm0 18a8 8 0 01-4.1-1.1l-.3-.2-2.8.7.7-2.8-.2-.3A8 8 0 1112 20zm4.4-6c-.2-.1-1.4-.7-1.6-.8s-.4-.1-.5.1-.6.8-.8 1-.3.2-.5.1a6.5 6.5 0 01-1.9-1.2 7.2 7.2 0 01-1.3-1.7c-.1-.2 0-.4.1-.5l.4-.4.2-.4v-.4l-.8-1.8c-.2-.5-.4-.4-.5-.4h-.5a.9.9 0 00-.7.3 2.8 2.8 0 00-.9 2.1 4.9 4.9 0 001 2.6 11.2 11.2 0 004.3 3.8c.6.3 1.1.4 1.5.5a3.6 3.6 0 001.6.1c.5-.1 1.4-.6 1.6-1.1s.2-1 .1-1.1z"/>
-              </svg>
-              {t("hero.wa")}
-            </a>
-          </div>
-
-          <div style={{ display: "flex", alignItems: "center", gap: "22px", marginTop: "32px", flexWrap: "wrap" }}>
-            <div style={{ display: "flex", alignItems: "center", gap: "7px" }}>
-              <span style={{ color: "#c9a66b", fontSize: "13px", letterSpacing: ".1em" }}>★★★★★</span>
-              <span style={{ fontSize: "12px", color: "rgba(244,240,233,.6)" }}>{t("hero.rating")}</span>
-            </div>
-            <span style={{ width: "1px", height: "14px", background: "rgba(138,129,117,.4)" }} />
-            <span style={{ fontSize: "12px", color: "rgba(244,240,233,.6)" }}>{t("hero.shipping")}</span>
+            />
+            <span className="relative">{t("heroCta")}</span>
+            <span className="relative">{arrow}</span>
+          </Link>
+          <div className="flex items-center justify-center gap-1.5 pt-1">
+            <span className="text-[13px] tracking-[0.05em] text-champagne-bright">★★★★★</span>
+            <span className="font-body text-xs text-ivory/82">{t("heroRating")}</span>
           </div>
         </div>
-
-        {/* Animated brand-identity emblem */}
-        <div
-          ref={emblemWrapRef}
-          style={{
-            position: "relative",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            minHeight: "min(84vw, 30rem)",
-          }}
-        >
-          {/* rotating conic aurora — living ring of light */}
-          <div className="bl-aurora" />
-
-          <div
-            className="bl-emblem-glow"
-            style={{
-              position: "absolute",
-              inset: "-6%",
-              background:
-                "radial-gradient(circle at center,rgba(72,214,194,.20),rgba(201,166,107,.08) 45%,transparent 68%)",
-              filter: "blur(34px)",
-              pointerEvents: "none",
-            }}
-          />
-
-          <BrandEmblem
-            locale={locale}
-            className="bl-hero-emblem"
-            style={{
-              width: "min(84vw, 30rem)",
-              height: "auto",
-              position: "relative",
-              zIndex: 1,
-            }}
-          />
-        </div>
-      </div>
-
-      <div style={{ position: "absolute", bottom: "26px", left: "50%", transform: "translateX(-50%)", textAlign: "center" }}>
-        <p style={{ fontSize: "10px", letterSpacing: ".3em", textTransform: "uppercase", color: "rgba(244,240,233,.4)" }}>
-          {t("hero.scroll")}
-        </p>
-        <div
-          style={{
-            margin: "10px auto 0", height: "34px", width: "1px",
-            background: "linear-gradient(to bottom,rgba(201,166,107,.6),transparent)",
-            animation: "bl-pulse 3s ease-in-out infinite",
-          }}
-        />
       </div>
     </section>
   );
 }
-
-export default HomeHero;

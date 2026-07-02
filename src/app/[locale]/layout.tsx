@@ -7,9 +7,14 @@ import { fontVars } from "@/lib/fonts";
 import { SmoothScroll } from "@/components/providers/SmoothScroll";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
+import { Newsletter } from "@/components/layout/Newsletter";
+import { PhoneShell } from "@/components/layout/PhoneShell";
+import { BottomTabBar } from "@/components/layout/BottomTabBar";
+import { WhatsAppFab } from "@/components/layout/WhatsAppFab";
 import { PageTransition } from "@/components/motion/PageTransition";
-import { LightField } from "@/components/motion/LightField";
 import { CartDrawer } from "@/components/cart/CartDrawer";
+import { Toast } from "@/components/ui/Toast";
+import { LiveActivityToast } from "@/components/ui/LiveActivityToast";
 import { SITE_URL, canonical, alternateLanguages } from "@/lib/seo";
 import "../globals.css";
 
@@ -82,19 +87,25 @@ export default async function LocaleLayout({
 
   return (
     <html lang={locale} dir={dir} className={`${fontVars} grain`}>
-      <body className="min-h-screen bg-obsidian text-ivory antialiased">
+      <body className="min-h-screen text-ivory antialiased">
         <NextIntlClientProvider>
-          <LightField />
-          <SmoothScroll>
-            <Header />
-            <main className="relative z-10">
-              <PageTransition>{children}</PageTransition>
-            </main>
-            <div className="relative z-10">
-              <Footer />
-            </div>
-          </SmoothScroll>
-          <CartDrawer />
+          <PhoneShell>
+            <SmoothScroll>
+              <Header />
+              <main className="relative z-10 pb-20">
+                <PageTransition>{children}</PageTransition>
+              </main>
+              <div className="relative z-10">
+                <Newsletter />
+                <Footer />
+              </div>
+            </SmoothScroll>
+            <CartDrawer />
+            <BottomTabBar />
+            <WhatsAppFab />
+            <Toast />
+            <LiveActivityToast />
+          </PhoneShell>
         </NextIntlClientProvider>
       </body>
     </html>

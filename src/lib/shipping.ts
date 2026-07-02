@@ -30,11 +30,13 @@ export const FREE_SHIP_THRESHOLD = num(
 // No handling fee on any payment method — customers only ever pay delivery.
 export const COD_FEE = num(process.env.NEXT_PUBLIC_COD_FEE, 0);
 
-// Upfront-payment incentive: a small % off subtotal for prepaid methods,
-// on top of free shipping. 0.07 = 7%.
+// Upfront-payment incentive: a small % off subtotal for prepaid methods
+// (InstaPay / wallet / card), on top of free shipping. Turns prepaying into a
+// visible reward instead of COD feeling "free". 0.05 = 5% — override with
+// NEXT_PUBLIC_PREPAID_DISCOUNT in the environment.
 export const PREPAID_DISCOUNT = num(
   process.env.NEXT_PUBLIC_PREPAID_DISCOUNT,
-  0,
+  0.05,
 );
 
 // Pure: the prepaid incentive amount for a given subtotal.

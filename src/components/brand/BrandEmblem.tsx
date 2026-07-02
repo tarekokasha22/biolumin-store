@@ -11,6 +11,8 @@ type Props = {
   style?: React.CSSProperties;
   /** decorative-only (no a11y label) */
   decorative?: boolean;
+  /** set false to render the emblem static (no orbit spin / breathing core) */
+  animated?: boolean;
 };
 
 /**
@@ -25,6 +27,7 @@ export function BrandEmblem({
   className,
   style,
   decorative = false,
+  animated = true,
 }: Props) {
   const isAr = locale === "ar";
   // unique gradient/filter ids so multiple emblems can coexist on one page
@@ -70,7 +73,7 @@ export function BrandEmblem({
       </defs>
 
       {/* outer dashed orbit — clockwise */}
-      <g className="bl-spin-cw">
+      <g className={animated ? "bl-spin-cw" : undefined}>
         <circle
           cx="200"
           cy="200"
@@ -86,7 +89,7 @@ export function BrandEmblem({
       </g>
 
       {/* mid orbit — counter-clockwise */}
-      <g className="bl-spin-ccw">
+      <g className={animated ? "bl-spin-ccw" : undefined}>
         <circle
           cx="200"
           cy="200"
@@ -101,7 +104,7 @@ export function BrandEmblem({
       </g>
 
       {/* inner orbit — fast clockwise */}
-      <g className="bl-spin-cw-fast">
+      <g className={animated ? "bl-spin-cw-fast" : undefined}>
         <circle
           cx="200"
           cy="200"
@@ -114,7 +117,7 @@ export function BrandEmblem({
       </g>
 
       {/* breathing luminous core */}
-      <g className="bl-emblem-breathe">
+      <g className={animated ? "bl-emblem-breathe" : undefined}>
         <circle cx="200" cy="200" r="94" fill={`url(#${core})`} />
         <circle
           cx="200"

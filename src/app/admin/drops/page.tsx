@@ -78,6 +78,18 @@ export default async function AdminDropsPage() {
                 className="font-body w-full rounded-sm border border-ivory/15 bg-obsidian-soft/40 px-3 py-2 text-sm text-ivory focus:border-champagne/60 focus:outline-none"
               />
             </div>
+
+            <div>
+              <label className="font-body mb-1 block text-[10px] uppercase tracking-[0.15em] text-ivory/40">
+                Countdown Ends
+              </label>
+              <input
+                type="datetime-local"
+                name="closesAt"
+                className="font-body w-full rounded-sm border border-ivory/15 bg-obsidian-soft/40 px-3 py-2 text-sm text-ivory focus:border-champagne/60 focus:outline-none"
+              />
+              <p className="font-body mt-1 text-[9px] text-ivory/30">Drives the homepage clock. Leave empty for no timer.</p>
+            </div>
           </div>
 
           <div className="flex items-center justify-between">
@@ -144,17 +156,30 @@ export default async function AdminDropsPage() {
                     </div>
                   </div>
 
-                  <div className="flex items-center justify-between">
-                    <div>
-                      <label className="font-body mr-2 text-[10px] uppercase tracking-[0.15em] text-ivory/30">
-                        Release
-                      </label>
-                      <input
-                        type="datetime-local"
-                        name="releaseAt"
-                        defaultValue={d.releaseAt.toISOString().slice(0, 16)}
-                        className="font-body rounded-sm border border-ivory/15 bg-obsidian-soft/40 px-2 py-1 text-xs text-ivory focus:border-champagne/60 focus:outline-none"
-                      />
+                  <div className="flex flex-wrap items-end justify-between gap-3">
+                    <div className="flex flex-wrap gap-4">
+                      <div>
+                        <label className="font-body mb-1 block text-[10px] uppercase tracking-[0.15em] text-ivory/30">
+                          Release
+                        </label>
+                        <input
+                          type="datetime-local"
+                          name="releaseAt"
+                          defaultValue={d.releaseAt.toISOString().slice(0, 16)}
+                          className="font-body rounded-sm border border-ivory/15 bg-obsidian-soft/40 px-2 py-1 text-xs text-ivory focus:border-champagne/60 focus:outline-none"
+                        />
+                      </div>
+                      <div>
+                        <label className="font-body mb-1 block text-[10px] uppercase tracking-[0.15em] text-ivory/30">
+                          Countdown Ends
+                        </label>
+                        <input
+                          type="datetime-local"
+                          name="closesAt"
+                          defaultValue={d.closesAt ? d.closesAt.toISOString().slice(0, 16) : ""}
+                          className="font-body rounded-sm border border-ivory/15 bg-obsidian-soft/40 px-2 py-1 text-xs text-ivory focus:border-champagne/60 focus:outline-none"
+                        />
+                      </div>
                     </div>
 
                     <div className="flex gap-2">
@@ -164,15 +189,16 @@ export default async function AdminDropsPage() {
                       >
                         Save
                       </button>
-                      <form action={deleteDrop}>
-                        <input type="hidden" name="id" value={d.id} />
-                        <button
-                          type="submit"
-                          className="font-body rounded-full border border-ivory/20 px-4 py-1.5 text-[11px] uppercase tracking-[0.1em] text-ivory/40 transition-colors hover:border-red-300 hover:text-red-300"
-                        >
-                          Delete
-                        </button>
-                      </form>
+                      {/* Same form, second submit button — formAction overrides the
+                          action so we avoid an illegal nested <form>. deleteDrop
+                          only reads the hidden `id` above. */}
+                      <button
+                        type="submit"
+                        formAction={deleteDrop}
+                        className="font-body rounded-full border border-ivory/20 px-4 py-1.5 text-[11px] uppercase tracking-[0.1em] text-ivory/40 transition-colors hover:border-red-300 hover:text-red-300"
+                      >
+                        Delete
+                      </button>
                     </div>
                   </div>
                 </form>

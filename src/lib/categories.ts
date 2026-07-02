@@ -13,3 +13,17 @@ export function categoryLabel(slug: string, locale: string): string {
   if (!entry) return slug;
   return locale === "ar" ? entry.ar : entry.en;
 }
+
+// The bust/waist/height/weight size chart only makes sense for apparel —
+// boots and sneakers use shoe sizes and have no such chart.
+const APPAREL_CATEGORIES = new Set([
+  "dresses",
+  "blouses",
+  "shirts",
+  "coats",
+  "pants",
+]);
+
+export function isApparelSizing(category: string): boolean {
+  return APPAREL_CATEGORIES.has(category);
+}

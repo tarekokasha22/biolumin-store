@@ -20,8 +20,13 @@ export function SmoothScroll({ children }: { children: ReactNode }) {
 
     if (reduce) return;
 
+    // Kept light — this is a native-feeling app shell, not a cinematic
+    // editorial scroll. Only smooths desktop wheel input; mobile touch
+    // scroll is untouched (Lenis leaves it native unless smoothTouch is
+    // set), so this mainly affects how snappy scrolling feels in a
+    // desktop browser preview.
     const lenis = new Lenis({
-      duration: 1.1,
+      duration: 0.7,
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
       smoothWheel: true,
     });

@@ -29,11 +29,9 @@ export function RecentlyViewedRow({ excludeSlug }: { excludeSlug?: string }) {
   const list = items.filter((i) => i.slug !== excludeSlug).slice(0, 6);
   if (list.length === 0) return null;
   return (
-    <section className="mt-24">
-      <h2 className="font-display mb-8 text-2xl text-ivory">
-        {t("recentTitle")}
-      </h2>
-      <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-6">
+    <section className="px-4 pt-6 pb-2">
+      <h2 className="font-display mb-4 text-xl text-ivory">{t("recentTitle")}</h2>
+      <div className="grid grid-cols-3 gap-2.5">
         {list.map((i) => (
           <MiniCard key={i.slug} item={i} />
         ))}
@@ -46,21 +44,13 @@ function MiniCard({ item }: { item: WishItem }) {
   const locale = useLocale();
   const name = locale === "ar" ? item.nameAr : item.nameEn;
   return (
-    <Link href={`/shop/${item.slug}`} className="group block">
-      <div className="relative aspect-[4/5] overflow-hidden rounded-sm bg-obsidian-soft ring-1 ring-ivory/5">
+    <Link href={`/shop/${item.slug}`} className="block">
+      <div className="relative aspect-3/4 overflow-hidden rounded-(--radius-card-sm) bg-obsidian-soft ring-1 ring-ivory/5">
         {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
-          src={item.image}
-          alt={name}
-          className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
-        />
+        <img src={item.image} alt={name} className="h-full w-full object-cover" />
       </div>
-      <p className="font-body mt-2 line-clamp-1 text-xs text-ivory/70 transition-colors group-hover:text-champagne">
-        {name}
-      </p>
-      <p className="font-body text-xs text-ivory/45">
-        {formatPrice(item.price, locale)}
-      </p>
+      <p className="font-body mt-1.5 line-clamp-1 text-[11px] text-ivory/70">{name}</p>
+      <p className="font-body text-[11px] text-ivory/45">{formatPrice(item.price, locale)}</p>
     </Link>
   );
 }

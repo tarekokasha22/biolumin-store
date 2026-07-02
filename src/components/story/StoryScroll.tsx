@@ -191,7 +191,7 @@ export function StoryScroll() {
           <p className="story-intro-fade font-body mb-7 text-[10.5px] uppercase tracking-[0.4em] text-champagne sm:text-[11px]">
             {t("kicker")}
           </p>
-          <h1 className="fluid-hero font-display leading-[1.04] text-ivory">
+          <h1 className="fluid-hero font-display text-ivory">
             {titleWords.map((w, i) => (
               <span key={i} className="story-title-word inline-block">
                 {w}
@@ -199,11 +199,15 @@ export function StoryScroll() {
               </span>
             ))}
           </h1>
-          <div className="story-intro-fade mx-auto mt-8 max-w-md space-y-1">
+          <div className="story-intro-fade mx-auto mt-8 max-w-md space-y-3">
             {introLines.map((line, i) => (
               <p
                 key={i}
-                className="font-body text-[15px] leading-relaxed text-ivory/65 sm:text-base"
+                className={
+                  i === 0
+                    ? "font-display text-[clamp(1.25rem,5vw,1.7rem)] leading-[1.4] text-champagne-bright"
+                    : "font-body text-[15px] leading-relaxed text-ivory/60 sm:text-base"
+                }
               >
                 {line}
               </p>

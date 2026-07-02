@@ -46,7 +46,7 @@ export async function POST(request: Request) {
   // the piece stays RESERVED until the owner confirms or cancels the order
   // from the admin panel. This is deliberate: for a unique piece, locking it
   // until reviewed is far safer than auto-releasing and risking a double-sale.
-  await releaseExpiredReservations();
+  await releaseExpiredReservations(true);
 
   try {
     const order = await prisma.$transaction(async (tx) => {

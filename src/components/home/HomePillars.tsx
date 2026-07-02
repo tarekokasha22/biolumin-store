@@ -1,109 +1,40 @@
 "use client";
 
-import { useTranslations, useLocale } from "next-intl";
-
-const PILLARS = [
-  { num: "01", titleKey: "p1Title", bodyKey: "p1Body" },
-  { num: "02", titleKey: "p2Title", bodyKey: "p2Body" },
-  { num: "03", titleKey: "p3Title", bodyKey: "p3Body" },
-] as const;
+import { useTranslations } from "next-intl";
+import { Reveal } from "@/components/motion/Reveal";
 
 export function HomePillars() {
-  const t    = useTranslations("pillars");
-  const locale = useLocale();
-  const isAr = locale === "ar";
+  const t = useTranslations("home");
+
+  const pillars = [
+    { title: t("pillar1Title"), body: t("pillar1Body"), n: "01" },
+    { title: t("pillar2Title"), body: t("pillar2Body"), n: "02" },
+    { title: t("pillar3Title"), body: t("pillar3Body"), n: "03" },
+  ];
 
   return (
-    <section style={{ position: "relative", padding: "80px 24px" }}>
-      <div style={{ maxWidth: "1280px", margin: "0 auto" }}>
-        <p
-          style={{
-            textAlign: "center",
-            fontSize: "11px",
-            letterSpacing: ".32em",
-            textTransform: "uppercase",
-            color: "#c9a66b",
-            marginBottom: "46px",
-          }}
-        >
-          {t("kicker")}
+    <section className="px-4 py-[34px]">
+      <Reveal>
+        <p className="font-body mb-4 text-center text-[10.5px] tracking-[0.3em] text-champagne uppercase">
+          {t("pillarsKicker")}
         </p>
+      </Reveal>
 
-        <div
-          className="bl-pillar-grid"
-          style={{ display: "grid", gridTemplateColumns: "repeat(3,1fr)", gap: "22px" }}
-        >
-          {PILLARS.map(({ num, titleKey, bodyKey }, i) => (
-            <div
-              key={num}
-              className="bl-card bl-sweep"
-              style={{
-                position: "relative",
-                borderRadius: "4px",
-                border: "1px solid rgba(244,240,233,.1)",
-                background: "rgba(22,22,25,.4)",
-                padding: "34px",
-                overflow: "hidden",
-                transition: "border-color .5s, box-shadow .5s",
-                animationDelay: `${i * 0.1}s`,
-              }}
-              onMouseOver={(e) => {
-                (e.currentTarget as HTMLElement).style.borderColor = "rgba(201,166,107,.4)";
-                (e.currentTarget as HTMLElement).style.boxShadow   = "0 0 60px -20px rgba(72,214,194,.3)";
-              }}
-              onMouseOut={(e) => {
-                (e.currentTarget as HTMLElement).style.borderColor = "rgba(244,240,233,.1)";
-                (e.currentTarget as HTMLElement).style.boxShadow   = "none";
-              }}
-            >
-              <span
-                style={{
-                  fontFamily: "var(--font-display-active, Georgia, serif)",
-                  fontSize: "46px",
-                  color: "rgba(201,166,107,.35)",
-                }}
-              >
-                {num}
+      <div className="flex flex-col gap-2.5">
+        {pillars.map((p, i) => (
+          <Reveal key={p.n} delay={i * 0.1}>
+            <div className="flex items-start gap-3.5 rounded-[15px] border border-greige/14 bg-linear-to-b from-panel/80 to-panel/50 p-4.5">
+              <span className="font-display w-[34px] flex-none text-[26px] leading-none text-champagne">
+                {p.n}
               </span>
-
-              <h3
-                style={{
-                  fontFamily: "var(--font-display-active, Georgia, serif)",
-                  fontSize: "25px",
-                  color: "#f4f0e9",
-                  marginTop: "18px",
-                }}
-              >
-                {t(titleKey)}
-              </h3>
-
-              <p
-                style={{
-                  fontSize: "13.5px",
-                  lineHeight: 1.75,
-                  color: "rgba(244,240,233,.6)",
-                  marginTop: "14px",
-                }}
-              >
-                {t(bodyKey)}
-              </p>
-
-              <div
-                style={{
-                  marginTop: "22px",
-                  height: "1px",
-                  width: "48px",
-                  background: isAr
-                    ? "linear-gradient(270deg,rgba(201,166,107,.7),transparent)"
-                    : "linear-gradient(90deg,rgba(201,166,107,.7),transparent)",
-                }}
-              />
+              <div>
+                <div className="font-display mb-1 text-xl text-white">{p.title}</div>
+                <div className="font-body text-[13px] leading-[1.65] text-ivory/62">{p.body}</div>
+              </div>
             </div>
-          ))}
-        </div>
+          </Reveal>
+        ))}
       </div>
     </section>
   );
 }
-
-export default HomePillars;

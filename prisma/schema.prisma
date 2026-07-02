@@ -40,12 +40,13 @@ enum DiscountType {
 }
 
 model Drop {
-  id        String   @id @default(cuid())
-  number    Int      @unique
+  id        String    @id @default(cuid())
+  number    Int       @unique
   nameAr    String
   nameEn    String
-  releaseAt DateTime @default(now())
-  isLive    Boolean  @default(true)
+  releaseAt DateTime  @default(now())
+  closesAt  DateTime?
+  isLive    Boolean   @default(true)
   products  Product[]
 }
 
@@ -67,7 +68,23 @@ model Product {
   drop         Drop?         @relation(fields: [dropId], references: [id])
   images       ProductImage[]
   orderItems   OrderItem[]
+  reviews      Review[]
   createdAt    DateTime      @default(now())
+}
+
+model Review {
+  id             String   @id @default(cuid())
+  productId      String
+  product        Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  authorNameAr   String
+  authorNameEn   String
+  authorCityAr   String
+  authorCityEn   String
+  rating         Int
+  bodyAr         String
+  bodyEn         String
+  featuredOnHome Boolean  @default(false)
+  createdAt      DateTime @default(now())
 }
 
 model ProductImage {

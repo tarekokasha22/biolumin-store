@@ -1,38 +1,49 @@
 "use client";
 
-import { useLocale, useTranslations } from "next-intl";
+import { useEffect, useState } from "react";
+import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { useWishlist } from "@/lib/wishlist-store";
 import { useHydrated } from "@/lib/use-hydrated";
-import { formatPrice } from "@/lib/format";
+import { ProductCard } from "@/components/shop/ProductCard";
+
+type Status = "AVAILABLE" | "RESERVED" | "SOLD";
 
 export function WishlistView() {
   const t = useTranslations("wishlist");
-  const locale = useLocale();
   const items = useWishlist((s) => s.items);
-  const remove = useWishlist((s) => s.remove);
   const mounted = useHydrated();
+  // A wishlisted piece may have sold/reserved since it was saved — refresh
+  // live status the same way CartView re-validates before checkout, rather
+  // than trusting the (possibly stale) snapshot taken at save-time.
+  const [liveStatus, setLiveStatus] = useState<Record<string, Status>>({});
+
+  useEffect(() => {
+    if (!mounted || items.length === 0) return;
+    fetch("/api/products/availability", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ productIds: items.map((i) => i.productId) }),
+    })
+      .then((r) => (r.ok ? r.json() : null))
+      .then((res) => res?.statuses && setLiveStatus(res.statuses))
+      .catch(() => {});
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [mounted, items.length]);
 
   if (!mounted) return null;
 
   if (items.length === 0) {
     return (
-      <div className="mx-auto max-w-md py-24 text-center">
-        <svg
-          viewBox="0 0 24 24"
-          className="mx-auto h-10 w-10 text-ivory/20"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="1.2"
-        >
-          <path d="M12 21s-7.5-4.6-10-9.2C.6 9.1 1.6 5.5 5 5.5c2 0 3.2 1.2 4 2.4.8-1.2 2-2.4 4-2.4 3.4 0 4.4 3.6 3 6.3C19.5 16.4 12 21 12 21z" />
-        </svg>
-        <p className="font-body mt-6 text-sm text-ivory/55">{t("empty")}</p>
-        <Link
-          href="/shop"
-          className="font-body mt-8 inline-block border-b border-champagne/40 pb-1 text-xs uppercase tracking-[0.22em] text-champagne transition-colors hover:border-champagne"
-        >
+      <div className="py-16 text-center">
+        <div className="mx-auto mb-4.5 flex h-16 w-16 items-center justify-center rounded-full border border-champagne/25 bg-champagne/10 text-champagne">
+          <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round">
+            <path d="M12 20.3l-1.45-1.32C5.4 14.35 2 11.28 2 7.5 2 4.42 4.42 2 7.5 2c1.74 0 3.41.81 4.5 2.09C13.09 2.81 14.76 2 16.5 2 19.58 2 22 4.42 22 7.5c0 3.78-3.4 6.85-8.55 11.54L12 20.3z" />
+          </svg>
+        </div>
+        <p className="font-body mb-5 text-[15px] text-ivory/62">{t("empty")}</p>
+        <Link href="/shop" className="font-body rounded-(--radius-button) bg-linear-to-r from-[#d8b87a] to-champagne px-6.5 py-3.5 text-[13px] font-semibold text-[#1a160d]">
           {t("cta")}
         </Link>
       </div>
@@ -40,66 +51,25 @@ export function WishlistView() {
   }
 
   return (
-    <div className="grid grid-cols-2 gap-x-6 gap-y-10 sm:grid-cols-3 lg:grid-cols-4">
+    <div className="grid grid-cols-2 gap-3">
       <AnimatePresence mode="popLayout">
-        {items.map((item) => {
-          const name = locale === "ar" ? item.nameAr : item.nameEn;
-          const onSale =
-            !!item.compareAtPrice && item.compareAtPrice > item.price;
-          return (
-            <motion.div
-              key={item.slug}
-              layout
-              initial={{ opacity: 0, y: 16 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 0.95 }}
-              transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
-              className="group"
-            >
-              <div className="relative aspect-[4/5] overflow-hidden rounded-sm bg-obsidian-soft ring-1 ring-ivory/5 transition-all duration-700 group-hover:ring-aqua/25">
-                <Link href={`/shop/${item.slug}`} className="block h-full w-full">
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img
-                    src={item.image}
-                    alt={name}
-                    className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
-                  />
-                </Link>
-                <button
-                  type="button"
-                  onClick={() => remove(item.slug)}
-                  aria-label={t("remove")}
-                  className="absolute end-2 top-2 flex h-8 w-8 items-center justify-center rounded-full border border-ivory/15 bg-obsidian/60 text-ivory/70 backdrop-blur-sm transition-colors hover:border-aqua/50 hover:text-aqua"
-                >
-                  <svg
-                    viewBox="0 0 24 24"
-                    className="h-3.5 w-3.5"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="1.8"
-                  >
-                    <path d="M6 6l12 12M18 6L6 18" />
-                  </svg>
-                </button>
-              </div>
-              <Link href={`/shop/${item.slug}`} className="mt-3 block">
-                <h3 className="font-display text-base text-ivory transition-colors group-hover:text-champagne">
-                  {name}
-                </h3>
-                <span className="font-body mt-1 flex items-baseline gap-2 text-sm">
-                  {onSale && (
-                    <span className="text-xs text-ivory/35 line-through">
-                      {formatPrice(item.compareAtPrice!, locale)}
-                    </span>
-                  )}
-                  <span className={onSale ? "text-aqua" : "text-ivory/65"}>
-                    {formatPrice(item.price, locale)}
-                  </span>
-                </span>
-              </Link>
-            </motion.div>
-          );
-        })}
+        {items.map((item, i) => (
+          <motion.div key={item.slug} layout exit={{ opacity: 0, scale: 0.95 }} transition={{ duration: 0.3 }}>
+            <ProductCard
+              id={item.productId}
+              slug={item.slug}
+              nameAr={item.nameAr}
+              nameEn={item.nameEn}
+              price={item.price}
+              compareAtPrice={item.compareAtPrice}
+              image={item.image}
+              status={liveStatus[item.productId] ?? "AVAILABLE"}
+              category={item.category}
+              hideStatusPill
+              index={i}
+            />
+          </motion.div>
+        ))}
       </AnimatePresence>
     </div>
   );

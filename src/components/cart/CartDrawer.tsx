@@ -1,23 +1,18 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useLocale, useTranslations } from "next-intl";
 import { Link, usePathname } from "@/i18n/navigation";
-import { AnimatePresence, motion } from "framer-motion";
 import { useCart } from "@/lib/cart-store";
 import { useUI } from "@/lib/ui-store";
 import { formatPrice } from "@/lib/format";
-import {
-  FREE_SHIP_THRESHOLD,
-  amountToFreeShipping,
-} from "@/lib/shipping";
+import { FREE_SHIP_THRESHOLD, amountToFreeShipping } from "@/lib/shipping";
 import { useHydrated } from "@/lib/use-hydrated";
+import { BottomSheet } from "@/components/ui/BottomSheet";
 
 export function CartDrawer() {
   const t = useTranslations("cart");
-  const tnav = useTranslations("nav");
   const locale = useLocale();
-  const isRTL = locale === "ar";
   const pathname = usePathname();
   const items = useCart((s) => s.items);
   const remove = useCart((s) => s.remove);
@@ -25,218 +20,110 @@ export function CartDrawer() {
   const closeCart = useUI((s) => s.closeCart);
   const mounted = useHydrated();
 
-  // Close on route change (compare-during-render pattern, no effect setState).
   const [lastPath, setLastPath] = useState(pathname);
   if (pathname !== lastPath) {
     setLastPath(pathname);
     if (open) closeCart();
   }
 
-  // Lock body scroll while open.
-  useEffect(() => {
-    if (!open) return;
-    const prev = document.body.style.overflow;
-    document.body.style.overflow = "hidden";
-    return () => {
-      document.body.style.overflow = prev;
-    };
-  }, [open]);
-
-  // Escape closes.
-  useEffect(() => {
-    if (!open) return;
-    const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") closeCart();
-    };
-    window.addEventListener("keydown", onKey);
-    return () => window.removeEventListener("keydown", onKey);
-  }, [open, closeCart]);
-
   const subtotal = mounted ? items.reduce((s, i) => s + i.price, 0) : 0;
-  const savings = mounted
-    ? items.reduce(
-        (s, i) => s + (i.compareAtPrice ? i.compareAtPrice - i.price : 0),
-        0,
-      )
-    : 0;
   const toFree = amountToFreeShipping(subtotal);
   const freeShip = subtotal >= FREE_SHIP_THRESHOLD;
   const pct = Math.min(100, Math.round((subtotal / FREE_SHIP_THRESHOLD) * 100));
 
   return (
-    <AnimatePresence>
-      {open && (
-        <motion.div
-          className="fixed inset-0 z-[60]"
-          initial="hidden"
-          animate="visible"
-          exit="hidden"
-        >
-          {/* Scrim */}
-          <motion.button
-            aria-label={t("drawerTitle")}
+    <BottomSheet open={open} onClose={closeCart} ariaLabel={t("drawerTitle")}>
+      <div className="flex items-center justify-between px-[18px] pb-3.5">
+        <h3 className="font-display text-[23px] text-white">
+          {t("drawerTitle")}
+          {mounted && items.length > 0 && (
+            <span className="ms-2 text-sm text-ivory/45">({items.length})</span>
+          )}
+        </h3>
+      </div>
+
+      {!mounted || items.length === 0 ? (
+        <div className="px-[30px] py-[50px] text-center">
+          <div className="mx-auto mb-4 flex h-[58px] w-[58px] items-center justify-center rounded-full border border-champagne/25 bg-champagne/10 text-champagne">
+            <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M6 7h12l-1 13H7L6 7z" />
+              <path d="M9 7a3 3 0 016 0" />
+            </svg>
+          </div>
+          <p className="font-body mb-5 text-[15px] text-ivory/62">{t("empty")}</p>
+          <Link
+            href="/shop"
             onClick={closeCart}
-            className="absolute inset-0 bg-obsidian/70 backdrop-blur-sm"
-            variants={{ hidden: { opacity: 0 }, visible: { opacity: 1 } }}
-            transition={{ duration: 0.3 }}
-          />
-
-          {/* Panel */}
-          <motion.aside
-            className="absolute inset-y-0 end-0 flex w-full max-w-md flex-col border-s border-greige/20 bg-obsidian-soft shadow-2xl"
-            variants={{
-              hidden: { x: isRTL ? "-100%" : "100%" },
-              visible: { x: 0 },
-            }}
-            transition={{ type: "tween", duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
+            className="font-body rounded-(--radius-button) bg-linear-to-r from-[#d8b87a] to-champagne px-6.5 py-3.5 text-[13px] font-semibold text-[#1a160d]"
           >
-            <header className="flex items-center justify-between border-b border-ivory/10 px-6 py-5">
-              <h2 className="font-display text-xl text-ivory">
-                {t("drawerTitle")}
-                {mounted && items.length > 0 && (
-                  <span className="font-body ms-2 text-sm text-ivory/40">
-                    {t("count", { count: items.length })}
-                  </span>
-                )}
-              </h2>
-              <button
-                onClick={closeCart}
-                className="font-body text-xs uppercase tracking-[0.2em] text-ivory/60 transition-colors hover:text-champagne"
-              >
-                {tnav("close")}
-              </button>
-            </header>
-
-            {!mounted || items.length === 0 ? (
-              <div className="flex flex-1 flex-col items-center justify-center px-6 text-center">
-                <p className="font-body text-ivory/55">{t("empty")}</p>
-                <Link
-                  href="/shop"
-                  onClick={closeCart}
-                  className="font-body mt-7 inline-block rounded-full border border-champagne/50 px-8 py-3.5 text-xs uppercase tracking-[0.25em] text-ivory transition-all hover:bg-champagne hover:text-obsidian"
-                >
-                  {t("emptyCta")}
-                </Link>
+            {t("emptyCta")}
+          </Link>
+        </div>
+      ) : (
+        <div>
+          {!freeShip && (
+            <div className="px-[18px] pt-1 pb-1">
+              <p className="font-body mb-1.5 text-[11.5px] text-aqua-light">{t("freeShipProgress", { amount: formatPrice(toFree, locale) })}</p>
+              <div className="h-1.5 w-full overflow-hidden rounded-full bg-greige/22">
+                <div className="h-full rounded-full bg-linear-to-r from-champagne to-aqua-light" style={{ width: `${pct}%` }} />
               </div>
-            ) : (
-              <>
-                {/* Free-ship progress */}
-                <div className="border-b border-ivory/10 px-6 py-4">
-                  {freeShip ? (
-                    <p className="font-body text-xs text-aqua">
-                      {t("freeShipUnlocked")}
-                    </p>
-                  ) : (
-                    <p className="font-body mb-2 text-xs text-ivory/60">
-                      {t("freeShipProgress", {
-                        amount: formatPrice(toFree, locale),
-                      })}
-                    </p>
-                  )}
-                  <div className="h-1 w-full overflow-hidden rounded-full bg-ivory/10">
-                    <motion.div
-                      className="h-full rounded-full bg-gradient-to-r from-champagne to-aqua"
-                      initial={false}
-                      animate={{ width: `${pct}%` }}
-                      transition={{ duration: 0.5 }}
-                    />
-                  </div>
-                </div>
+            </div>
+          )}
 
-                {/* Items */}
-                <ul className="flex-1 divide-y divide-ivory/10 overflow-y-auto px-6">
-                  <AnimatePresence initial={false}>
-                    {items.map((item) => {
-                      const name = isRTL ? item.nameAr : item.nameEn;
-                      return (
-                        <motion.li
-                          key={item.productId}
-                          layout
-                          exit={{ opacity: 0, height: 0 }}
-                          className="flex gap-4 py-5"
-                        >
-                          <Link
-                            href={`/shop/${item.slug}`}
-                            onClick={closeCart}
-                            className="relative aspect-[4/5] w-20 shrink-0 overflow-hidden rounded-sm bg-obsidian"
-                          >
-                            {/* eslint-disable-next-line @next/next/no-img-element */}
-                            <img
-                              src={item.image}
-                              alt={name}
-                              className="h-full w-full object-cover"
-                            />
-                          </Link>
-                          <div className="flex flex-1 flex-col justify-between">
-                            <div>
-                              <Link
-                                href={`/shop/${item.slug}`}
-                                onClick={closeCart}
-                                className="font-display text-base text-ivory transition-colors hover:text-champagne"
-                              >
-                                {name}
-                              </Link>
-                              {item.size && (
-                                <p className="font-body mt-1 text-xs text-ivory/40">
-                                  {item.size}
-                                </p>
-                              )}
-                            </div>
-                            <div className="flex items-center justify-between">
-                              <span className="font-body flex items-baseline gap-2 text-sm">
-                                <span className="text-ivory/80">
-                                  {formatPrice(item.price, locale)}
-                                </span>
-                                {item.compareAtPrice && (
-                                  <span className="text-xs text-ivory/35 line-through">
-                                    {formatPrice(item.compareAtPrice, locale)}
-                                  </span>
-                                )}
-                              </span>
-                              <button
-                                onClick={() => remove(item.productId)}
-                                className="font-body text-[11px] uppercase tracking-[0.2em] text-ivory/40 transition-colors hover:text-champagne"
-                              >
-                                {t("remove")}
-                              </button>
-                            </div>
-                          </div>
-                        </motion.li>
-                      );
-                    })}
-                  </AnimatePresence>
-                </ul>
-
-                {/* Footer */}
-                <div className="border-t border-ivory/10 px-6 py-5">
-                  {savings > 0 && (
-                    <p className="font-body mb-3 text-xs text-aqua">
-                      {t("youSave", { amount: formatPrice(savings, locale) })}
-                    </p>
-                  )}
-                  <div className="font-body flex justify-between text-base text-ivory">
-                    <span>{t("subtotal")}</span>
-                    <span>{formatPrice(subtotal, locale)}</span>
-                  </div>
-                  <Link
-                    href="/checkout"
-                    onClick={closeCart}
-                    className="font-body mt-5 block rounded-full bg-champagne px-9 py-4 text-center text-xs uppercase tracking-[0.25em] text-obsidian transition-opacity hover:opacity-90"
-                  >
-                    {t("checkout")}
+          <div className="max-h-[42svh] overflow-y-auto px-[18px]">
+            {items.map((item) => {
+              const name = locale === "ar" ? item.nameAr : item.nameEn;
+              return (
+                <div key={item.productId} className="flex gap-3 border-b border-greige/12 py-3.5">
+                  <Link href={`/shop/${item.slug}`} onClick={closeCart} className="relative aspect-3/4 w-16 flex-none overflow-hidden rounded-[10px] bg-obsidian">
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img src={item.image} alt={name} className="h-full w-full object-cover" />
                   </Link>
-                  <button
-                    onClick={closeCart}
-                    className="font-body mt-3 block w-full text-center text-[11px] uppercase tracking-[0.2em] text-ivory/45 transition-colors hover:text-ivory"
-                  >
-                    {t("continue")}
-                  </button>
+                  <div className="flex flex-1 flex-col">
+                    <div className="flex items-start justify-between gap-2">
+                      <Link href={`/shop/${item.slug}`} onClick={closeCart} className="font-display text-base text-ivory">
+                        {name}
+                      </Link>
+                      <button onClick={() => remove(item.productId)} aria-label={t("remove")} className="flex-none p-0.5 text-ivory/40">
+                        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round">
+                          <path d="M6 6l12 12M18 6L6 18" />
+                        </svg>
+                      </button>
+                    </div>
+                    {item.size && <p className="font-body mt-0.5 text-[11px] text-ivory/50">{item.size}</p>}
+                    <div className="mt-auto flex items-center justify-between pt-2">
+                      <span className="font-body text-sm font-semibold text-white">{formatPrice(item.price, locale)}</span>
+                    </div>
+                  </div>
                 </div>
-              </>
-            )}
-          </motion.aside>
-        </motion.div>
+              );
+            })}
+          </div>
+
+          <div className="border-t border-greige/16 bg-[rgba(15,15,17,.8)] px-[18px] pt-3.5" style={{ paddingBottom: "calc(16px + env(safe-area-inset-bottom))" }}>
+            <div className="mb-1.5 flex justify-between font-body text-[13px] text-ivory/70">
+              <span>{t("subtotal")}</span>
+              <span>{formatPrice(subtotal, locale)}</span>
+            </div>
+            <div className="mb-2.5 flex justify-between font-body text-[13px] text-ivory/70">
+              <span>{t("shipping")}</span>
+              <span className="text-aqua-light">{t("shippingCalc")}</span>
+            </div>
+            <div className="mb-3.5 flex justify-between font-body text-[18px] font-semibold text-white">
+              <span>{t("total")}</span>
+              <span>{formatPrice(subtotal, locale)}</span>
+            </div>
+            <Link
+              href="/checkout"
+              onClick={closeCart}
+              className="font-body block w-full rounded-(--radius-button) bg-linear-to-r from-[#d8b87a] to-champagne py-4 text-center text-[15px] font-bold text-[#1a160d] shadow-[0_10px_28px_-10px_rgba(201,166,107,.55)]"
+            >
+              {t("checkout")}
+            </Link>
+            <div className="mt-2.5 text-center font-body text-[10.5px] text-ivory/45">{t("codReassurance")}</div>
+          </div>
+        </div>
       )}
-    </AnimatePresence>
+    </BottomSheet>
   );
 }

@@ -4,12 +4,14 @@ import { create } from "zustand";
 import { persist } from "zustand/middleware";
 
 export type WishItem = {
+  productId: string;
   slug: string;
   nameAr: string;
   nameEn: string;
   price: number;
   compareAtPrice?: number | null;
   image: string;
+  category: string;
 };
 
 type WishState = {

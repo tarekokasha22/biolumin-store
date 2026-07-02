@@ -3,6 +3,9 @@ import { setRequestLocale, getTranslations } from "next-intl/server";
 import { canonical, alternateLanguages } from "@/lib/seo";
 import { StoryScroll } from "@/components/story/StoryScroll";
 
+// Pure static content — no per-request data. Cache it so navigation is instant.
+export const revalidate = 3600;
+
 type Props = { params: Promise<{ locale: string }> };
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {

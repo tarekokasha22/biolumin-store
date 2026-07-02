@@ -1,87 +1,76 @@
 "use client";
 
-import { useTranslations, useLocale } from "next-intl";
-import Image from "next/image";
-
-const STORY_IMAGE = "/uploads/products/8150fe5f-2a9f-42a4-a6b0-60d950e7898c.png";
+import { useRef } from "react";
+import { useTranslations } from "next-intl";
+import { Link } from "@/i18n/navigation";
+import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useGSAP } from "@gsap/react";
 
 export function HomeClosing() {
-  const t    = useTranslations("story");
-  const locale = useLocale();
-  const isAr = locale === "ar";
+  const t = useTranslations("home");
+  const root = useRef<HTMLDivElement>(null);
 
-  const lines = t("body").split("\n");
+  useGSAP(
+    () => {
+      gsap.registerPlugin(ScrollTrigger);
+      const reduce = window.matchMedia(
+        "(prefers-reduced-motion: reduce)",
+      ).matches;
+
+      gsap.fromTo(
+        ".closing-line",
+        { opacity: 0, y: reduce ? 0 : 40 },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 1.4,
+          ease: "power3.out",
+          scrollTrigger: { trigger: root.current, start: "top 70%" },
+        },
+      );
+
+      gsap.to(".closing-glow", {
+        opacity: 0.7,
+        scale: 1.15,
+        duration: 5,
+        ease: "sine.inOut",
+        yoyo: true,
+        repeat: -1,
+      });
+    },
+    { scope: root },
+  );
 
   return (
     <section
-      id="story"
-      style={{
-        position: "relative",
-        minHeight: "78vh",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        overflow: "hidden",
-        padding: "90px 24px",
-        scrollMarginTop: "70px",
-      }}
+      ref={root}
+      className="relative flex min-h-[80vh] items-center justify-center overflow-hidden px-6"
     >
-      <Image
-        src={STORY_IMAGE}
-        alt=""
-        fill
-        style={{ objectFit: "cover", objectPosition: "center 25%", opacity: 0.28 }}
-        priority={false}
-      />
-
       <div
+        className="closing-glow pointer-events-none absolute left-1/2 top-1/2 -z-10 h-[55vh] w-[55vh] -translate-x-1/2 -translate-y-1/2 rounded-full opacity-40"
         style={{
-          position: "absolute", inset: 0,
-          background: "radial-gradient(ellipse at 50% 45%,rgba(14,14,16,.7),#0e0e10 78%)",
+          background:
+            "radial-gradient(circle, rgba(201,166,107,0.18), rgba(72,214,194,0.08) 45%, transparent 72%)",
+          filter: "blur(50px)",
         }}
       />
-
-      <div style={{ position: "relative", textAlign: "center", maxWidth: "46rem" }}>
-        <p style={{ fontSize: "11px", letterSpacing: ".32em", textTransform: "uppercase", color: "#c9a66b" }}>
-          {t("kicker")}
-        </p>
-
-        <h2
-          style={{
-            fontFamily: "var(--font-display-active, Georgia, serif)",
-            fontWeight: 400,
-            fontSize: "clamp(1.7rem,3.6vw,3rem)",
-            lineHeight: 1.45,
-            color: "#f4f0e9",
-            marginTop: "22px",
-            textShadow: "0 0 40px rgba(0,0,0,.6)",
-          }}
-        >
-          {lines.map((line, i) => (
-            <span key={i} style={{ display: "block" }}>{line}</span>
-          ))}
+      <div className="text-center">
+        <h2 className="closing-line font-display glow-gold text-5xl text-champagne sm:text-7xl md:text-8xl">
+          {t("closingLine")}
         </h2>
-
-        <a
-          href={isAr ? "/ar/story" : "/en/story"}
-          className="bl-sweep"
-          style={{
-            display: "inline-flex", alignItems: "center", gap: "10px",
-            marginTop: "34px",
-            borderRadius: "99px",
-            border: "1px solid rgba(201,166,107,.5)",
-            color: "#f4f0e9",
-            padding: "14px 30px",
-            fontSize: "11.5px", letterSpacing: ".2em", textTransform: "uppercase",
-            textDecoration: "none", transition: "all .4s",
-          }}
-        >
-          {t("cta")}
-          <span>{isAr ? "←" : "→"}</span>
-        </a>
+        <div className="closing-line mt-12">
+          <Link
+            href="/shop"
+            className="font-body group relative inline-flex items-center gap-3 rounded-full border border-champagne/50 px-10 py-4 text-xs uppercase tracking-[0.25em] text-ivory transition-all duration-500 hover:border-champagne hover:bg-champagne hover:text-obsidian"
+          >
+            {t("closingCta")}
+            <span className="transition-transform duration-500 group-hover:translate-x-1 rtl:group-hover:-translate-x-1">
+              →
+            </span>
+          </Link>
+        </div>
       </div>
     </section>
   );
 }
-
-export default HomeClosing;

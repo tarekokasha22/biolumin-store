@@ -56,29 +56,13 @@ export function AddToCart({ item, status }: Props) {
 
   return (
     <motion.button
-      whileTap={{ scale: 0.98 }}
+      whileTap={{ scale: 0.97 }}
       onClick={() => {
         add(item);
         openCart();
       }}
-      className="font-body group relative flex w-full items-center justify-center gap-2.5 overflow-hidden rounded-full bg-champagne px-9 py-[18px] text-xs font-semibold uppercase tracking-[0.25em] text-obsidian transition-all duration-300 hover:bg-[#e3c895]"
-      style={{
-        boxShadow:
-          "0 0 0 1px rgba(201,166,107,.55), 0 14px 44px -14px rgba(201,166,107,.55)",
-      }}
+      className="font-body group relative w-full overflow-hidden rounded-full border border-champagne/50 px-9 py-4 text-xs uppercase tracking-[0.25em] text-ivory transition-all duration-500 hover:border-champagne hover:bg-champagne hover:text-obsidian"
     >
-      <svg
-        viewBox="0 0 24 24"
-        className="h-4 w-4"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="1.6"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      >
-        <path d="M6 8h12l-1 12H7z" />
-        <path d="M9 8a3 3 0 016 0" />
-      </svg>
       {t("addToCart")}
     </motion.button>
   );

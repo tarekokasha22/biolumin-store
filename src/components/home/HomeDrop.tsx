@@ -1,124 +1,128 @@
 "use client";
 
-import { useTranslations, useLocale } from "next-intl";
+import { useEffect, useState } from "react";
+import { useLocale, useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
-import HomeProductCard from "@/components/home/HomeProductCard";
+import { ProductCard } from "@/components/shop/ProductCard";
+import type { RatingSummary } from "@/lib/reviews";
 
-export type ProductStatus = "AVAILABLE" | "SOLD" | "RESERVED";
+export type DropProduct = {
+  id: string;
+  slug: string;
+  nameAr: string;
+  nameEn: string;
+  price: number;
+  compareAtPrice?: number | null;
+  image: string;
+  status: "AVAILABLE" | "RESERVED" | "SOLD";
+  category: string;
+  ratingSummary?: RatingSummary;
+};
 
-export interface DropProduct {
-  id:       string;
-  slug:     string;
-  nameAr:   string;
-  nameEn:   string;
-  price:    number;
-  status:   ProductStatus;
-  images:   string[];
-  catAr?:   string;
-  catEn?:   string;
+const AR_DIGITS = ["٠", "١", "٢", "٣", "٤", "٥", "٦", "٧", "٨", "٩"];
+
+function pad(n: number, arabic: boolean) {
+  const s = String(Math.max(0, n)).padStart(2, "0");
+  return arabic ? s.replace(/\d/g, (d) => AR_DIGITS[+d]) : s;
 }
 
-export default function HomeDrop({ products }: { products: DropProduct[] }) {
-  const t      = useTranslations();
+function Countdown({ closesAt, label }: { closesAt: string; label: string }) {
   const locale = useLocale();
-  const isAr   = locale === "ar";
+  const arabic = locale === "ar";
+  const [remaining, setRemaining] = useState<number | null>(null);
 
-  const available = products.filter((p) => p.status === "AVAILABLE").length;
+  useEffect(() => {
+    const end = new Date(closesAt).getTime();
+    const tick = () => setRemaining(Math.max(0, end - Date.now()));
+    tick();
+    const id = setInterval(tick, 1000);
+    return () => clearInterval(id);
+  }, [closesAt]);
+
+  if (remaining === null) return null;
+  const h = Math.floor(remaining / 3600000);
+  const m = Math.floor((remaining % 3600000) / 60000);
+  const s = Math.floor((remaining % 60000) / 1000);
 
   return (
-    <section
-      id="drop"
-      style={{
-        position: "relative",
-        padding: "96px 24px 64px",
-        scrollMarginTop: "90px",
-      }}
-    >
-      <div style={{ maxWidth: "1280px", margin: "0 auto" }}>
-
-        <div
-          style={{
-            display: "flex",
-            flexWrap: "wrap",
-            alignItems: "flex-end",
-            justifyContent: "space-between",
-            gap: "24px",
-            marginBottom: "46px",
-          }}
-        >
-          <div>
-            <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
-              <span style={{ position: "relative", display: "flex", height: "8px", width: "8px" }}>
-                <span
-                  style={{
-                    position: "absolute", inset: 0, borderRadius: "99px",
-                    background: "rgba(72,214,194,.7)",
-                    animation: "bl-pulse 2.2s ease-in-out infinite",
-                  }}
-                />
-                <span style={{ position: "relative", height: "8px", width: "8px", borderRadius: "99px", background: "#48d6c2" }} />
-              </span>
-              <span style={{ fontSize: "11px", letterSpacing: ".32em", textTransform: "uppercase", color: "#c9a66b" }}>
-                {t("drop.kicker")}
-              </span>
-            </div>
-
-            <h2
-              style={{
-                fontFamily: "var(--font-display-active, Georgia, serif)",
-                fontWeight: 500,
-                fontSize: "clamp(2rem,4.4vw,3.6rem)",
-                color: "#f4f0e9",
-                marginTop: "14px",
-                lineHeight: isAr ? 1.18 : 0.98,
-              }}
-            >
-              {t("drop.title")}
-            </h2>
-
-            <p style={{ marginTop: "14px", maxWidth: "30rem", fontSize: "13.5px", lineHeight: 1.7, color: "rgba(244,240,233,.55)" }}>
-              {t("drop.note")}
-            </p>
-
-            {available > 0 && (
-              <p style={{ marginTop: "12px", fontSize: "11.5px", letterSpacing: ".18em", textTransform: "uppercase", color: "rgba(72,214,194,.85)" }}>
-                {t("drop.available", { count: available })}
-              </p>
-            )}
-          </div>
-
-          <Link
-            href="/shop"
-            className="bl-sweep"
-            style={{
-              display: "inline-flex", alignItems: "center", gap: "10px",
-              borderRadius: "99px",
-              border: "1px solid rgba(201,166,107,.5)",
-              color: "#f4f0e9",
-              padding: "14px 28px",
-              fontSize: "11.5px", letterSpacing: ".2em", textTransform: "uppercase",
-              textDecoration: "none", transition: "all .4s",
-            }}
-          >
-            {t("drop.viewAll")}
-            <span>{isAr ? "←" : "→"}</span>
-          </Link>
-        </div>
-
-        <div
-          className="bl-drop-grid"
-          style={{
-            display: "grid",
-            gridTemplateColumns: "repeat(3,1fr)",
-            gap: "22px",
-          }}
-        >
-          {products.map((product) => (
-            <HomeProductCard key={product.id} product={product} />
-          ))}
-        </div>
-
+    <div className="mx-auto mb-5.5 flex max-w-[340px] items-center justify-center gap-2.5 rounded-[14px] border border-aqua/22 bg-linear-to-b from-aqua/7 to-panel/50 px-3.5 py-3.5">
+      <span className="font-body text-[10.5px] tracking-[0.14em] text-aqua-light uppercase">{label}</span>
+      <div className="flex items-center gap-1.5 font-mono tabular-nums">
+        <span className="min-w-[34px] rounded-[7px] bg-[rgba(10,10,12,.6)] px-1 py-1.5 text-center text-base font-semibold text-white">
+          {pad(h, arabic)}
+        </span>
+        <span className="font-bold text-aqua">:</span>
+        <span className="min-w-[34px] rounded-[7px] bg-[rgba(10,10,12,.6)] px-1 py-1.5 text-center text-base font-semibold text-white">
+          {pad(m, arabic)}
+        </span>
+        <span className="font-bold text-aqua">:</span>
+        <span className="min-w-[34px] rounded-[7px] bg-[rgba(10,10,12,.6)] px-1 py-1.5 text-center text-base font-semibold text-white">
+          {pad(s, arabic)}
+        </span>
       </div>
+    </div>
+  );
+}
+
+export function HomeDrop({
+  products,
+  availableCount,
+  closesAt,
+}: {
+  products: DropProduct[];
+  availableCount: number;
+  closesAt: string | null;
+}) {
+  const t = useTranslations("home");
+
+  if (products.length === 0) return null;
+
+  return (
+    <section className="px-4 pt-[34px] pb-2">
+      <div className="mb-4 text-center">
+        <div className="font-body mb-2 text-[10.5px] tracking-[0.3em] text-champagne uppercase">
+          {t("dropKicker")}
+        </div>
+        <h2 className="font-display text-[32px] leading-[1.1] text-white">{t("dropTitle")}</h2>
+        <p className="font-body mx-auto mt-2.5 max-w-[300px] text-[12.5px] leading-[1.6] text-ivory/60">
+          {t("dropNote")}
+        </p>
+      </div>
+
+      {closesAt && <Countdown closesAt={closesAt} label={t("dropEnds")} />}
+
+      {availableCount > 0 && (
+        <p className="font-body mb-3.5 text-center text-xs tracking-[0.15em] text-aqua-light uppercase">
+          {t("dropAvailable", { count: availableCount })}
+        </p>
+      )}
+
+      <div className="grid grid-cols-2 gap-3">
+        {products.map((p, i) => (
+          <ProductCard
+            key={p.slug}
+            id={p.id}
+            slug={p.slug}
+            nameAr={p.nameAr}
+            nameEn={p.nameEn}
+            price={p.price}
+            compareAtPrice={p.compareAtPrice}
+            image={p.image}
+            status={p.status}
+            category={p.category}
+            ratingSummary={p.ratingSummary}
+            index={i}
+          />
+        ))}
+      </div>
+
+      <Link
+        href="/shop"
+        className="font-body mt-4 flex w-full items-center justify-center gap-2 rounded-[12px] border border-greige/34 py-3.5 text-[13px] text-ivory"
+      >
+        {t("dropCta")}
+        <span className="rtl:-scale-x-100">→</span>
+      </Link>
     </section>
   );
 }

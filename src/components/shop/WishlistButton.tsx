@@ -3,6 +3,7 @@
 import { useTranslations } from "next-intl";
 import { motion } from "framer-motion";
 import { useWishlist, type WishItem } from "@/lib/wishlist-store";
+import { useUI } from "@/lib/ui-store";
 import { useHydrated } from "@/lib/use-hydrated";
 
 export function WishlistButton({
@@ -13,8 +14,10 @@ export function WishlistButton({
   floating?: boolean;
 }) {
   const t = useTranslations("wishlist");
+  const tToast = useTranslations("toast");
   const toggle = useWishlist((s) => s.toggle);
   const active = useWishlist((s) => s.items.some((i) => i.slug === item.slug));
+  const showToast = useUI((s) => s.showToast);
   const mounted = useHydrated();
   const on = mounted && active;
 
@@ -26,6 +29,7 @@ export function WishlistButton({
         e.preventDefault();
         e.stopPropagation();
         toggle(item);
+        showToast(on ? tToast("removedFromFavourites") : tToast("savedToFavourites"));
       }}
       aria-label={on ? t("remove") : t("add")}
       className={
@@ -36,7 +40,7 @@ export function WishlistButton({
     >
       <svg
         viewBox="0 0 24 24"
-        className="h-[18px] w-[18px] transition-colors"
+        className="h-4 w-4 transition-colors"
         fill={on ? "#48d6c2" : "none"}
         stroke={on ? "#48d6c2" : "currentColor"}
         strokeWidth="1.6"
@@ -44,7 +48,7 @@ export function WishlistButton({
         strokeLinejoin="round"
         style={{ color: "rgba(244,240,233,0.6)" }}
       >
-        <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
+        <path d="M12 20.3l-1.45-1.32C5.4 14.35 2 11.28 2 7.5 2 4.42 4.42 2 7.5 2c1.74 0 3.41.81 4.5 2.09C13.09 2.81 14.76 2 16.5 2 19.58 2 22 4.42 22 7.5c0 3.78-3.4 6.85-8.55 11.54L12 20.3z" />
       </svg>
     </motion.button>
   );

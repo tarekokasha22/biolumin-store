@@ -1,6 +1,6 @@
 import { logoutAction } from "@/lib/admin-actions";
 
-type Tab = "products" | "inventory" | "orders" | "discounts" | "drops" | "subscribers";
+type Tab = "products" | "inventory" | "orders" | "discounts" | "drops" | "reviews" | "subscribers";
 
 export function AdminNav({ active }: { active: Tab }) {
   const link = (href: string, label: string, key: Tab) => (
@@ -25,6 +25,7 @@ export function AdminNav({ active }: { active: Tab }) {
             {link("/admin/inventory", "Inventory", "inventory")}
             {link("/admin/orders", "Orders", "orders")}
             {link("/admin/discounts", "Discounts", "discounts")}
+            {link("/admin/reviews", "Reviews", "reviews")}
             {link("/admin/subscribers", "Subscribers", "subscribers")}
           </nav>
         </div>

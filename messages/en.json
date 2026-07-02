@@ -35,7 +35,12 @@
     "shipping": "Ships across Egypt",
     "shippingSub": "2–5 business days · tracked",
     "secure": "Secure payment",
-    "secureSub": "InstaPay · Wallet · Cash"
+    "secureSub": "InstaPay · Wallet · Cash",
+    "codTitle": "Cash on delivery",
+    "exchangeTitle": "3-day exchange",
+    "shipTitle": "Ships across Egypt",
+    "shipSub": "2–5 days · tracked",
+    "secureTitle": "Secure payment"
   },
   "home": {
     "heroKicker": "Exclusive boutique · One piece only",
@@ -58,8 +63,12 @@
     "dropCta": "See everything",
     "dropNote": "One of each. When a piece is claimed, it's gone for good.",
     "dropAvailable": "{count} pieces still available",
+    "reviewsKicker": "In their words",
+    "reviewsTitle": "Women who wore the light",
     "closingLine": "Wear your light.",
-    "closingCta": "Begin your journey"
+    "closingCta": "Begin your journey",
+    "heroRating": "4.9 · 214 women",
+    "dropEnds": "Drop closes in"
   },
   "drop": {
     "kicker": "Current drop",
@@ -90,11 +99,11 @@
   "story": {
     "kicker": "The story",
     "title": "Light from within",
-    "body": "There are creatures in the deep that carry their own light — no sun, no spotlight, no permission.\nYou are one of them.",
+    "body": "The light inside you shows in what you wear.\nEach piece chosen by hand — only one of each. If it speaks to you, it's yours.",
     "cta": "Read the story",
     "scrollCue": "Scroll to begin",
     "chapterLabel": "Chapter",
-    "quote": "You were never made to blend in. You were made to be seen.",
+    "quote": "Some creatures glow from within, with no sun at all. You are one of them — you don't need anyone to light you. You light the room.",
     "closingKicker": "And now",
     "closingTitle": "Your light is waiting",
     "closingBody": "Somewhere in this drop, one piece is already yours — cut once, sewn once, made for no one else. The day you wear it, you won't ask to be noticed. The room will simply turn.",
@@ -129,7 +138,8 @@
     "invalid": "Enter a valid email"
   },
   "fab": {
-    "label": "Contact us on WhatsApp"
+    "label": "Contact us on WhatsApp",
+    "inquiry": "Hello, I would like to ask about a few things before I order."
   },
   "shop": {
     "kicker": "Drops",
@@ -142,9 +152,16 @@
     "reserved": "Reserved",
     "from": "From",
     "sale": "Sale",
-    "save": "Save {percent}%"
+    "save": "Save {percent}%",
+    "add": "Add",
+    "sort": "Sort",
+    "sortFeatured": "Featured",
+    "sortPriceAsc": "Price: low to high",
+    "sortPriceDesc": "Price: high to low",
+    "resultsCount": "{count} pieces"
   },
   "product": {
+    "verified": "Verified",
     "oneOfOne": "One piece only",
     "size": "Size",
     "category": "Type",
@@ -196,7 +213,15 @@
     "hlExclusive": "One of one — no one else will have it",
     "hlQuality": "Hand-picked fabric, made to last",
     "hlExchange": "Easy exchange within 3 days of delivery",
-    "secureNote": "Pay online or on delivery — we're with you on WhatsApp every step"
+    "secureNote": "Pay online or on delivery — we're with you on WhatsApp every step",
+    "buyNow": "Buy now",
+    "sizeGuideYours": "This piece is size {size}",
+    "sizeGuideNote": "Measurements are approximate and may vary slightly by piece.",
+    "heightCol": "Height",
+    "yourSize": "Your size",
+    "stockUrgency": "Only one piece — there is no other",
+    "liveViewers": "{count} women are viewing this right now",
+    "pdpReviewsTitle": "Reviews"
   },
   "cart": {
     "title": "Your bag",
@@ -217,7 +242,8 @@
     "freeShipUnlocked": "Free shipping unlocked 🤍",
     "freeShipProgress": "Add {amount} more for free shipping",
     "count": "{count} pieces",
-    "cod": "Cash on delivery available"
+    "cod": "Cash on delivery available",
+    "codReassurance": "Cash on delivery available · 3-day exchange"
   },
   "checkout": {
     "title": "Checkout",
@@ -262,7 +288,21 @@
     "required": "These details are required",
     "errorSold": "Sadly one of the pieces was just sold or reserved. Please review your bag.",
     "errorGeneric": "Something went wrong. Please try again.",
-    "confirm": "Confirm order"
+    "confirm": "Confirm order",
+    "instapayLabel": "InstaPay",
+    "instapayNote": "Instant bank transfer",
+    "instapayTag": "Fastest",
+    "instapayInfo": "Open the InstaPay app and transfer to this address, then send the receipt on WhatsApp to confirm your order instantly.",
+    "cardLabel": "Credit / Debit card",
+    "cardRedirectNote": "You'll be redirected to a secure payment page to complete your card payment.",
+    "acceptedCards": "Accepted:",
+    "walletLabel": "Mobile wallet",
+    "walletNote": "Vodafone · Orange · WE",
+    "walletPhonePlaceholder": "Wallet phone number",
+    "copy": "Copy",
+    "copied": "Copied ✓",
+    "prepaidDiscount": "Prepaid discount",
+    "secureNote": "Secure encrypted payment · your data is protected"
   },
   "order": {
     "thanksTitle": "Your order is in 🤍",
@@ -297,7 +337,13 @@
     "notifyTitle": "Need anything?",
     "notifyBody": "Your order is placed and your piece is reserved in your name. We're on WhatsApp for any question — and we'll keep you posted on delivery ourselves.",
     "notifyCta": "Chat with us",
-    "notifyMessage": "Hi Biolumin 🤍 I have a question about order #{id}."
+    "notifyMessage": "Hi Biolumin 🤍 I have a question about order #{id}.",
+    "paidWith": "Paid with",
+    "eta": "Estimated delivery",
+    "etaShort": "{min}–{max} business days",
+    "whatsappReassurance": "Your order confirmation and shipping details arrive on WhatsApp automatically. Track your order there anytime.",
+    "trackWhatsapp": "Track on WhatsApp",
+    "whatsappTrackMsg": "Hi, I'd like to track my order #{number}"
   },
   "admin": {
     "title": "Admin",
@@ -324,7 +370,10 @@
   },
   "announce": {
     "freeShip": "Free shipping over {amount} · One of each — only one",
-    "dismiss": "Dismiss"
+    "dismiss": "Dismiss",
+    "shipMsg": "Free shipping over {amount}",
+    "oneOfOneMsg": "One piece only of every design",
+    "codMsg": "Cash on delivery available"
   },
   "wishlist": {
     "nav": "Wishlist",
@@ -356,5 +405,17 @@
     "story": "Story",
     "instagram": "Instagram",
     "tiktok": "TikTok"
+  },
+  "toast": {
+    "addedToBag": "Added to bag 🤍",
+    "savedToFavourites": "Saved to favourites 🤍",
+    "removedFromFavourites": "Removed from favourites"
+  },
+  "activity": {
+    "bought": "just bought a piece",
+    "viewing": "is viewing the pieces",
+    "added": "added a piece to bag",
+    "favorited": "saved a piece to favorites",
+    "minutesAgo": "{count} min ago"
   }
 }
