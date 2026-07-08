@@ -29,7 +29,15 @@ export function Footer() {
             نورِك يبان
           </p>
         ) : (
-          <p className="font-body text-[11px] uppercase tracking-[0.32em] text-ivory/45">
+          <p
+            style={{
+              fontFamily: "var(--font-cormorant), Georgia, serif",
+              fontSize: "18px",
+              letterSpacing: "0.06em",
+              color: "rgba(201,166,107,0.85)",
+              fontStyle: "italic",
+            }}
+          >
             Wear your light
           </p>
         )}
