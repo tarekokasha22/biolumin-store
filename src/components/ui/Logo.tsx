@@ -12,38 +12,57 @@ function GlowDot({ delay }: { delay: string }) {
   return (
     <span
       aria-hidden="true"
-      className="absolute top-[-0.34em] left-1/2 h-[0.14em] w-[0.14em] -translate-x-1/2 rounded-full bg-aqua-light [animation:logo-dot-pulse_3.4s_ease-in-out_infinite]"
       style={{
-        WebkitTextFillColor: "initial",
-        boxShadow: "0 0 5px #48d6c2, 0 0 12px rgba(72,214,194,.85)",
+        position: "absolute" as const,
+        left: "50%",
+        // paddingTop on the parent span is 8px. The dot is 4px tall.
+        // top: 2px → dot occupies 2px–6px, letter cap starts at ~8px.
+        // That gives exactly 2px of breathing room between dot and letter.
+        top: "2px",
+        width: "4px",
+        height: "4px",
+        transform: "translateX(-50%)",
+        borderRadius: "50%",
+        background: "#48d6c2",
+        boxShadow: "0 0 3px #48d6c2, 0 0 7px rgba(72,214,194,.85)",
+        WebkitTextFillColor: "initial" as const,
+        willChange: "opacity" as const,
+        animationName: "logo-dot-pulse",
+        animationDuration: "3.4s",
+        animationTimingFunction: "ease-in-out",
+        animationIterationCount: "infinite" as const,
         animationDelay: delay,
+        display: "block",
       }}
     />
   );
 }
 
 type Props = {
-  size?: "sm" | "md";
+  size?: "sm" | "md" | "lg";
   className?: string;
 };
 
 /**
- * Pure-code wordmark — no logo image. The brand name is not a design
- * asset, it's the two "i"s in BIOLUMIN carrying a glowing, pulsing
- * teal dot. Always LTR and always Cormorant Garamond regardless of
- * page locale — the brand name itself never mirrors or re-fonts.
+ * Pure-code wordmark — no image asset required.
+ * The two "I"s in BIOLUMIN each carry a glowing teal dot centred
+ * perfectly above the letter. Always LTR, always Cormorant Garamond,
+ * regardless of page locale.
  */
 export function Logo({ size = "md", className = "" }: Props) {
-  const gap = "0.17em";
+  const fontSize = size === "sm" ? "20px" : size === "lg" ? "32px" : "24px";
+  const gap = "0.15em";
+
   return (
     <span
       dir="ltr"
-      className={`inline-flex items-start font-medium ${className}`}
+      className={`inline-flex items-end font-medium ${className}`}
       style={{
         fontFamily: "var(--font-cormorant), Georgia, serif",
-        fontSize: size === "sm" ? "21px" : "23px",
+        fontSize,
+        // Use a fixed lineHeight so every letter sits on the same baseline
         lineHeight: 1,
-        filter: "drop-shadow(0 1px 9px rgba(201,166,107,.3))",
+        filter: "drop-shadow(0 1px 9px rgba(201,166,107,.28))",
         ...gradientText,
       }}
     >
@@ -52,14 +71,14 @@ export function Logo({ size = "md", className = "" }: Props) {
         return letter === "I" ? (
           <span
             key={i}
-            className="relative inline-block"
-            style={{ ...gradientText, ...spacing }}
+            // paddingTop creates space so the dot doesn't get clipped
+            style={{ position: "relative", display: "inline-block", paddingTop: "8px", ...gradientText, ...spacing }}
           >
             <GlowDot delay={i === 1 ? "0s" : "0.7s"} />
             {letter}
           </span>
         ) : (
-          <span key={i} style={spacing}>
+          <span key={i} style={{ display: "inline-block", paddingTop: "8px", ...spacing }}>
             {letter}
           </span>
         );

@@ -171,13 +171,17 @@ export function CheckoutForm({ cardEnabled }: { cardEnabled: boolean }) {
   }
 
   const inputCls =
-    "font-body w-full rounded-(--radius-input) border border-greige/26 bg-panel/60 px-[15px] py-3.5 text-sm text-ivory placeholder:text-ivory/30 outline-none";
+    "font-body w-full rounded-(--radius-input) border border-greige/20 bg-[rgba(12,12,14,.8)] px-4 py-3.5 text-sm text-ivory placeholder:text-ivory/28 outline-none focus:border-aqua/40 focus:bg-[rgba(12,12,14,.95)] transition-colors";
+
+  const sectionCls = "mb-5 rounded-[16px] border border-greige/14 bg-[rgba(16,16,19,.65)] p-4";
+  const legendCls = "font-body mb-3.5 flex items-center gap-2 text-[11px] tracking-[0.14em] text-champagne uppercase";
 
   return (
     <form onSubmit={submit}>
       {/* Contact */}
-      <fieldset className="mb-4.5">
-        <legend className="font-body mb-3 text-[11px] tracking-[0.16em] text-champagne uppercase">
+      <fieldset className={sectionCls}>
+        <legend className={legendCls}>
+          <span className="h-1 w-1 rounded-full bg-champagne" />
           {t("contactTitle")}
         </legend>
         <div className="flex flex-col gap-2.5">
@@ -187,8 +191,9 @@ export function CheckoutForm({ cardEnabled }: { cardEnabled: boolean }) {
       </fieldset>
 
       {/* Shipping */}
-      <fieldset className="mb-4.5">
-        <legend className="font-body mb-3 text-[11px] tracking-[0.16em] text-champagne uppercase">
+      <fieldset className={sectionCls}>
+        <legend className={legendCls}>
+          <span className="h-1 w-1 rounded-full bg-champagne" />
           {t("addressTitle")}
         </legend>
         <div className="flex flex-col gap-2.5">
@@ -202,15 +207,19 @@ export function CheckoutForm({ cardEnabled }: { cardEnabled: boolean }) {
             ))}
           </select>
           {form.governorate && (
-            <p className="font-body text-xs text-aqua-light">{t("eta", { min: ship.minDays, max: ship.maxDays })}</p>
+            <p className="font-body flex items-center gap-1.5 text-xs text-aqua-light">
+              <span className="h-1.5 w-1.5 rounded-full bg-aqua" />
+              {t("eta", { min: ship.minDays, max: ship.maxDays })}
+            </p>
           )}
           <textarea className={inputCls} placeholder={t("notes")} rows={2} value={form.notes} onChange={set("notes")} />
         </div>
       </fieldset>
 
       {/* Payment */}
-      <fieldset className="mb-4">
-        <legend className="font-body mb-3 text-[11px] tracking-[0.16em] text-champagne uppercase">
+      <fieldset className={sectionCls}>
+        <legend className={legendCls}>
+          <span className="h-1 w-1 rounded-full bg-champagne" />
           {t("paymentTitle")}
         </legend>
         <div className="flex flex-col gap-2.5">
@@ -301,8 +310,11 @@ export function CheckoutForm({ cardEnabled }: { cardEnabled: boolean }) {
       </fieldset>
 
       {/* Summary */}
-      <div className="mb-4 rounded-[14px] border border-greige/16 bg-panel/60 p-4">
-        <div className="font-body mb-3 text-[11px] tracking-[0.16em] text-champagne uppercase">{t("summary")}</div>
+      <div className="mb-5 rounded-[16px] border border-champagne/18 bg-[rgba(16,16,19,.7)] p-4">
+        <div className="font-body mb-3.5 flex items-center gap-2 text-[11px] tracking-[0.14em] text-champagne uppercase">
+          <span className="h-1 w-1 rounded-full bg-champagne" />
+          {t("summary")}
+        </div>
         <ul className="font-body mb-2.5 space-y-2 text-[13px] text-ivory/80">
           {items.map((i, idx) => (
             <li key={`${i.productId}-${idx}`} className="flex justify-between gap-3">
@@ -364,27 +376,19 @@ export function CheckoutForm({ cardEnabled }: { cardEnabled: boolean }) {
           {codeDiscount > 0 && applied && <Row label={applied.code} value={`− ${formatPrice(codeDiscount, locale)}`} accent />}
           <Row label={t("shipping")} value={ship.fee === 0 ? t("free") : formatPrice(ship.fee, locale)} accent={ship.fee === 0} />
           {codFee > 0 && <Row label={t("codFee")} value={formatPrice(codFee, locale)} />}
-          <div className="mt-0.5 flex justify-between text-[17px] font-semibold text-white">
+          <div className="mt-1 flex justify-between border-t border-champagne/15 pt-3 text-[18px] font-bold text-white">
             <span>{t("total")}</span>
-            <span>{formatPrice(total, locale)}</span>
+            <span className="text-champagne-bright">{formatPrice(total, locale)}</span>
           </div>
         </div>
       </div>
 
-      <div className="mb-2 flex items-center justify-center gap-1.5 text-[11px] text-ivory/50">
-        <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="#48d6c2" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-          <rect x="3" y="11" width="18" height="10" rx="2" />
-          <path d="M7 11V7a5 5 0 0110 0v4" />
-        </svg>
-        {t("secureNote")}
-      </div>
-
-      {error && <p className="font-body mb-2 text-center text-sm text-red-300">{error}</p>}
+      {error && <p className="font-body mb-3 rounded-(--radius-input) border border-red-400/30 bg-red-400/8 px-4 py-2.5 text-center text-sm text-red-300">{error}</p>}
 
       <button
         type="submit"
         disabled={submitting}
-        className="font-body w-full rounded-(--radius-button) bg-linear-to-r from-[#d8b87a] to-champagne py-[17px] text-[15px] font-bold text-[#1a160d] shadow-[0_10px_30px_-10px_rgba(201,166,107,.55)] disabled:opacity-60"
+        className="font-body w-full rounded-(--radius-button) bg-linear-to-r from-[#e8c88a] via-champagne to-[#d4a85c] py-[18px] text-[16px] font-bold text-[#1a1208] shadow-[0_10px_32px_-8px_rgba(201,166,107,.7)] disabled:opacity-60 active:scale-[0.98] transition-transform"
       >
         {submitting ? t("placing") : `${t("place")} · ${formatPrice(total, locale)}`}
       </button>
@@ -409,8 +413,8 @@ function MethodRow({
     <button
       type="button"
       onClick={onClick}
-      className={`flex items-center gap-3 rounded-(--radius-button) border px-3.5 py-3.5 text-start ${
-        active ? "border-aqua/50 bg-aqua/6" : "border-greige/25 bg-panel/40"
+      className={`flex items-center gap-3 rounded-(--radius-button) border px-4 py-3.5 text-start transition-colors ${
+        active ? "border-aqua/50 bg-aqua/8 shadow-[0_0_0_1px_rgba(72,214,194,.15)]" : "border-greige/20 bg-[rgba(12,12,14,.5)] hover:border-greige/35"
       }`}
     >
       <span className={`flex h-[19px] w-[19px] flex-none items-center justify-center rounded-full border-2 ${active ? "border-aqua" : "border-greige/50"}`}>

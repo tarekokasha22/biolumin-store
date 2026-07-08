@@ -118,10 +118,10 @@ export function HomeDrop({
 
       <Link
         href="/shop"
-        className="font-body mt-4 flex w-full items-center justify-center gap-2 rounded-[12px] border border-greige/34 py-3.5 text-[13px] text-ivory"
+        className="font-body mt-5 flex w-full items-center justify-center gap-2.5 rounded-(--radius-button) bg-linear-to-r from-[#e8c88a] via-champagne to-[#d4a85c] py-4 text-[14px] font-bold text-[#1a1208] shadow-[0_8px_28px_-6px_rgba(201,166,107,.6)] active:scale-[0.98] transition-transform"
       >
         {t("dropCta")}
-        <span className="rtl:-scale-x-100">→</span>
+        <span className="rtl:-scale-x-100 text-[16px]">→</span>
       </Link>
     </section>
   );

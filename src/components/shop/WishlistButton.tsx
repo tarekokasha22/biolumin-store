@@ -3,7 +3,6 @@
 import { useTranslations } from "next-intl";
 import { motion } from "framer-motion";
 import { useWishlist, type WishItem } from "@/lib/wishlist-store";
-import { useUI } from "@/lib/ui-store";
 import { useHydrated } from "@/lib/use-hydrated";
 
 export function WishlistButton({
@@ -14,10 +13,8 @@ export function WishlistButton({
   floating?: boolean;
 }) {
   const t = useTranslations("wishlist");
-  const tToast = useTranslations("toast");
   const toggle = useWishlist((s) => s.toggle);
   const active = useWishlist((s) => s.items.some((i) => i.slug === item.slug));
-  const showToast = useUI((s) => s.showToast);
   const mounted = useHydrated();
   const on = mounted && active;
 
@@ -29,7 +26,6 @@ export function WishlistButton({
         e.preventDefault();
         e.stopPropagation();
         toggle(item);
-        showToast(on ? tToast("removedFromFavourites") : tToast("savedToFavourites"));
       }}
       aria-label={on ? t("remove") : t("add")}
       className={

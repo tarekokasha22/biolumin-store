@@ -13,29 +13,22 @@ type Props = {
   categoryLabel: string;
 };
 
-/**
- * PDP-only sticky bottom bar — absorbs AddToCart.tsx's 4-state machine
- * (sold / reserved / available / already-in-cart), which is richer than
- * the design prototype's simpler 3-state version and worth keeping.
- */
 export function StickyBuyBar({ item, status, priceLabel, categoryLabel }: Props) {
   const t = useTranslations("product");
   const tc = useTranslations("cart");
-  const tToast = useTranslations("toast");
   const router = useRouter();
   const add = useCart((s) => s.add);
   const openCart = useUI((s) => s.openCart);
-  const showToast = useUI((s) => s.showToast);
   const has = useCart((s) => s.items.some((i) => i.productId === item.productId));
   const mounted = useHydrated();
 
   const bar =
-    "fixed inset-x-0 bottom-0 z-55 mx-auto w-full max-w-(--shell-width) border-t px-3.5 bg-[#0b0b0d]";
+    "fixed inset-x-0 bottom-0 z-55 mx-auto w-full max-w-(--shell-width) border-t border-champagne/15 bg-[rgba(8,8,10,.97)] backdrop-blur-md";
 
   if (status === "SOLD" || status === "RESERVED") {
     return (
       <div
-        className={`${bar} border-greige/25 py-3.5 text-center`}
+        className={`${bar} py-3.5 text-center`}
         style={{ paddingBottom: "calc(14px + env(safe-area-inset-bottom))" }}
       >
         <p className="font-body text-sm text-ivory/70">
@@ -49,23 +42,23 @@ export function StickyBuyBar({ item, status, priceLabel, categoryLabel }: Props)
 
   return (
     <div
-      className={`${bar} border-champagne/20 py-2.5`}
-      style={{ paddingBottom: "calc(11px + env(safe-area-inset-bottom))" }}
+      className={`${bar} px-3.5 py-3`}
+      style={{ paddingBottom: "calc(12px + env(safe-area-inset-bottom))" }}
     >
       <div className="flex items-center gap-2.5">
-        <div className="flex-none">
-          <div className="font-body text-[10px] leading-none text-ivory/50">{categoryLabel}</div>
-          <div className="font-body text-[18px] leading-[1.2] font-semibold text-white">{priceLabel}</div>
+        <div className="flex-none min-w-[72px]">
+          <div className="font-body text-[9px] leading-none tracking-[0.08em] text-ivory/45 uppercase">{categoryLabel}</div>
+          <div className="font-body text-[17px] leading-[1.2] font-bold text-white">{priceLabel}</div>
         </div>
         {inCart ? (
           <>
-            <div className="font-body flex h-[50px] flex-1 items-center justify-center rounded-(--radius-button) border border-champagne/50 bg-champagne/12 text-[13px] font-semibold text-champagne-bright">
+            <div className="font-body flex h-[52px] flex-1 items-center justify-center rounded-(--radius-button) border border-aqua/40 bg-aqua/10 text-[13px] font-semibold text-aqua-light">
               {t("inCart")} ✓
             </div>
             <button
               type="button"
               onClick={openCart}
-              className="font-body h-[50px] flex-1 rounded-(--radius-button) bg-champagne text-[13px] font-bold text-obsidian"
+              className="font-body h-[52px] flex-1 rounded-(--radius-button) bg-linear-to-r from-[#e8c88a] via-champagne to-[#d4a85c] text-[14px] font-bold text-[#1a1208] shadow-[0_6px_24px_-4px_rgba(201,166,107,.7)] active:scale-[0.98] transition-transform"
             >
               {tc("viewBag")}
             </button>
@@ -76,10 +69,9 @@ export function StickyBuyBar({ item, status, priceLabel, categoryLabel }: Props)
               type="button"
               onClick={() => {
                 add(item);
-                showToast(tToast("addedToBag"));
                 openCart();
               }}
-              className="font-body h-[50px] flex-1 rounded-(--radius-button) border border-champagne/50 bg-champagne/12 text-[13px] font-semibold text-champagne-bright"
+              className="font-body h-[52px] flex-1 rounded-(--radius-button) border-2 border-champagne/60 bg-champagne/15 text-[13px] font-bold text-champagne-bright shadow-[0_4px_16px_-4px_rgba(201,166,107,.35)] active:scale-[0.98] transition-transform"
             >
               {t("addToCart")}
             </button>
@@ -89,9 +81,9 @@ export function StickyBuyBar({ item, status, priceLabel, categoryLabel }: Props)
                 add(item);
                 router.push("/checkout");
               }}
-              className="font-body h-[50px] flex-1 rounded-(--radius-button) bg-linear-to-r from-[#d8b87a] to-champagne text-[13px] font-bold text-[#1a160d] shadow-[0_8px_22px_-8px_rgba(201,166,107,.6)]"
+              className="font-body h-[52px] flex-[1.15] rounded-(--radius-button) bg-linear-to-r from-[#e8c88a] via-champagne to-[#d4a85c] text-[14px] font-bold text-[#1a1208] shadow-[0_8px_28px_-6px_rgba(201,166,107,.75)] active:scale-[0.98] transition-transform"
             >
-              {t("buyNow")}
+              {t("buyNow")} →
             </button>
           </>
         )}

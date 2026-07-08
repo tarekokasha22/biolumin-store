@@ -61,10 +61,8 @@ export function ProductCard({
 }: Props) {
   const locale = useLocale();
   const t = useTranslations("shop");
-  const tToast = useTranslations("toast");
   const add = useCart((s) => s.add);
   const openCart = useUI((s) => s.openCart);
-  const showToast = useUI((s) => s.showToast);
   const buyable = status === "AVAILABLE";
   const onSale = buyable && !!compareAtPrice && compareAtPrice > price;
   const savePct = onSale
@@ -93,7 +91,7 @@ export function ProductCard({
           }`}
         />
 
-        {!hideStatusPill && (
+        {!hideStatusPill && status !== "AVAILABLE" && (
           <div
             className={`absolute top-3 start-3 inline-flex items-center gap-1.5 rounded-(--radius-pill) border bg-[rgba(10,10,12,.62)] px-2.5 py-1 backdrop-blur-sm ${statusStyle.border}`}
           >
@@ -150,7 +148,6 @@ export function ProductCard({
             e.stopPropagation();
             if (!buyable) return;
             add({ productId: id, slug, nameAr, nameEn, price, compareAtPrice, image, size: "" });
-            showToast(tToast("addedToBag"));
             openCart();
           }}
           className={`font-body mt-2 flex h-10 w-full items-center justify-center rounded-(--radius-button) border text-xs font-semibold tracking-[0.04em] ${

@@ -71,10 +71,10 @@ export function CartDrawer() {
           )}
 
           <div className="max-h-[42svh] overflow-y-auto px-[18px]">
-            {items.map((item) => {
+            {items.map((item, i) => {
               const name = locale === "ar" ? item.nameAr : item.nameEn;
               return (
-                <div key={item.productId} className="flex gap-3 border-b border-greige/12 py-3.5">
+                <div key={`${item.productId}-${i}`} className="flex gap-3 border-b border-greige/12 py-3.5">
                   <Link href={`/shop/${item.slug}`} onClick={closeCart} className="relative aspect-3/4 w-16 flex-none overflow-hidden rounded-[10px] bg-obsidian">
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img src={item.image} alt={name} className="h-full w-full object-cover" />

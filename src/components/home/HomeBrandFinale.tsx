@@ -40,7 +40,7 @@ export default function HomeBrandFinale() {
         <Reveal delay={0.12} y={16}>
           <Link
             href="/#drop"
-            className="font-body mt-10 inline-flex items-center gap-2.5 border-b border-champagne/40 pb-1.5 text-[11px] uppercase tracking-[0.24em] text-champagne transition-colors hover:border-champagne"
+            className="font-body mt-10 inline-flex items-center gap-2.5 rounded-(--radius-button) bg-linear-to-r from-[#e8c88a] via-champagne to-[#d4a85c] px-8 py-3.5 text-[13px] font-bold text-[#1a1208] shadow-[0_8px_28px_-6px_rgba(201,166,107,.6)] active:scale-[0.98] transition-transform"
           >
             {t("drop.viewAll")}
             <span aria-hidden>{isAr ? "←" : "→"}</span>

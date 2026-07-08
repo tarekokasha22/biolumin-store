@@ -13,8 +13,6 @@ import { BottomTabBar } from "@/components/layout/BottomTabBar";
 import { WhatsAppFab } from "@/components/layout/WhatsAppFab";
 import { PageTransition } from "@/components/motion/PageTransition";
 import { CartDrawer } from "@/components/cart/CartDrawer";
-import { Toast } from "@/components/ui/Toast";
-import { LiveActivityToast } from "@/components/ui/LiveActivityToast";
 import { SITE_URL, canonical, alternateLanguages } from "@/lib/seo";
 import "../globals.css";
 
@@ -103,8 +101,6 @@ export default async function LocaleLayout({
             <CartDrawer />
             <BottomTabBar />
             <WhatsAppFab />
-            <Toast />
-            <LiveActivityToast />
           </PhoneShell>
         </NextIntlClientProvider>
       </body>

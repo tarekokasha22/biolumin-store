@@ -14,11 +14,11 @@ const ZONES: Record<
   ShippingZone,
   { fee: number; minDays: number; maxDays: number }
 > = {
-  CAIRO: { fee: num(process.env.NEXT_PUBLIC_SHIP_CAIRO, 50), minDays: 1, maxDays: 2 },
-  DELTA: { fee: num(process.env.NEXT_PUBLIC_SHIP_DELTA, 50), minDays: 2, maxDays: 3 },
-  CANAL: { fee: num(process.env.NEXT_PUBLIC_SHIP_CANAL, 70), minDays: 2, maxDays: 4 },
-  UPPER: { fee: num(process.env.NEXT_PUBLIC_SHIP_UPPER, 85), minDays: 3, maxDays: 5 },
-  REMOTE: { fee: num(process.env.NEXT_PUBLIC_SHIP_REMOTE, 110), minDays: 4, maxDays: 7 },
+  CAIRO: { fee: num(process.env.NEXT_PUBLIC_SHIP_CAIRO, 50), minDays: 2, maxDays: 5 },
+  DELTA: { fee: num(process.env.NEXT_PUBLIC_SHIP_DELTA, 50), minDays: 2, maxDays: 5 },
+  CANAL: { fee: num(process.env.NEXT_PUBLIC_SHIP_CANAL, 70), minDays: 2, maxDays: 5 },
+  UPPER: { fee: num(process.env.NEXT_PUBLIC_SHIP_UPPER, 85), minDays: 2, maxDays: 5 },
+  REMOTE: { fee: num(process.env.NEXT_PUBLIC_SHIP_REMOTE, 110), minDays: 2, maxDays: 5 },
 };
 
 // Spend this much (in EGP, on subtotal) and shipping is on us.

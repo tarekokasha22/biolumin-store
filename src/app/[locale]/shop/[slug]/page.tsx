@@ -216,28 +216,6 @@ export default async function ProductPage({ params }: Props) {
           ))}
         </div>
 
-        {/* Ways to pay — buyer reassurance right where the decision happens */}
-        <div className="mt-5.5 rounded-(--radius-input) border border-greige/14 bg-[rgba(20,20,23,.5)] px-4 py-3.5">
-          <div className="mb-2.5 flex items-center gap-2">
-            <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="#c9a66b" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M3 11h18v10H3zM7 11V7a5 5 0 0110 0v4" />
-            </svg>
-            <span className="font-body text-[11px] tracking-[0.14em] text-ivory/70 uppercase">
-              {t("waysToPay")}
-            </span>
-          </div>
-          <div className="flex flex-wrap gap-2">
-            {["InstaPay", t("payWallet"), t("cod")].map((m) => (
-              <span
-                key={m}
-                className="font-body rounded-(--radius-pill) border border-greige/22 bg-obsidian-soft/40 px-3 py-1.5 text-[11.5px] text-ivory/72"
-              >
-                {m}
-              </span>
-            ))}
-          </div>
-        </div>
-
         <ProductAccordions
           sections={[
             { title: t("fabricCare"), body: t("fabricCareBody") },

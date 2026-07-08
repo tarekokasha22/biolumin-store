@@ -1,0 +1,1045 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BIOLUMIN · Content Command Center — 2-Month Social Media System</title>
+<style>
+:root{
+  --obsidian:#0E0E10; --ink:#16161a; --panel:#1c1c21; --panel2:#232329;
+  --ivory:#F4F0E9; --champagne:#C9A66B; --champ-soft:#e2c894; --greige:#8A8175;
+  --aqua:#48D6C2; --line:#33333c; --txt:#e9e6df; --muted:#a9a49a;
+  --tt:#00f2ea; --ig:#e1306c; --fb:#1877f2;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--obsidian);color:var(--txt);font-family:'Segoe UI',system-ui,-apple-system,sans-serif;line-height:1.6;font-size:15px}
+.ar{direction:rtl;text-align:right;font-family:'Segoe UI','Tahoma',sans-serif}
+h1,h2,h3,h4{font-weight:600;letter-spacing:.3px;color:#fff}
+a{color:var(--aqua);text-decoration:none}
+/* layout */
+.wrap{max-width:1180px;margin:0 auto;padding:0 20px}
+header.hero{background:radial-gradient(1200px 500px at 50% -10%,rgba(201,166,107,.18),transparent 60%),var(--obsidian);border-bottom:1px solid var(--line);padding:54px 0 40px;text-align:center;position:relative;overflow:hidden}
+header.hero::after{content:"";position:absolute;left:0;right:0;bottom:0;height:2px;background:linear-gradient(90deg,transparent,var(--aqua),transparent);opacity:.5}
+.brandmark{font-size:13px;letter-spacing:7px;color:var(--champagne);text-transform:uppercase}
+header.hero h1{font-size:40px;margin:14px 0 6px;background:linear-gradient(90deg,#fff,var(--champ-soft));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.tag{color:var(--aqua);font-size:18px;letter-spacing:2px}
+.sub{color:var(--muted);margin-top:12px;max-width:720px;margin-left:auto;margin-right:auto}
+.mission{display:inline-block;margin-top:18px;padding:10px 22px;border:1px solid var(--champagne);border-radius:40px;color:var(--champ-soft);font-size:14px}
+/* sticky nav */
+nav.top{position:sticky;top:0;z-index:50;background:rgba(14,14,16,.92);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+nav.top .wrap{display:flex;gap:4px;overflow-x:auto;padding:10px 20px}
+nav.top a{color:var(--muted);font-size:13px;padding:8px 13px;border-radius:8px;white-space:nowrap;transition:.2s}
+nav.top a:hover{color:#fff;background:var(--panel)}
+/* sections */
+section{padding:46px 0;border-bottom:1px solid var(--line)}
+.eyebrow{color:var(--champagne);font-size:12px;letter-spacing:4px;text-transform:uppercase;margin-bottom:8px}
+section h2{font-size:28px;margin-bottom:6px}
+section .lead{color:var(--muted);margin-bottom:26px;max-width:820px}
+/* cards & grids */
+.grid{display:grid;gap:18px}
+.g2{grid-template-columns:repeat(2,1fr)}
+.g3{grid-template-columns:repeat(3,1fr)}
+.g4{grid-template-columns:repeat(4,1fr)}
+@media(max-width:860px){.g2,.g3,.g4{grid-template-columns:1fr}nav.top .wrap{gap:0}header.hero h1{font-size:30px}}
+.card{background:linear-gradient(180deg,var(--panel),var(--ink));border:1px solid var(--line);border-radius:14px;padding:20px}
+.card h3{font-size:17px;margin-bottom:8px}
+.card h4{font-size:14px;color:var(--champ-soft);margin:14px 0 6px}
+.stat{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px;text-align:center}
+.stat .n{font-size:30px;color:var(--champagne);font-weight:700}
+.stat .l{color:var(--muted);font-size:13px;margin-top:4px}
+/* badges */
+.badge{display:inline-block;font-size:11px;padding:3px 10px;border-radius:20px;letter-spacing:.5px;font-weight:600;margin:2px 4px 2px 0}
+.b-tt{background:rgba(0,242,234,.13);color:var(--tt);border:1px solid rgba(0,242,234,.35)}
+.b-ig{background:rgba(225,48,108,.13);color:#ff6b9d;border:1px solid rgba(225,48,108,.35)}
+.b-fb{background:rgba(24,119,242,.13);color:#5b9bff;border:1px solid rgba(24,119,242,.35)}
+.b-champ{background:rgba(201,166,107,.14);color:var(--champ-soft);border:1px solid rgba(201,166,107,.4)}
+.b-aqua{background:rgba(72,214,194,.12);color:var(--aqua);border:1px solid rgba(72,214,194,.35)}
+.b-pillar{background:var(--panel2);color:var(--muted);border:1px solid var(--line)}
+/* code / prompt blocks */
+.prompt{background:#0b0b0d;border:1px solid var(--line);border-left:3px solid var(--aqua);border-radius:8px;padding:14px 16px;font-family:'Consolas','Courier New',monospace;font-size:12.5px;color:#cfd8d5;white-space:pre-wrap;line-height:1.55;margin:8px 0;overflow-x:auto}
+.canva-block{background:#0b0b0d;border:1px solid var(--line);border-left:3px solid var(--champagne);border-radius:8px;padding:14px 16px;font-size:13px;margin:8px 0}
+.copyline{background:#0b0b0d;border:1px solid var(--line);border-radius:8px;padding:12px 14px;margin:6px 0;font-size:13.5px}
+.copyline.arb{border-right:3px solid var(--champagne);border-left:none}
+.opt-head{display:flex;align-items:center;gap:8px;font-size:13px;font-weight:700;color:#fff;margin:16px 0 4px}
+.opt-a{color:var(--champ-soft)} .opt-b{color:var(--aqua)}
+.dot{width:9px;height:9px;border-radius:50%;display:inline-block}
+.dot-a{background:var(--champagne)} .dot-b{background:var(--aqua)}
+.look{background:rgba(72,214,194,.06);border:1px dashed rgba(72,214,194,.4);border-radius:8px;padding:12px 14px;font-size:13.5px;color:#d6efe9;margin:8px 0}
+.look b{color:var(--aqua)}
+/* post card */
+.post{background:linear-gradient(180deg,#1b1b20,#131316);border:1px solid var(--line);border-radius:16px;padding:22px;margin-bottom:22px;position:relative}
+.post::before{content:"";position:absolute;left:0;top:22px;bottom:22px;width:3px;border-radius:3px;background:linear-gradient(180deg,var(--champagne),var(--aqua))}
+.post .pid{position:absolute;right:20px;top:18px;font-size:11px;color:var(--greige);letter-spacing:2px}
+.post h3{font-size:19px;padding-left:14px}
+.post .meta{padding-left:14px;margin:8px 0 12px}
+.post .body{padding-left:14px}
+.tworow{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media(max-width:860px){.tworow{grid-template-columns:1fr}}
+.optbox{background:#0d0d10;border:1px solid var(--line);border-radius:12px;padding:14px}
+.optbox.a{border-top:3px solid var(--champagne)}
+.optbox.b{border-top:3px solid var(--aqua)}
+/* tables */
+table{width:100%;border-collapse:collapse;font-size:13px;margin:6px 0}
+th,td{border:1px solid var(--line);padding:9px 11px;text-align:left;vertical-align:top}
+th{background:var(--panel2);color:var(--champ-soft);font-weight:600;font-size:12px;letter-spacing:.5px}
+tr:nth-child(even) td{background:rgba(255,255,255,.015)}
+.cal th:first-child,.cal td:first-child{white-space:nowrap;color:var(--champ-soft)}
+/* week header */
+.weekhead{display:flex;flex-wrap:wrap;align-items:center;gap:12px;background:linear-gradient(90deg,rgba(201,166,107,.14),transparent);border:1px solid var(--line);border-left:4px solid var(--champagne);border-radius:10px;padding:14px 18px;margin:26px 0 14px}
+.weekhead h3{font-size:19px}
+.weekhead .theme{color:var(--muted);font-size:13px}
+.weekhead .target{margin-left:auto;color:var(--aqua);font-size:13px;font-weight:600}
+ul.clean{list-style:none;padding-left:0}
+ul.clean li{padding:5px 0 5px 22px;position:relative;color:var(--txt)}
+ul.clean li::before{content:"✦";position:absolute;left:0;color:var(--champagne);font-size:12px}
+.note{background:rgba(201,166,107,.08);border:1px solid rgba(201,166,107,.3);border-radius:10px;padding:12px 16px;font-size:13.5px;margin:12px 0}
+.note b{color:var(--champ-soft)}
+.warn{background:rgba(225,48,108,.08);border:1px solid rgba(225,48,108,.3);border-radius:10px;padding:12px 16px;font-size:13.5px;margin:12px 0}
+.pill-row{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0}
+.foot{text-align:center;padding:40px 20px;color:var(--greige);font-size:13px}
+.kv{display:grid;grid-template-columns:130px 1fr;gap:6px 14px;font-size:13.5px;margin:8px 0}
+.kv .k{color:var(--champ-soft)}
+.hashtags{font-size:12.5px;color:var(--aqua);word-spacing:3px}
+.toc-btn{display:inline-block;margin:3px;padding:7px 12px;background:var(--panel);border:1px solid var(--line);border-radius:8px;color:var(--txt);font-size:12.5px}
+.toc-btn:hover{border-color:var(--champagne)}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="brandmark">B I O L U M I N</div>
+    <h1>Content Command Center</h1>
+    <div class="tag">نورِك يبان · Wear your light</div>
+    <p class="sub">Your complete 2-month social media operating system — every post, story, caption, on-screen line, hashtag set, final-look description, and <b>two production options (Canva + AI image)</b> for TikTok, Instagram &amp; Facebook. Built to hit <b>1,000+ followers</b> and <b>50+ pieces sold</b> in Month 1, then scale in Month 2.</p>
+    <div class="mission">Month 1 goal: 50+ sold · 1,000 followers · 100K views · Budget 1,000 EGP</div>
+  </div>
+</header>
+
+<nav class="top">
+  <div class="wrap">
+    <a href="#start">Start Here</a>
+    <a href="#brand">Brand &amp; Muse</a>
+    <a href="#profiles">Profiles Setup</a>
+    <a href="#library">Content Library</a>
+    <a href="#stories">Stories System</a>
+    <a href="#month1">Month 1 Calendar</a>
+    <a href="#month2">Month 2 Calendar</a>
+    <a href="#ads">Ads Plan</a>
+    <a href="#dms">DM &amp; Sales</a>
+    <a href="#metrics">Metrics &amp; Routine</a>
+  </div>
+</nav>
+
+<!-- ============ START HERE ============ -->
+<section id="start">
+<div class="wrap">
+  <div class="eyebrow">Read this first · 2 minutes</div>
+  <h2>How this system works</h2>
+  <p class="lead">I'm your brand director + media buyer. You're my hands. This file is everything you execute — nothing is left to guess. Each post gives you the exact caption (Arabic + English), the <b>final look</b> it should have, and two ways to build it: <b>Option A = Canva</b> (fast, free, on your phone) or <b>Option B = ChatGPT / AI image</b> (a full copy-paste prompt). Pick whichever is faster that day.</p>
+
+  <div class="grid g4" style="margin-bottom:22px">
+    <div class="stat"><div class="n">50+</div><div class="l">pieces sold · Month 1</div></div>
+    <div class="stat"><div class="n">1,000+</div><div class="l">followers · Month 1</div></div>
+    <div class="stat"><div class="n">100K+</div><div class="l">views · Month 1</div></div>
+    <div class="stat"><div class="n">1,000</div><div class="l">EGP total ad budget</div></div>
+  </div>
+
+  <div class="grid g3">
+    <div class="card">
+      <h3>🎯 The funnel</h3>
+      <p>SEE → TRUST → FOLLOW → VISIT SHOP → BUY → TELL A FRIEND.</p>
+      <ul class="clean" style="margin-top:8px">
+        <li><b>TikTok</b> = reach machine (cold virality)</li>
+        <li><b>Instagram</b> = trust + taste machine</li>
+        <li><b>Facebook</b> = buyer machine (COD women 25–50)</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>🌐 Language rule (your call, locked in)</h3>
+      <ul class="clean">
+        <li><b>Facebook</b> → <b>Arabic only</b>, always. Warmer, more trust, more detail.</li>
+        <li><b>TikTok + Instagram</b> → English-led caption + an Arabic version underneath (mix). On-screen text usually Arabic (it's what stops the scroll here).</li>
+      </ul>
+      <p style="color:var(--muted);margin-top:8px">Every post below is written in BOTH so you just copy the block you need.</p>
+    </div>
+    <div class="card">
+      <h3>⚙️ Your daily flow</h3>
+      <ul class="clean">
+        <li>Batch-produce assets 1 week ahead (never day-of)</li>
+        <li>Post from the calendar</li>
+        <li>Reply to every comment/DM within the hour</li>
+        <li>Fire an "اتباعت" story on every sale</li>
+        <li>Send me the numbers at night</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="note" style="margin-top:20px"><b>The one habit that prints money:</b> every time a piece sells → post the SOLD/"اتباعت" asset to stories on all 3 platforms, then immediately show a "still available" piece. Public scarcity proof makes the next girl act fast. This single loop drives a big chunk of the 50.</div>
+
+  <h4 style="color:var(--champ-soft);margin-top:24px">Jump to a week</h4>
+  <div>
+    <a class="toc-btn" href="#w0">Week 0 · Setup</a>
+    <a class="toc-btn" href="#w1">Week 1 · Launch</a>
+    <a class="toc-btn" href="#w2">Week 2 · Momentum</a>
+    <a class="toc-btn" href="#w3">Week 3 · Trust</a>
+    <a class="toc-btn" href="#w4">Week 4 · Push to 50</a>
+    <a class="toc-btn" href="#w5">Week 5</a>
+    <a class="toc-btn" href="#w6">Week 6</a>
+    <a class="toc-btn" href="#w7">Week 7</a>
+    <a class="toc-btn" href="#w8">Week 8</a>
+  </div>
+</div>
+</section>
+
+<!-- ============ BRAND & MUSE ============ -->
+<section id="brand">
+<div class="wrap">
+  <div class="eyebrow">The look that makes us premium</div>
+  <h2>Brand Lock &amp; the Muse</h2>
+  <p class="lead">Paste the Brand Lock into any AI tool FIRST, every time. Use the SAME muse ("Layla") in every on-model shot — one face across every post = instant recognition. This is why we look like a house, not a stall.</p>
+
+  <div class="grid g2">
+    <div class="card">
+      <h3>🎨 Palette (use only these)</h3>
+      <table>
+        <tr><th>Colour</th><th>Hex</th><th>Use</th></tr>
+        <tr><td>Obsidian</td><td>#0E0E10</td><td>deep backgrounds</td></tr>
+        <tr><td>Warm Ivory</td><td>#F4F0E9</td><td>light canvas</td></tr>
+        <tr><td>Champagne</td><td>#C9A66B</td><td>gold accents / logo</td></tr>
+        <tr><td>Warm Greige</td><td>#8A8175</td><td>muted neutral</td></tr>
+        <tr><td>Bio-Aqua</td><td>#48D6C2</td><td><b>glow accent ONLY</b> — never a fill</td></tr>
+      </table>
+      <div class="note"><b>Light signature:</b> warm champagne-gold key + ONE cool aqua glow accent (a rim, a reflection). That gold-meets-aqua contrast IS the brand. Every frame.</div>
+    </div>
+    <div class="card">
+      <h3>🔒 Brand Lock — paste into ChatGPT / any AI tool first</h3>
+      <div class="prompt">BRAND: BIOLUMIN — a premium Egyptian women's fashion boutique. One-of-one pieces (only ONE of each in the world). Theme: bioluminescence — "the light from within shows in what you wear." Audience: Egyptian women 16–50, "بنت ذوق" — refined, confident, modern but rooted. Feeling: quiet luxury, mysterious, warm, expensive through restraint — never loud, never bazaar, never busy.
+
+PALETTE (only these): Obsidian #0E0E10, Warm Ivory #F4F0E9, Champagne #C9A66B, Warm Greige #8A8175, Bio-Aqua #48D6C2 (glow accent ONLY).
+
+LIGHT: warm champagne-gold key light + ONE cool bio-aqua glow accent (rim/reflection). Keep highlights warm, push shadows slightly teal.
+
+MOOD: editorial, cinematic, restrained, luminous, intimate, timeless.
+AVOID: gaudy gold, saturated colors, cluttered sets, heavy makeup, plastic skin, stock-photo smiles, busy props. Luxury = space + calm.</div>
+    </div>
+  </div>
+
+  <div class="card" style="margin-top:18px">
+    <h3>👩🏻 The Muse "Layla" — generate her once, reuse forever</h3>
+    <p class="lead" style="margin-bottom:10px">Make ONE clean front portrait in Higgsfield Soul / ChatGPT → save it as <b>MUSE_REF</b>. Every on-model image starts from this file so it's always the same girl.</p>
+    <div class="prompt">A hyper-realistic, photorealistic full-body photograph of a young Egyptian woman, age 24. Warm sun-kissed olive/honey skin with REAL texture — visible pores, soft baby hairs, NOT airbrushed. Deep dark-brown almond eyes, thick dark brows, full natural lips, high cheekbones. Long thick dark-brown wavy hair past the shoulders. Authentic Egyptian / North-African features, calm confident expression, faint natural smile. Minimal "clean girl" makeup. Studio fashion photo: seamless warm-ivory background, soft diffused key light from the left, a single subtle cool aqua rim light. Shot on Hasselblad medium-format, 105mm, f/2.8, true skin tones, editorial fashion photography, ultra-detailed, sharp focus on the eyes. Vertical 9:16.
+Avoid: plastic skin, airbrushed, doll-like, cartoon, cgi, instagram filter, extra fingers, deformed hands, western features, watermark, text.</div>
+    <div class="note"><b>To dress her in your real piece:</b> Higgsfield → Nano Banana Pro → upload Image 1 = MUSE_REF, Image 2 = your flat garment photo → prompt: <i>"The woman in image 1 is now wearing the EXACT garment in image 2. Keep print, colours, drape, cut 100% identical — do NOT redesign. Keep her face/skin/hair identical. Natural full-body fashion photo, warm-ivory backdrop, one cool aqua rim light, 50mm f/2.8, 9:16."</i> Generate 4, keep the one that matches your real piece = <b>LOOK</b>.</div>
+  </div>
+</div>
+</section>
+
+<!-- ============ PROFILES SETUP ============ -->
+<section id="profiles">
+<div class="wrap">
+  <div class="eyebrow">Week 0 · Do this before any post</div>
+  <h2>Profiles Setup — all 3 platforms</h2>
+  <p class="lead">In 2 seconds a profile must read "premium brand." Same handle, same profile pic (wordmark on obsidian), same name-field keyword everywhere. Link in bio → your live store.</p>
+
+  <div class="grid g3">
+    <div class="card">
+      <h3><span class="badge b-tt">TikTok</span> the reach machine</h3>
+      <div class="kv">
+        <div class="k">Handle</div><div>@biolumin (or @biolumin.eg)</div>
+        <div class="k">Name</div><div>BIOLUMIN · Egyptian Fashion</div>
+        <div class="k">Link</div><div>store (allowed at 1k; until then "اطلبي من الانستا/الواتس")</div>
+      </div>
+      <h4>Bio</h4>
+      <div class="copyline arb ar">قطعة واحدة بس ✦ فاشون مصري راقي<br>نورِك يبان · اطلبي 👇</div>
+    </div>
+    <div class="card">
+      <h3><span class="badge b-ig">Instagram</span> the taste machine</h3>
+      <div class="kv">
+        <div class="k">Handle</div><div>@biolumin (identical to TikTok)</div>
+        <div class="k">Name</div><div>BIOLUMIN · فاشون مصري</div>
+        <div class="k">Link</div><div>Linktree → store + WhatsApp</div>
+      </div>
+      <h4>Bio</h4>
+      <div class="copyline arb ar">✦ قطعة واحدة بس… تخصِّك إنتي بس<br>فاشون نسائي راقي · شحن لكل مصر · بدل خلال ٣ أيام<br>نورِك يبان 👇 اطلبي من هنا</div>
+      <h4>Highlight covers</h4>
+      <div class="pill-row">
+        <span class="badge b-champ">الدروب</span><span class="badge b-champ">الستايل</span>
+        <span class="badge b-champ">آراء العملاء</span><span class="badge b-champ">الشحن والبدل</span>
+        <span class="badge b-champ">إزاي أطلب</span>
+      </div>
+    </div>
+    <div class="card">
+      <h3><span class="badge b-fb">Facebook</span> the buyer machine</h3>
+      <div class="kv">
+        <div class="k">Category</div><div>Clothing (Brand)</div>
+        <div class="k">Buttons</div><div>WhatsApp + Shop/catalog on</div>
+        <div class="k">Language</div><div><b>Arabic only</b> — all posts</div>
+      </div>
+      <h4>Bio / About</h4>
+      <div class="copyline arb ar">بيولومين ✦ فاشون نسائي راقي، كل قطعة واحدة بس في مصر.<br>شحن لكل المحافظات · دفع عند الاستلام أو أونلاين · بدل خلال ٣ أيام.<br>نورِك يبان — اطلبي دلوقتي أو كلمينا على الواتس.</div>
+      <p style="color:var(--muted);margin-top:8px">Pin: brand story + how to order + trust (shipping/exchange/COD).</p>
+    </div>
+  </div>
+
+  <div class="note" style="margin-top:16px"><b>Wordmark profile pic (Canva):</b> obsidian #0E0E10 square, "BIOLUMIN" in a thin elegant serif (<i>Cormorant</i> or <i>Playfair Display</i>) in champagne #C9A66B, wide letter-spacing, faint aqua glow behind. Same image on all 3.</div>
+</div>
+</section>
+
+<!-- ============ CONTENT LIBRARY ============ -->
+<section id="library">
+<div class="wrap">
+  <div class="eyebrow">The engine · reusable post templates</div>
+  <h2>Content Library — every post, both ways to make it</h2>
+  <p class="lead">These are your <b>content templates</b>. The calendar (below) tells you which template + which product to post each day. Every card gives you: the hook, the full caption (AR + EN), on-screen text, hashtags, the <b>final look</b>, and <span class="opt-a">Option A · Canva</span> vs <span class="opt-b">Option B · AI image prompt</span>. Copy, build, post.</p>
+
+  <div class="pill-row" style="margin-bottom:8px">
+    <span class="badge b-pillar">Pillar 1 · The Drop / قطعة واحدة</span>
+    <span class="badge b-pillar">Pillar 2 · Style 3 Ways</span>
+    <span class="badge b-pillar">Pillar 3 · The Glow (brand mood)</span>
+    <span class="badge b-pillar">Pillar 4 · Social Proof / اتباعت</span>
+    <span class="badge b-pillar">Pillar 5 · Trend / POV hooks</span>
+    <span class="badge b-pillar">Pillar 6 · Educate (لبسك يبان غالي)</span>
+  </div>
+
+  <h3 style="color:var(--champ-soft);margin:26px 0 4px;font-size:16px">PILLAR 1 · THE DROP — قطعة واحدة</h3>
+
+  <!-- DR-01 -->
+  <div class="post">
+    <span class="pid">DR-01</span>
+    <h3>The Drop Reveal — hero launch film</h3>
+    <div class="meta"><span class="badge b-tt">TikTok</span><span class="badge b-ig">IG Reel</span><span class="badge b-fb">FB Reel</span><span class="badge b-champ">15s video</span><span class="badge b-aqua">SET A</span></div>
+    <div class="body">
+      <div class="look"><b>Final look:</b> the muse alone in a vast obsidian space, one warm gold light shaft from above, aqua rim behind her silhouette. Slow push-in, she lifts her eyes on the last second. On-screen Arabic text fades in. Ends on the wordmark over black. Feels like a fashion-house teaser, not an ad.</div>
+
+      <h4>🎬 On-screen text (Arabic — this is what stops the scroll)</h4>
+      <div class="copyline arb ar">«قطعة واحدة. مش هتتكرر.» → «الدروب النهاردة ٩ مساءً» → شعار بيولومين</div>
+
+      <h4>📝 Caption — TikTok / Instagram (English lead + Arabic)</h4>
+      <div class="copyline">New drop is live ✦ One of each — when it's gone, it's gone. Which piece is calling your name? 👀<br><span class="ar" style="display:block;margin-top:6px">الدروب الجديد نزل ✦ كل قطعة واحدة بس في الدنيا — لما تروح، تروح. نورِك يبان.</span></div>
+      <h4>📝 Caption — Facebook (Arabic only)</h4>
+      <div class="copyline arb ar">الدروب الأول من بيولومين نزل النهاردة 🤍<br>كل قطعة واحدة بس في مصر — مفيش منها تاني، لما تتباع تخلص.<br>شحن لكل المحافظات · دفع عند الاستلام أو أونلاين · بدل خلال ٣ أيام.<br>شوفي الدروب كله من اللينك 👇 أو كلمينا على الواتس ونجهّزهالك.</div>
+      <div class="hashtags">#Biolumin #نورك_يبان #drop #EgyptianFashion #قطعة_واحدة #ONEOFONE #فاشون_مصري #explore #fyp</div>
+
+      <div class="tworow" style="margin-top:14px">
+        <div class="optbox a">
+          <div class="opt-head"><span class="dot dot-a"></span><span class="opt-a">Option A · Canva (fast)</span></div>
+          <div class="canva-block">
+            1. Canva → search template <b>"luxury fashion reel"</b> → pick a dark minimal one, resize to <b>1080×1920</b>.<br>
+            2. Load Brand Kit: bg <b>#0E0E10</b>, text <b>#C9A66B</b>, accent <b>#48D6C2</b>.<br>
+            3. Drop your best on-model still (from AI/real) full-frame, add a dark gradient overlay bottom→top.<br>
+            4. Add a <b>radial light glow</b> element (Elements → "light glow" → champagne) top-center as the "shaft."<br>
+            5. Text 1: «قطعة واحدة. مش هتتكرر.» in <i>Cormorant SC</i>, champagne, center. Animate → <b>Fade</b>.<br>
+            6. Text 2: «الدروب النهاردة ٩ مساءً» → animate <b>Rise</b>.<br>
+            7. End frame: BIOLUMIN wordmark on obsidian + faint aqua glow. Add CapCut audio "soft cinematic."<br>
+            8. Download MP4. Post native to each platform.
+          </div>
+        </div>
+        <div class="optbox b">
+          <div class="opt-head"><span class="dot dot-b"></span><span class="opt-b">Option B · AI image → animate</span></div>
+          <div class="prompt">Cinematic editorial campaign image of the Egyptian muse [MUSE_REF] wearing the EXACT garment from reference, standing alone in a vast minimalist obsidian-dark space. A single shaft of warm champagne-gold light falls from above like a spotlight; a faint bio-aqua glow rims her silhouette from behind. She stands poised, looking just past the lens. Enormous negative space. Volumetric haze catching the light. Hasselblad 80mm f/2.8, deep shadows, warm highlights, slightly teal shadows, film grain. Garment 100% identical to reference. 9:16 vertical.
+Avoid: bright flat lighting, busy set, extra props, recolored garment, plastic skin.</div>
+          <div class="canva-block" style="margin-top:6px"><b>Animate</b> in Higgsfield Kling (9:16, 5s): <i>"Gold light shaft slowly intensifies, near-invisible camera push-in, aqua rim breathes brighter, fine haze drifts, her chest rises with a slow breath, eyes lift to camera on the last second. No morphing. End on stillness with space above the head for the logo."</i> Then add the Arabic text in CapCut.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- DR-02 -->
+  <div class="post">
+    <span class="pid">DR-02</span>
+    <h3>Single-piece hero spotlight (feed carousel / FB photo)</h3>
+    <div class="meta"><span class="badge b-ig">IG Feed</span><span class="badge b-fb">FB Post</span><span class="badge b-champ">Photo / 3-slide</span></div>
+    <div class="body">
+      <div class="look"><b>Final look:</b> slide 1 = the piece on the muse, gold key + aqua rim, huge negative space with the price feel implied not shouted. Slide 2 = a detail macro (fabric threads). Slide 3 = "قطعة واحدة بس" card on obsidian. Reads like a magazine page.</div>
+
+      <h4>📝 Caption — IG (EN + AR)</h4>
+      <div class="copyline">Meet [PIECE NAME]. Cut to make you the calm center of any room — without trying. One in the world. Yours or no one's.<br><span class="ar" style="display:block;margin-top:6px">تعرّفي على [اسم القطعة]. اللبسة اللي تخليكي محور أي مكان — بهدوء. قطعة واحدة بس في الدنيا.</span></div>
+      <h4>📝 Caption — Facebook (Arabic only)</h4>
+      <div class="copyline arb ar">[اسم القطعة] ✦<br>خامة راقية وقصّة بتكمّل القوام، تلبسيها في العزومة والخروجة والمناسبة.<br>قطعة واحدة بس في مصر — لما تروح مش هتتكرر.<br>السعر [X] جنيه · شحن لكل المحافظات · بدل خلال ٣ أيام · دفع عند الاستلام.<br>تحبي أحجزهالك؟ ابعتيلي "تفاصيل" في الرسايل أو اطلبي من اللينك 👇</div>
+      <div class="hashtags">#Biolumin #نورك_يبان #فاشون_مصري #لبس_حريمي #قطعة_واحدة #EgyptFashion #ستايل</div>
+
+      <div class="tworow" style="margin-top:14px">
+        <div class="optbox a">
+          <div class="opt-head"><span class="dot dot-a"></span><span class="opt-a">Option A · Canva</span></div>
+          <div class="canva-block">
+            1. New design <b>1080×1350</b> (4:5). BG obsidian.<br>
+            2. Slide 1: your on-model shot, place off-center, leave 40% empty space. Small champagne serif label top: piece name.<br>
+            3. Slide 2: duplicate → crop tight on fabric detail. Caption "الخامة" in greige.<br>
+            4. Slide 3: obsidian card, centered champagne text «قطعة واحدة بس» + tiny aqua underline glow + wordmark.<br>
+            5. Keep type <i>Cormorant</i> (headings) + <i>Jost/Poppins</i> (small text). Export all 3.
+          </div>
+        </div>
+        <div class="optbox b">
+          <div class="opt-head"><span class="dot dot-b"></span><span class="opt-b">Option B · AI image</span></div>
+          <div class="prompt">Editorial fashion photograph of the Egyptian muse [MUSE_REF] wearing the EXACT garment from reference. Bright minimalist sunlit studio, warm-ivory backdrop, morning window light, faint breeze, a single cool aqua rim light on her edge. Weight on one hip, hand at waist, chin up, quiet confidence. Generous negative space to one side for text. Hasselblad 85mm f/2.0, warm grade, slightly teal shadows, photorealistic skin, garment identical to reference. 4:5 vertical.
+Then a second image — extreme close-up macro of the same fabric texture and a hand, every thread visible, soft daylight, 100mm macro, shallow focus.
+Avoid: recolored/restyled garment, plastic skin, busy background.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- DR-03 -->
+  <div class="post">
+    <span class="pid">DR-03</span>
+    <h3>Flat → on-model transformation (TikTok gold)</h3>
+    <div class="meta"><span class="badge b-tt">TikTok</span><span class="badge b-ig">IG Reel</span><span class="badge b-champ">7–12s</span><span class="badge b-aqua">high reach</span></div>
+    <div class="body">
+      <div class="look"><b>Final look:</b> starts on the flat garment photo on ivory → a light "glow" swipe wipes across → cut to the same piece alive on the muse mid-turn, fabric moving. A satisfying "flat becomes real" reveal on a trending beat. Loops.</div>
+      <h4>🎬 On-screen text</h4>
+      <div class="copyline arb ar">«القطعة دي عندي منها وحدة بس 👀» → (بعد التحول) «تخيّليها عليكي»</div>
+      <h4>📝 Caption (EN + AR)</h4>
+      <div class="copyline">Flat photo → real magic. One piece, one owner. Tap the bio before she's claimed 🤍<br><span class="ar" style="display:block;margin-top:6px">من صورة عادية… لقطعة تخطف. قطعة واحدة بس — البايو فيه اللينك.</span></div>
+      <div class="hashtags">#Biolumin #نورك_يبان #transition #fyp #EgyptFashion #فاشون_مصري #اكسبلور #قطعة_واحدة</div>
+      <div class="tworow" style="margin-top:14px">
+        <div class="optbox a">
+          <div class="opt-head"><span class="dot dot-a"></span><span class="opt-a">Option A · CapCut (better than Canva here)</span></div>
+          <div class="canva-block">
+            1. Clip 1 (1.5s): your real flat photo on ivory.<br>
+            2. Add transition <b>"Glow / Flash white"</b> at the cut.<br>
+            3. Clip 2 (4–6s): the on-model movement clip (from AI or real).<br>
+            4. Beat-match the cut to a trending EG audio (TikTok Creative Center).<br>
+            5. Add the two Arabic text lines, champagne, <i>bold</i>, big. Export 9:16.
+          </div>
+        </div>
+        <div class="optbox b">
+          <div class="opt-head"><span class="dot dot-b"></span><span class="opt-b">Option B · AI image → animate</span></div>
+          <div class="prompt">On-model movement shot of the Egyptian muse [MUSE_REF] in the EXACT garment. She turns mid-motion, lifting the sleeves/hem so the fabric catches a soft breeze, hair in motion, warm backlight rim, fine dust particles in the light. Warm-ivory studio, gold key + one aqua glow accent. ARRI 50mm, photorealistic fabric, garment identical to reference. 9:16.</div>
+          <div class="canva-block" style="margin-top:6px">Animate in Kling: <i>"She turns 45°, sleeves flowing in slow-mo, camera holds steady, real cloth physics, no morphing."</i> Use as Clip 2 above.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <h3 style="color:var(--champ-soft);margin:30px 0 4px;font-size:16px">PILLAR 2 · STYLE 3 WAYS — the conversion carousel</h3>
+
+  <!-- ST-01 -->
+  <div class="post">
+    <span class="pid">ST-01</span>
+    <h3>One piece · 3 ways carousel</h3>
+    <div class="meta"><span class="badge b-ig">IG Carousel</span><span class="badge b-fb">FB Carousel</span><span class="badge b-champ">5 slides</span><span class="badge b-aqua">SET E · saves↑</span></div>
+    <div class="body">
+      <div class="look"><b>Final look:</b> 5 clean slides. Slide 1 = catalog hero + text «قطعة واحدة · ٣ إطلالات». Slides 2–4 = same piece styled Day / Evening / Work, each with a small corner label. Slide 5 = «قطعة واحدة بس. اطلبيها قبل ما تروح» + link cue. Screams value: one price, three outfits.</div>
+      <h4>📝 Caption — IG (EN + AR)</h4>
+      <div class="copyline">One piece, three lives — day, night, work. That's the real value of a one-of-one: it's only ever yours. Save this 🤍<br><span class="ar" style="display:block;margin-top:6px">قطعة واحدة… ٣ طرق تلبسيها بيهم. القيمة الحقيقية إنها تخصِّك إنتي بس. ✦ نورِك يبان</span></div>
+      <h4>📝 Caption — Facebook (Arabic only)</h4>
+      <div class="copyline arb ar">قطعة واحدة… ٣ إطلالات مختلفة 👗<br>للنهار · للسهرة · للشغل — نفس القطعة، تلبسيها إزاي ما تحبي.<br>ودي قطعة واحدة بس في مصر، السعر [X] جنيه · شحن لكل المحافظات · بدل خلال ٣ أيام.<br>عايزة تحجزيها؟ كلمينا على الواتس أو اطلبي من اللينك 👇</div>
+      <div class="hashtags">#Biolumin #نورك_يبان #styling #ثلاث_طرق #فاشون_مصري #outfitideas #ستايل #EgyptFashion</div>
+      <div class="tworow" style="margin-top:14px">
+        <div class="optbox a">
+          <div class="opt-head"><span class="dot dot-a"></span><span class="opt-a">Option A · Canva</span></div>
+          <div class="canva-block">
+            1. Canva <b>1080×1350</b>, 5 pages, obsidian/ivory alternating.<br>
+            2. Page 1: catalog hero + «قطعة واحدة · ٣ إطلالات» champagne serif top.<br>
+            3. Pages 2–4: one styled image each; bottom-left pill label «للنهار» / «للسهرة» / «للشغل» in aqua.<br>
+            4. Keep a 2px champagne frame inset on every slide for cohesion.<br>
+            5. Page 5: obsidian, «قطعة واحدة بس. اطلبيها قبل ما تروح 👇» + wordmark. Export.
+          </div>
+        </div>
+        <div class="optbox b">
+          <div class="opt-head"><span class="dot dot-b"></span><span class="opt-b">Option B · AI image (3 edits)</span></div>
+          <div class="prompt">Run 3 edits of [LOOK], keep her + garment 100% identical, change only styling + scene:
+WAY 1 — Day/casual: relaxed daytime styling, soft sandals/sneakers, a bright airy café/street, natural daylight, effortless "بنت شيك".
+WAY 2 — Evening: same piece elevated — delicate gold jewelry, heels, hair down, a warm dim elegant setting, champagne light.
+WAY 3 — Work: same piece polished — a structured blazer/coat layer, minimal bag, clean modern interior, soft window light.
+Tail on each: photorealistic, garment identical, gold key + one aqua accent, editorial, 4:5 vertical.
+For slide 1: clean catalog cleanup of the real flat photo on warm-ivory #F4F0E9, soft even studio light, gentle drop shadow, no person, 1:1 + 4:5.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ST-02 -->
+  <div class="post">
+    <span class="pid">ST-02</span>
+    <h3>"Style it with me" — 3-outfit transition reel</h3>
+    <div class="meta"><span class="badge b-tt">TikTok</span><span class="badge b-ig">IG Reel</span><span class="badge b-champ">10–15s</span></div>
+    <div class="body">
+      <div class="look"><b>Final look:</b> the muse in the piece, a quick outfit-swap transition (snap/turn) between the 3 styling contexts on a trending beat. Fast, satisfying, aspirational. Ends on the best look + price feel.</div>
+      <h4>🎬 On-screen text</h4>
+      <div class="copyline arb ar">«٣ طرق تلبسي بيهم القطعة دي» → «للنهار» → «للسهرة» → «للشغل»</div>
+      <h4>📝 Caption (EN + AR)</h4>
+      <div class="copyline">3 ways to wear one piece. Which is your vibe — day, night or work? 🤍<br><span class="ar" style="display:block;margin-top:6px">٣ طرق تلبسي بيهم القطعة. إنتي أنهي وحدة فيهم؟ اكتبيلي 👇</span></div>
+      <div class="hashtags">#Biolumin #نورك_يبان #outfitchange #styling #fyp #فاشون_مصري #ستايل</div>
+      <div class="tworow" style="margin-top:14px">
+        <div class="optbox a">
+          <div class="opt-head"><span class="dot dot-a"></span><span class="opt-a">Option A · CapCut</span></div>
+          <div class="canva-block">
+            1. 3 clips (the 3 styled looks). 2. Use a <b>hand-swipe / turn transition</b> between them. 3. Snap each cut to the beat. 4. Big champagne labels per look. 5. Trending audio. Export 9:16.
+          </div>
+        </div>
+        <div class="optbox b">
+          <div class="opt-head"><span class="dot dot-b"></span><span class="opt-b">Option B · AI → animate</span></div>
+          <div class="prompt">Use the 3 WAY images from ST-01. Animate each in Kling (5s, 9:16): "slow confident quarter-turn, fabric sways, warm gold light, one aqua rim, no morphing." Stitch the 3 in CapCut with turn transitions.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <h3 style="color:var(--champ-soft);margin:30px 0 4px;font-size:16px">PILLAR 3 · THE GLOW — pure brand mood (no product)</h3>
+
+  <!-- GL-01 -->
+  <div class="post">
+    <span class="pid">GL-01</span>
+    <h3>Bioluminescence brand b-roll</h3>
+    <div class="meta"><span class="badge b-tt">TikTok</span><span class="badge b-ig">IG Reel / Story</span><span class="badge b-champ">5–8s loop</span><span class="badge b-aqua">SET C</span></div>
+    <div class="body">
+      <div class="look"><b>Final look:</b> abstract — champagne silk folds in obsidian shadow with a single thread of aqua light tracing an edge like liquid bioluminescence. Slow, hypnotic, loopable. Sells the <i>feeling</i> of Biolumin. Perfect reel intro/outro, story background, highlight cover.</div>
+      <h4>📝 Caption (EN + AR)</h4>
+      <div class="copyline">The light inside you shows in what you wear. ✦<br><span class="ar" style="display:block;margin-top:6px">النور اللي جواكي… بيبان في لبسك. ✦ نورِك يبان</span></div>
+      <h4>📝 Facebook (Arabic only)</h4>
+      <div class="copyline arb ar">في بيولومين بنؤمن إن كل بنت جواها نور… وإحنا بنساعدك تخلّيه يبان في لبسك. 🤍 نورِك يبان.</div>
+      <div class="hashtags">#Biolumin #نورك_يبان #aesthetic #luxury #moodboard #فاشون_مصري</div>
+      <div class="tworow" style="margin-top:14px">
+        <div class="optbox a">
+          <div class="opt-head"><span class="dot dot-a"></span><span class="opt-a">Option A · Canva</span></div>
+          <div class="canva-block">
+            1. Canva → Elements → search <b>"gold silk"</b> + <b>"aqua light streak"</b> (video elements).<br>
+            2. Layer aqua streak over dark silk, low opacity, obsidian bg.<br>
+            3. Add subtle grain (Elements → "film grain" overlay).<br>
+            4. Wordmark fades in at the end. Slow "oriental chill" audio. Export loop.
+          </div>
+        </div>
+        <div class="optbox b">
+          <div class="opt-head"><span class="dot dot-b"></span><span class="opt-b">Option B · AI (generate 4)</span></div>
+          <div class="prompt">Abstract luxury brand texture for a fashion house. Macro of warm champagne-gold silk folds in deep obsidian shadow, a single thread of bio-aqua light tracing one edge like liquid bioluminescence in dark water. Extreme detail, soft focus falloff, volumetric darkness, warm-meets-cool contrast, no text, no logo, no people. Cinematic, expensive, mysterious. Macro 100mm f/2.8. 9:16.
+Variations: (1) ink-in-water aqua glow blooming through black; (2) gold dust drifting through a dark warm light shaft; (3) a drop of light rippling on a dark surface, aqua + gold reflection; (4) silk rippling in slow motion.</div>
+          <div class="canva-block" style="margin-top:6px">Animate in Kling: <i>"silk folds breathe, the aqua thread slowly travels the fabric edge, gold particles drift up, loopable, no hard cuts."</i></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <h3 style="color:var(--champ-soft);margin:30px 0 4px;font-size:16px">PILLAR 4 · SOCIAL PROOF — اتباعت + reviews (your unfair advantage)</h3>
+
+  <!-- SP-01 -->
+  <div class="post">
+    <span class="pid">SP-01</span>
+    <h3>"اتباعت / Claimed" scarcity stamp</h3>
+    <div class="meta"><span class="badge b-tt">TikTok Story</span><span class="badge b-ig">IG Story</span><span class="badge b-fb">FB Story</span><span class="badge b-champ">every sale</span><span class="badge b-aqua">SET B</span></div>
+    <div class="body">
+      <div class="look"><b>Final look:</b> the sold piece's hero shot drained to warm monochrome (memory feel), a champagne "اتباعت" seal with a soft aqua glow centered. Deep obsidian vignette. Immediately follow with a "still available" piece sticker. This is the loop that drives the next sale.</div>
+      <h4>🎬 On-screen text</h4>
+      <div class="copyline arb ar">«اتباعت» (بالذهبي) — تحتها: «راحت لواحدة ذوقها عالي. القطعة اللي بعدها مستنياكي.»</div>
+      <h4>📝 If posted as a feed reel (EN + AR)</h4>
+      <div class="copyline">Claimed. Gone to someone with taste. The next one is waiting — don't wait too long 🤍<br><span class="ar" style="display:block;margin-top:6px">اتباعت 🤍 راحت لواحدة ذوقها عالي. القطعة اللي بعدها مستنياكي.</span></div>
+      <div class="hashtags">#Biolumin #نورك_يبان #اتباعت #soldout #قطعة_واحدة #EgyptFashion</div>
+      <div class="tworow" style="margin-top:14px">
+        <div class="optbox a">
+          <div class="opt-head"><span class="dot dot-a"></span><span class="opt-a">Option A · Canva (30 sec)</span></div>
+          <div class="canva-block">
+            1. Story 1080×1920. Drop the sold piece's photo full-frame.<br>
+            2. Apply filter → desaturate / "duotone" warm.<br>
+            3. Dark vignette overlay. Center text «اتباعت» big champagne serif + aqua glow (Effects → Glow).<br>
+            4. Sub-line in greige. Add wordmark. Post to all 3 story feeds.<br>
+            5. <b>Next story slide:</b> a "still available" piece + link/DM sticker.
+          </div>
+        </div>
+        <div class="optbox b">
+          <div class="opt-head"><span class="dot dot-b"></span><span class="opt-b">Option B · AI grade</span></div>
+          <div class="prompt">Take the hero shot of the sold piece. Regrade toward warm monochrome — drained of colour except a lingering champagne glow. Add deep obsidian vignette, soft film grain. Mood: a memory, just out of reach. Keep her face and the garment identical, only the grade changes. 9:16. (Add the «اتباعت» seal in Canva/CapCut after.)</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SP-02 -->
+  <div class="post">
+    <span class="pid">SP-02</span>
+    <h3>Customer review / UGC repost</h3>
+    <div class="meta"><span class="badge b-ig">IG Story/Feed</span><span class="badge b-fb">FB Post</span><span class="badge b-champ">from Week 2+</span></div>
+    <div class="body">
+      <div class="look"><b>Final look:</b> the customer's real mirror selfie or unboxing, framed on obsidian with a champagne quote mark and her words. Real photos + real words = the trust that closes EG buyers. Mix 1 real asset into every 3 AI assets ASAP.</div>
+      <h4>📝 Caption — Facebook (Arabic only)</h4>
+      <div class="copyline arb ar">رأي عميلة بيولومين 🤍<br>"[كلامها بالظبط]"<br>شكراً إنك خليتي نورك يبان معانا ✦ قطعتك كانت واحدة بس… وبقت ليكي إنتي بس.<br>عايزة زيها؟ شوفي الدروب من اللينك 👇 أو كلمينا على الواتس.</div>
+      <h4>📝 Caption — IG (EN + AR)</h4>
+      <div class="copyline">Real girl, real glow. Thank you for wearing your light with us 🤍<br><span class="ar" style="display:block;margin-top:6px">بنت حقيقية، نور حقيقي. شكراً إنك خليتي نورك يبان معانا ✦</span></div>
+      <div class="hashtags">#Biolumin #نورك_يبان #review #آراء_العملاء #UGC #EgyptFashion</div>
+      <div class="tworow" style="margin-top:14px">
+        <div class="optbox a">
+          <div class="opt-head"><span class="dot dot-a"></span><span class="opt-a">Option A · Canva</span></div>
+          <div class="canva-block">1. Story/post size. 2. Customer photo framed with 2px champagne border. 3. Big champagne quote-mark element. 4. Her words in clean text. 5. Wordmark corner. Keep it real — minimal editing.</div>
+        </div>
+        <div class="optbox b">
+          <div class="opt-head"><span class="dot dot-b"></span><span class="opt-b">Option B · no AI needed</span></div>
+          <div class="canva-block">This one is <b>real customer content</b> — do NOT AI it. Just clean framing in Canva. Ask every buyer for a mirror selfie + one line; offer a tiny perk (free scarf / small discount on next) for a photo review. Real UGC out-converts everything.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <h3 style="color:var(--champ-soft);margin:30px 0 4px;font-size:16px">PILLAR 5 · TREND / POV HOOKS — the reach lottery</h3>
+
+  <!-- PV-01 -->
+  <div class="post">
+    <span class="pid">PV-01</span>
+    <h3>POV hook reel (rotate the hook line)</h3>
+    <div class="meta"><span class="badge b-tt">TikTok</span><span class="badge b-ig">IG Reel</span><span class="badge b-champ">7–15s</span><span class="badge b-aqua">hook = 90% of reach</span></div>
+    <div class="body">
+      <div class="look"><b>Final look:</b> a strong on-screen hook in the first 1.5s over a beautiful moving shot of the muse/piece, riding a trending EG audio. Payoff by 5s (the piece revealed). One fast cut every ~2s. Ends on a question → comments.</div>
+      <h4>🎬 Hook lines — rotate one per post (Arabic on-screen + spoken)</h4>
+      <div class="copyline arb ar">
+        • «متشتريش حاجة قبل ما تشوفي ده»<br>
+        • «القطعة دي عندي منها وحدة بس»<br>
+        • «POV: لقيتي القطعة اللي بتدوري عليها من زمان»<br>
+        • «السر إن لبسك يبان غالي وإنتي مش دافعة كتير»<br>
+        • «بنات، لو بتحبي الستايل الهادي الغالي، إنتي هنا صح»<br>
+        • «الفستان ده اتباع في [X] دقيقة… ده اللي بعده»
+      </div>
+      <h4>🎬 English hook alts (for the EN caption version / on-screen when you post English-lead)</h4>
+      <div class="copyline">"Don't buy anything before you see this" · "POV: you found the piece you've been searching for" · "The secret to looking expensive without overpaying"</div>
+      <h4>📝 Caption (EN + AR)</h4>
+      <div class="copyline">POV: you found the one. Literally — there's only one 🤍 Bio has the link.<br><span class="ar" style="display:block;margin-top:6px">لقيتيها؟ قطعة واحدة بس في الدنيا. اللينك في البايو 👇</span></div>
+      <div class="hashtags">#Biolumin #نورك_يبان #POV #fyp #fashiontiktok #فاشون_مصري #اكسبلور #EgyptFashion</div>
+      <div class="tworow" style="margin-top:14px">
+        <div class="optbox a">
+          <div class="opt-head"><span class="dot dot-a"></span><span class="opt-a">Option A · CapCut</span></div>
+          <div class="canva-block">
+            1. Best on-model clip full-frame. 2. Hook text HUGE, champagne, appears at 0s (add a subtle aqua glow). 3. Trending EG audio from TikTok Creative Center — cut the beat drop to the piece reveal. 4. 1 cut every ~2s. 5. End card: question + wordmark. Reply to every comment WITH a video.
+          </div>
+        </div>
+        <div class="optbox b">
+          <div class="opt-head"><span class="dot dot-b"></span><span class="opt-b">Option B · AI → animate</span></div>
+          <div class="prompt">Aqua-mood editorial shot of the muse [MUSE_REF] in the EXACT garment, seated/leaning near a window, cool teal-aqua light on one side, warm gold on the other, moody dark soft background, looking off-camera. Hasselblad 85mm f/1.8, garment identical, photorealistic. 9:16.</div>
+          <div class="canva-block" style="margin-top:6px">Animate in Kling: <i>"very slow push-in, teal + gold light shimmering, head tilts to camera on the last beat."</i> Add the hook text in CapCut.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PV-02 -->
+  <div class="post">
+    <span class="pid">PV-02</span>
+    <h3>"احزري السعر" price-guess engagement post</h3>
+    <div class="meta"><span class="badge b-tt">TikTok</span><span class="badge b-ig">IG Reel/Story</span><span class="badge b-fb">FB Post</span><span class="badge b-champ">comment bait</span></div>
+    <div class="body">
+      <div class="look"><b>Final look:</b> the piece shown beautifully, on-screen «احزري السعر؟» with 3 options. People comment guesses (= reach), you reveal the price in a pinned comment / next slide. Manufactured engagement.</div>
+      <h4>🎬 On-screen text</h4>
+      <div class="copyline arb ar">«احزري سعر القطعة دي؟» → «[سعر أقل] · [السعر الحقيقي] · [سعر أعلى]»</div>
+      <h4>📝 Caption — Facebook (Arabic only)</h4>
+      <div class="copyline arb ar">احزري سعر القطعة دي كام؟ 👀 اكتبي تخمينك في الكومنت.<br>أول واحدة تحزر صح… القطعة قطعة واحدة بس، لو عجبتك احجزيها قبل ما حد يسبقك 🤍<br>شحن لكل مصر · بدل خلال ٣ أيام · دفع عند الاستلام.</div>
+      <h4>📝 Caption — IG/TikTok (EN + AR)</h4>
+      <div class="copyline">Guess the price 👀 Drop your number below. Closest guess gets a surprise 🤍<br><span class="ar" style="display:block;margin-top:6px">احزري السعر 👀 اكتبي رقمك تحت. أقرب تخمين ليه مفاجأة.</span></div>
+      <div class="hashtags">#Biolumin #نورك_يبان #احزري_السعر #guessthePrice #فاشون_مصري #EgyptFashion</div>
+      <div class="tworow" style="margin-top:14px">
+        <div class="optbox a">
+          <div class="opt-head"><span class="dot dot-a"></span><span class="opt-a">Option A · Canva</span></div>
+          <div class="canva-block">1. Piece photo on obsidian. 2. «احزري السعر؟» top champagne. 3. Three price bubbles (aqua outline). 4. IG Story version → add a <b>poll / quiz sticker</b> with the 3 prices. 5. Reveal slide with the real price + «قطعة واحدة بس».</div>
+        </div>
+        <div class="optbox b">
+          <div class="opt-head"><span class="dot dot-b"></span><span class="opt-b">Option B · AI image</span></div>
+          <div class="prompt">Clean premium product shot of the EXACT garment on warm-ivory #F4F0E9, soft even studio light, subtle dimensional folds so it looks worn-in not flat, gentle natural drop shadow, no person, no props, true colours, slightly warm grade. Leave the top third empty for text. 4:5. Avoid: recoloring, changing print, harsh shadows, plastic look.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <h3 style="color:var(--champ-soft);margin:30px 0 4px;font-size:16px">PILLAR 6 · EDUCATE — «خليكي لبسك يبان غالي»</h3>
+
+  <!-- ED-01 -->
+  <div class="post">
+    <span class="pid">ED-01</span>
+    <h3>Value/taste tip carousel or reel</h3>
+    <div class="meta"><span class="badge b-ig">IG Carousel/Reel</span><span class="badge b-fb">FB Post</span><span class="badge b-champ">saves + authority</span></div>
+    <div class="body">
+      <div class="look"><b>Final look:</b> a genuinely useful "how to look expensive" tip (fit, neutral palette, one gold detail, quiet fabrics) illustrated with Biolumin pieces. Positions you as the taste authority → trust → follow → buy. High saves.</div>
+      <h4>🎬 Topic ideas (rotate)</h4>
+      <div class="copyline arb ar">• «٣ حاجات بتخلّي لبسك يبان غالي» — القصّة، الألوان الهادية، تفصيلة دهب واحدة<br>• «إزاي تختاري القطعة اللي تكمّل خزانتك» · «ليه القطعة الواحدة أحسن من ١٠ قطع رخيصين»</div>
+      <h4>📝 Caption — Facebook (Arabic only)</h4>
+      <div class="copyline arb ar">٣ أسرار بتخلّي لبسك يبان غالي من غير ما تدفعي كتير 🤍<br>1. القصّة أهم من الماركة — القطعة المفصّلة كويس بتفرق.<br>2. ألوان هادية (عاجي، أوبسيديان، شامبين) بتدّي إحساس فخم.<br>3. تفصيلة دهب واحدة بس — حزام أو إكسسوار — بتوقّع اللوك.<br>كل ده موجود في قطع بيولومين، وكل قطعة واحدة بس ✦ شوفي من اللينك 👇</div>
+      <h4>📝 Caption — IG (EN + AR)</h4>
+      <div class="copyline">3 quiet secrets that make an outfit read expensive — no big budget needed. Save it 🤍<br><span class="ar" style="display:block;margin-top:6px">٣ أسرار تخلّي لبسك يبان غالي من غير ما تدفعي كتير. احفظي البوست ✦</span></div>
+      <div class="hashtags">#Biolumin #نورك_يبان #fashiontips #ستايل #لبس_حريمي #EgyptFashion #quietluxury</div>
+      <div class="tworow" style="margin-top:14px">
+        <div class="optbox a">
+          <div class="opt-head"><span class="dot dot-a"></span><span class="opt-a">Option A · Canva</span></div>
+          <div class="canva-block">1. 4-slide carousel, obsidian. 2. Slide 1: bold hook «٣ حاجات تخلّي لبسك يبان غالي». 3. Slides 2–4: one tip each, big number + short line + a Biolumin photo. 4. Consistent champagne headings, aqua underline accents. 5. Last slide: CTA + wordmark.</div>
+        </div>
+        <div class="optbox b">
+          <div class="opt-head"><span class="dot dot-b"></span><span class="opt-b">Option B · AI image</span></div>
+          <div class="prompt">Editorial flat-lay of a curated capsule: one champagne silk shirt, obsidian tailored trousers, a single thin gold belt, on a warm-ivory surface, soft directional daylight, one faint aqua reflection on a metal detail. Minimal, expensive, lots of negative space, top-down. 4:5. No text. Avoid: clutter, saturated colours, busy props.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="note"><b>How to use this library:</b> the calendar picks a card ID + a product for each slot. Repurpose one shoot 3×: TikTok (native + trend audio) → IG Reel (clean, no watermark) → FB Reel (Arabic caption + WhatsApp CTA). Never let an asset live on one platform only.</div>
+</div>
+</section>
+
+<!-- ============ STORIES SYSTEM ============ -->
+<section id="stories">
+<div class="wrap">
+  <div class="eyebrow">Where sales actually close</div>
+  <h2>Stories System — daily on IG + FB (+ TikTok)</h2>
+  <p class="lead">Post <b>3–5 stories every single day</b>. Stories are intimate, low-effort, and where DMs (and sales) happen. Here's your daily story menu — mix 3–5 from it. Keep them on-brand: obsidian/ivory, champagne text, one aqua glow.</p>
+
+  <div class="grid g2">
+    <div class="card">
+      <h3>🗓️ Daily story menu (pick 3–5)</h3>
+      <ul class="clean">
+        <li><b>Morning "متاح النهاردة"</b> — one available piece + link/DM sticker</li>
+        <li><b>Behind-the-scenes</b> — hands folding, packaging, fabric close-up (faceless-friendly)</li>
+        <li><b>Poll</b> — «تختاري أنهي لون؟ كحلي ولا زيتي؟» / «للنهار ولا للسهرة؟»</li>
+        <li><b>"اتباعت" stamp</b> — every time something sells (then a "still available" nudge)</li>
+        <li><b>Countdown</b> — to the next drop (Sun/Wed 9pm)</li>
+        <li><b>Question box</b> — «اسأليني عن أي قطعة» / «مقاسك إيه؟»</li>
+        <li><b>Repost UGC / review</b> — any customer photo or DM (with permission)</li>
+        <li><b>Evening recap</b> — "آخر القطع المتاحة النهاردة" + link</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>🎨 Story build — 2 options</h3>
+      <div class="opt-head"><span class="dot dot-a"></span><span class="opt-a">Option A · Canva story templates</span></div>
+      <div class="canva-block">Make a <b>reusable Canva story kit</b>: 5 templates (available / اتباعت / poll / countdown / review) at 1080×1920 with your fonts + colours locked. Each day just swap the photo + text. 2 minutes per story.</div>
+      <div class="opt-head" style="margin-top:10px"><span class="dot dot-b"></span><span class="opt-b">Option B · AI glow backgrounds</span></div>
+      <div class="prompt">Vertical 9:16 story background: deep obsidian with a soft champagne-gold light bloom in one corner and a faint aqua glow thread, lots of empty space for text, no people, no logo, subtle film grain, expensive and calm. (Generate 4, reuse as your story canvases.)</div>
+    </div>
+  </div>
+
+  <div class="note" style="margin-top:16px"><b>Facebook stories = Arabic only.</b> On IG you can mix EN+AR, but the sticky part (poll options, "اتباعت") stays Arabic — it feels native and drives more taps. Always add a <b>link sticker</b> (IG) or <b>"ابعتيلي في الرسايل"</b> (FB) to every product story.</div>
+
+  <h4 style="color:var(--champ-soft);margin-top:20px">Highlight covers to build once (Canva, glow backgrounds + champagne label)</h4>
+  <div class="pill-row">
+    <span class="badge b-champ">الدروب</span><span class="badge b-champ">الستايل</span>
+    <span class="badge b-champ">آراء العملاء</span><span class="badge b-champ">الشحن والبدل</span>
+    <span class="badge b-champ">إزاي أطلب</span>
+  </div>
+</div>
+</section>
+
+<!-- ============ MONTH 1 CALENDAR ============ -->
+<section id="month1">
+<div class="wrap">
+  <div class="eyebrow">Month 1 · the survival sprint</div>
+  <h2>Month 1 Calendar — day by day</h2>
+  <p class="lead">Each row = what to post that day. <b>Card</b> = the template from the Content Library. <b>Piece</b> = which product. Post times are EG. Repurpose one asset across platforms (native TikTok → clean IG → Arabic FB). Fire "اتباعت" stories on every sale — not scheduled, event-driven.</p>
+
+  <!-- WEEK 0 -->
+  <div id="w0" class="weekhead">
+    <h3>Week 0 · Build the machine</h3>
+    <span class="theme">Days −5 → 0 · load the cannon before firing</span>
+    <span class="target">Target: 20+ assets banked · profiles live · 50+ on waitlist</span>
+  </div>
+  <div class="grid g2">
+    <div class="card">
+      <h3>Your setup checklist</h3>
+      <ul class="clean">
+        <li>Lock the 3 profiles (handles, bios, wordmark pic, highlight covers)</li>
+        <li>Generate MUSE_REF once → save it</li>
+        <li>Batch-produce a bank of <b>20–25 assets</b>: pick 6–8 pieces × the kit (catalog, hero, movement, aqua-mood, 3-ways, one 5s clip)</li>
+        <li>Set up WhatsApp Business + catalog + courier (Bosta/Mylerz) + confirm store link works</li>
+        <li>Build the Canva story kit + carousel templates</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>Teaser posts (Days −3 → 0) — build a warm crowd</h3>
+      <table>
+        <tr><th>Day</th><th>Post</th><th>Where</th></tr>
+        <tr><td>−3</td><td><b>GL-01</b> glow b-roll + «حاجة جميلة جايّة… ✦»</td><td>TT · IG · FB</td></tr>
+        <tr><td>−2</td><td><b>GL-01</b> variation + «الدروب الأول قرّب» + countdown sticker</td><td>IG/FB story</td></tr>
+        <tr><td>−1</td><td><b>DR-01</b> teaser cut (5s) + «بكرا ٩ مساءً»</td><td>TT · IG · FB</td></tr>
+        <tr><td>0</td><td>Close-friends / WhatsApp broadcast: «الدروب النهاردة ٩م، متفوتيش»</td><td>WA · CF</td></tr>
+      </table>
+      <p style="color:var(--muted);margin-top:8px">Goal: 50+ people on a soft waitlist ready on launch night.</p>
+    </div>
+  </div>
+
+  <!-- WEEK 1 -->
+  <div id="w1" class="weekhead">
+    <h3>Week 1 · Awareness &amp; first sales</h3>
+    <span class="theme">Explode reach + make them trust us</span>
+    <span class="target">Target: 300+ followers · 30–40K views · 8–12 sales</span>
+  </div>
+  <div class="note"><b>Volume week (non-negotiable):</b> TikTok 2–3/day · IG 1–2 Reels/day + 1 carousel + 3–5 stories/day · FB 1–2/day + post in 5 women's fashion groups. Launch night = Sunday or Wednesday 9pm.</div>
+  <table class="cal">
+    <tr><th>Day</th><th>TikTok (EN-lead+AR)</th><th>Instagram</th><th>Facebook (AR only)</th><th>Time · Stories</th></tr>
+    <tr><td><b>Day 1<br>LAUNCH</b></td><td>DR-01 Drop Reveal (film) · فستان النور</td><td>DR-01 Reel + DR-02 carousel · فستان النور</td><td>DR-01 (AR) + pin brand story</td><td>9pm · countdown → drop live → 5 stories</td></tr>
+    <tr><td>Day 2</td><td>DR-03 flat→on-model · كوت أوبسيديان</td><td>DR-03 Reel · كوت أوبسيديان</td><td>DR-02 spotlight (AR) · كوت أوبسيديان</td><td>1–3pm & 9pm · متاح النهاردة + poll</td></tr>
+    <tr><td>Day 3</td><td>PV-01 POV hook · فستان ساتان شامبين</td><td>ST-01 3-ways carousel · فستان ساتان</td><td>PV-02 احزري السعر · فستان ساتان</td><td>BTS packaging + question box</td></tr>
+    <tr><td>Day 4</td><td>DR-03 transformation · قميص حرير التوهّج</td><td>PV-01 POV Reel · قميص حرير</td><td>DR-02 spotlight (AR) · بنطلون نوار</td><td>+ FB groups ×5 · اتباعت on any sale</td></tr>
+    <tr><td>Day 5</td><td>PV-01 POV (new hook) · بليزر خيط الدهب</td><td>GL-01 glow + DR-02 · بليزر خيط الدهب</td><td>ED-01 «لبسك يبان غالي» (AR)</td><td>countdown to mid-week restock energy</td></tr>
+    <tr><td>Day 6</td><td>ST-02 style transition · جيبة جلد لامعة</td><td>ST-01 carousel · جيبة جلد لامعة</td><td>DR-02 spotlight (AR) · فستان العاج</td><td>poll + متاح النهاردة</td></tr>
+    <tr><td>Day 7</td><td>PV-02 price-guess · فستان قطيفة السهرة</td><td>SP-01 اتباعت recap Reel (week's sold)</td><td>ED-01 value post (AR) + groups ×5</td><td>"آخر القطع المتاحة" + weekly recap story</td></tr>
+  </table>
+  <div class="note"><b>End of Week 1:</b> tell me which 3 posts popped (views + saves). We rewrite the losers' hooks and prep Week-2 winners. <b>No ads yet</b> — we wait for an organic winner.</div>
+
+  <!-- WEEK 2 -->
+  <div id="w2" class="weekhead">
+    <h3>Week 2 · Momentum</h3>
+    <span class="theme">Find the winners, add creators, start tiny ads (~400 EGP)</span>
+    <span class="target">Target: cumulative 550+ followers · 60K views · sales 13–25</span>
+  </div>
+  <div class="note"><b>New this week:</b> ① <b>Creator seeding</b> — DM 10–15 EG micro-influencers (5k–50k, taste over size), offer one piece for honest content. ② <b>First boost</b> — the moment ONE organic post wins, we boost only that (see Ads Plan). ③ Double down on the winning format.</div>
+  <table class="cal">
+    <tr><th>Day</th><th>TikTok</th><th>Instagram</th><th>Facebook (AR)</th><th>Stories / Action</th></tr>
+    <tr><td>Day 8</td><td>Repost Week-1 winner format · new piece</td><td>ST-01 carousel · فستان قطيفة السهرة</td><td>DR-02 spotlight · بوت منتصف الليل</td><td>Send creator DMs (batch 1) · متاح</td></tr>
+    <tr><td>Day 9</td><td>PV-01 POV · بلوزة العاج (entry price hook)</td><td>PV-01 Reel · بلوزة العاج</td><td>ED-01 «ليه القطعة الواحدة أحسن» (AR)</td><td>poll + question box · اتباعت loop</td></tr>
+    <tr><td>Day 10</td><td>DR-03 transformation · كوتشي أبيض</td><td>GL-01 glow + DR-02 · كوتشي أبيض</td><td>PV-02 احزري السعر · كوتشي أبيض</td><td>Launch boost on the Week-1 winner</td></tr>
+    <tr><td>Day 11</td><td>ST-02 transition · بنطلون واسع مفصّل</td><td>ST-01 carousel · بنطلون واسع</td><td>DR-02 spotlight · قميص حرير التوهّج</td><td>creator DMs (batch 2) + groups ×5</td></tr>
+    <tr><td>Day 12</td><td>PV-01 POV (new hook) · فستان العاج</td><td>SP-02 first UGC/review (if landed)</td><td>SP-02 review (AR) · trust push</td><td>repost any creator content to stories</td></tr>
+    <tr><td>Day 13</td><td>DR-03 · كارديجان صوف ناعم</td><td>PV-02 price-guess Reel · كارديجان</td><td>ED-01 value post (AR) + groups ×5</td><td>countdown to Week-2 drop refresh</td></tr>
+    <tr><td>Day 14</td><td>Drop refresh DR-01 · new hero piece</td><td>DR-01 Reel + SP-01 sold recap</td><td>DR-01 drop refresh (AR)</td><td>weekly recap + "آخر القطع"</td></tr>
+  </table>
+
+  <!-- WEEK 3 -->
+  <div id="w3" class="weekhead">
+    <h3>Week 3 · Trust &amp; scale</h3>
+    <span class="theme">Pour fuel on what works · real UGC front &amp; center (~400 EGP)</span>
+    <span class="target">Target: cumulative 800+ followers · 85K views · sales 26–38</span>
+  </div>
+  <div class="note"><b>Focus:</b> real UGC + reviews lead now (trust = conversion). Creator content reposted. "اتباعت" flywheel running hard. Scale the proven boost + test ONE new winner. Maybe a simple Messages/Traffic campaign to store/WhatsApp.</div>
+  <table class="cal">
+    <tr><th>Day</th><th>TikTok</th><th>Instagram</th><th>Facebook (AR)</th><th>Stories / Action</th></tr>
+    <tr><td>Day 15</td><td>Winner format · new piece</td><td>SP-02 UGC Reel · real customer</td><td>SP-02 review (AR) · strong trust</td><td>scale boost · متاح النهاردة</td></tr>
+    <tr><td>Day 16</td><td>PV-01 POV · فستان النور restyle</td><td>ST-01 carousel · new piece</td><td>DR-02 spotlight · بليزر خيط الدهب</td><td>groups ×5 + question box</td></tr>
+    <tr><td>Day 17</td><td>DR-03 transformation · new piece</td><td>GL-01 + DR-02 · فستان ساتان</td><td>ED-01 value post (AR)</td><td>poll · اتباعت loop</td></tr>
+    <tr><td>Day 18</td><td>ST-02 transition · جيبة جلد لامعة</td><td>SP-01 اتباعت Reel + PV-02</td><td>PV-02 احزري السعر (AR)</td><td>test 2nd boost / messages campaign</td></tr>
+    <tr><td>Day 19</td><td>Creator collab repost (if any)</td><td>Creator content Reel + DR-02</td><td>SP-02 review (AR) + groups ×5</td><td>BTS packaging + reviews to stories</td></tr>
+    <tr><td>Day 20</td><td>PV-01 POV (new hook) · كوت أوبسيديان</td><td>ST-01 carousel · كوت أوبسيديان</td><td>DR-02 spotlight · كوت أوبسيديان</td><td>countdown to Week-3 drop refresh</td></tr>
+    <tr><td>Day 21</td><td>Drop refresh DR-01 · hero piece</td><td>DR-01 Reel + weekly SP-01 recap</td><td>DR-01 drop refresh (AR)</td><td>weekly recap + "آخر القطع"</td></tr>
+  </table>
+
+  <!-- WEEK 4 -->
+  <div id="w4" class="weekhead">
+    <h3>Week 4 · Push to 50+</h3>
+    <span class="theme">Urgency + last-chance energy (final ~200 EGP)</span>
+    <span class="target">Target: cumulative 1,000+ followers · 100K+ views · sales 39–50+</span>
+  </div>
+  <div class="note"><b>Highest urgency of the month.</b> "آخر القطع" / "آخر فرصة قبل ما الدروب يخلص". A small founding-customer perk (framed exclusive, not desperate). A "month-1 recap" social-proof reel: «اتباع X قطعة في أول شهر — شكراً». "اتباعت" stories nonstop. Final boost on the single best sales asset.</div>
+  <table class="cal">
+    <tr><th>Day</th><th>TikTok</th><th>Instagram</th><th>Facebook (AR)</th><th>Stories / Action</th></tr>
+    <tr><td>Day 22</td><td>PV-01 POV «آخر القطع» · best sellers' similar</td><td>ST-01 carousel · anchor piece</td><td>DR-02 «آخر القطع المتاحة» (AR)</td><td>final boost launch · urgency stories</td></tr>
+    <tr><td>Day 23</td><td>DR-03 transformation · فستان قطيفة</td><td>SP-02 UGC + PV-02 · فستان قطيفة</td><td>SP-02 review (AR) + groups ×5</td><td>countdown «الدروب بيخلص»</td></tr>
+    <tr><td>Day 24</td><td>PV-01 POV (urgency hook) · بوت منتصف الليل</td><td>GL-01 + DR-02 · بوت منتصف الليل</td><td>ED-01 + «آخر فرصة» (AR)</td><td>founding-customer perk announce</td></tr>
+    <tr><td>Day 25</td><td>ST-02 transition · بنطلون نوار</td><td>ST-01 carousel · بنطلون نوار</td><td>DR-02 spotlight · بنطلون نوار</td><td>اتباعت loop nonstop · question box</td></tr>
+    <tr><td>Day 26</td><td>Winner format · last hero piece</td><td>SP-01 اتباعت Reel + creator content</td><td>DR-02 «آخر قطعتين» (AR) + groups</td><td>poll «أنهي قطعة تفضل؟»</td></tr>
+    <tr><td>Day 27</td><td>PV-02 price-guess · final pieces</td><td>PV-02 Reel + review</td><td>SP-02 review + «آخر فرصة» (AR)</td><td>urgency countdown all day</td></tr>
+    <tr><td>Day 28<br><b>FINALE</b></td><td>Month-1 recap reel «اتباع X قطعة»</td><td>Recap reel + thank-you carousel</td><td>Recap + شكر للعملاء (AR)</td><td>celebrate + tease Month 2 drop</td></tr>
+  </table>
+  <div class="note"><b>End of Month 1:</b> we count to 50, review what sold + which content drove it, and plan Month 2 from the data. Ask every buyer for a review.</div>
+</div>
+</section>
+
+<!-- ============ MONTH 2 CALENDAR ============ -->
+<section id="month2">
+<div class="wrap">
+  <div class="eyebrow">Month 2 · scale what works</div>
+  <h2>Month 2 Calendar — compound the machine</h2>
+  <p class="lead">Now we have data + first customers + (hopefully) creator content. Month 2 = <b>less guessing, more scaling</b>: repeat only winning formats, lead with real UGC/reviews, run an <b>occasion campaign</b> (it's summer → صيف الساحل / North Coast), and launch <b>Drop 2</b>. Volume can drop slightly (quality up): TikTok 2/day · IG 1–2/day · FB 1–2/day + groups.</p>
+
+  <div class="grid g2" style="margin-bottom:18px">
+    <div class="card">
+      <h3>☀️ New this month: the SAHEL occasion campaign (SET D)</h3>
+      <div class="look"><b>Final look:</b> the muse in a piece on a bright airy coastal terrace — white stone, soft sea light, breeze in the fabric. Golden-hour champagne light, faint aqua glow (reads like sun on water). "Summer, but expensive."</div>
+      <h4>📝 Caption (AR — FB / mix for IG-TT)</h4>
+      <div class="copyline arb ar">صيفك يبان ✦ قطعة واحدة، إطلالة متتكررش — على البحر وفي أي حتة.</div>
+      <div class="opt-head"><span class="dot dot-b"></span><span class="opt-b">AI prompt</span></div>
+      <div class="prompt">Editorial summer campaign of the Egyptian muse [MUSE_REF] in the EXACT garment, on a bright airy North-Coast terrace: white stone, soft sea light, a gentle breeze lifting the fabric and her hair. Golden-hour champagne light pours across the frame, a faint aqua glow from the water rims her shoulder. Effortless, refined, best-dressed-without-trying. Generous negative space, Hasselblad 90mm f/2.0, warm grade, film grain, garment identical to reference. 9:16.</div>
+      <div class="canva-block" style="margin-top:6px"><b>Canva:</b> place a summer on-model shot on a warm-ivory bg, add a soft "sun flare" element top-corner + «صيفك يبان» champagne serif. Story version with countdown to the Sahel drop.</div>
+    </div>
+    <div class="card">
+      <h3>🎯 Month 2 rules</h3>
+      <ul class="clean">
+        <li><b>Repeat winners only</b> — whatever format drove sales in Month 1, do more of it, retire the rest</li>
+        <li><b>UGC leads</b> — aim for 1 real customer asset in every 3 posts</li>
+        <li><b>Creator wave 2</b> — re-engage the ones who said yes, seed 5–10 more</li>
+        <li><b>Ads</b> — reinvest a slice of Month-1 revenue (budget TBD together) into the single proven sales asset + a retargeting warm push</li>
+        <li><b>Drop 2 launch</b> — mid-month hero event, same DR-01 playbook</li>
+        <li><b>Loyalty loop</b> — DM past buyers first access to Drop 2 (VIP feel)</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- WEEK 5 -->
+  <div id="w5" class="weekhead">
+    <h3>Week 5 · Sahel campaign + UGC lead</h3>
+    <span class="theme">Ride the season, lead with proof</span>
+    <span class="target">Target: 1,300+ followers · sales momentum continues</span>
+  </div>
+  <table class="cal">
+    <tr><th>Day</th><th>TikTok</th><th>Instagram</th><th>Facebook (AR)</th><th>Stories / Action</th></tr>
+    <tr><td>Day 29</td><td>SET D Sahel POV · summer piece</td><td>SET D Reel + carousel · summer piece</td><td>SET D «صيفك يبان» (AR)</td><td>VIP DM past buyers · countdown</td></tr>
+    <tr><td>Day 30</td><td>Winner format · UGC lead</td><td>SP-02 UGC Reel · real customer</td><td>SP-02 review (AR) + groups ×5</td><td>repost reviews · متاح النهاردة</td></tr>
+    <tr><td>Day 31</td><td>PV-01 POV (summer hook)</td><td>ST-01 3-ways · summer piece</td><td>DR-02 spotlight (AR)</td><td>poll «إيه لبس البحر المفضل؟»</td></tr>
+    <tr><td>Day 32</td><td>DR-03 transformation · new piece</td><td>GL-01 glow + DR-02</td><td>ED-01 «ستايل الصيف يبان غالي» (AR)</td><td>creator wave-2 DMs</td></tr>
+    <tr><td>Day 33</td><td>SET D Sahel · another piece</td><td>SET D Reel + SP-02</td><td>SET D + groups ×5 (AR)</td><td>اتباعت loop · question box</td></tr>
+    <tr><td>Day 34</td><td>Winner format · piece</td><td>ST-02 transition + review</td><td>DR-02 spotlight (AR)</td><td>BTS + countdown to Drop 2</td></tr>
+    <tr><td>Day 35</td><td>PV-02 price-guess · piece</td><td>SP-01 اتباعت recap Reel</td><td>ED-01 value (AR) + groups</td><td>weekly recap + "آخر القطع"</td></tr>
+  </table>
+
+  <!-- WEEK 6 -->
+  <div id="w6" class="weekhead">
+    <h3>Week 6 · Drop 2 launch</h3>
+    <span class="theme">Second hero event — same DR-01 playbook, warmer audience</span>
+    <span class="target">Target: bigger launch night than Drop 1 (you have followers now)</span>
+  </div>
+  <table class="cal">
+    <tr><th>Day</th><th>TikTok</th><th>Instagram</th><th>Facebook (AR)</th><th>Stories / Action</th></tr>
+    <tr><td>Day 36</td><td>Teaser DR-01 cut + GL-01</td><td>Teaser Reel + countdown</td><td>«الدروب التاني قرّب» (AR)</td><td>VIP early-access DMs · countdown</td></tr>
+    <tr><td>Day 37<br><b>DROP 2</b></td><td>DR-01 Drop Reveal · new hero</td><td>DR-01 Reel + DR-02 carousel</td><td>DR-01 drop launch (AR)</td><td>9pm launch · 5 stories · link stickers</td></tr>
+    <tr><td>Day 38</td><td>DR-03 transformation · Drop-2 piece</td><td>ST-01 carousel · Drop-2 piece</td><td>DR-02 spotlight (AR)</td><td>اتباعت loop · متاح النهاردة</td></tr>
+    <tr><td>Day 39</td><td>PV-01 POV · Drop-2 piece</td><td>PV-01 Reel + SP-02</td><td>PV-02 احزري السعر (AR) + groups</td><td>poll + question box</td></tr>
+    <tr><td>Day 40</td><td>ST-02 transition · Drop-2 piece</td><td>GL-01 + DR-02</td><td>DR-02 spotlight (AR)</td><td>boost the Drop-2 organic winner</td></tr>
+    <tr><td>Day 41</td><td>Winner format · piece</td><td>SP-02 UGC Reel</td><td>SP-02 review (AR) + groups ×5</td><td>reviews to stories · countdown</td></tr>
+    <tr><td>Day 42</td><td>PV-02 price-guess · piece</td><td>SP-01 اتباعت recap Reel</td><td>ED-01 value (AR)</td><td>weekly recap + "آخر القطع"</td></tr>
+  </table>
+
+  <!-- WEEK 7 -->
+  <div id="w7" class="weekhead">
+    <h3>Week 7 · Trust deepening</h3>
+    <span class="theme">More UGC, creator content live, referral loop</span>
+    <span class="target">Target: repeat buyers + word-of-mouth kicking in</span>
+  </div>
+  <table class="cal">
+    <tr><th>Day</th><th>TikTok</th><th>Instagram</th><th>Facebook (AR)</th><th>Stories / Action</th></tr>
+    <tr><td>Day 43</td><td>Creator content repost</td><td>Creator Reel + DR-02</td><td>SP-02 review (AR) + groups ×5</td><td>launch a referral perk · متاح</td></tr>
+    <tr><td>Day 44</td><td>Winner format · piece</td><td>ST-01 3-ways · piece</td><td>DR-02 spotlight (AR)</td><td>poll + اتباعت loop</td></tr>
+    <tr><td>Day 45</td><td>PV-01 POV (new hook)</td><td>SP-02 UGC + GL-01</td><td>ED-01 «ليه بيولومين مختلفة» (AR)</td><td>question box + reviews</td></tr>
+    <tr><td>Day 46</td><td>DR-03 transformation · piece</td><td>PV-02 price-guess Reel</td><td>PV-02 احزري السعر (AR) + groups</td><td>BTS packaging · countdown</td></tr>
+    <tr><td>Day 47</td><td>SET D Sahel (still summer)</td><td>SET D Reel + review</td><td>SET D «صيفك يبان» (AR)</td><td>creator content to stories</td></tr>
+    <tr><td>Day 48</td><td>Winner format · piece</td><td>ST-02 transition + SP-02</td><td>DR-02 spotlight (AR) + groups</td><td>poll «أنهي إطلالة؟»</td></tr>
+    <tr><td>Day 49</td><td>PV-01 POV · piece</td><td>SP-01 اتباعت recap Reel</td><td>ED-01 value (AR)</td><td>weekly recap + "آخر القطع"</td></tr>
+  </table>
+
+  <!-- WEEK 8 -->
+  <div id="w8" class="weekhead">
+    <h3>Week 8 · Compound &amp; plan Month 3</h3>
+    <span class="theme">Best-of everything + a 2-month recap moment</span>
+    <span class="target">Target: strongest week yet · full pipeline of proof</span>
+  </div>
+  <table class="cal">
+    <tr><th>Day</th><th>TikTok</th><th>Instagram</th><th>Facebook (AR)</th><th>Stories / Action</th></tr>
+    <tr><td>Day 50</td><td>Best winner format · anchor piece</td><td>ST-01 carousel · anchor piece</td><td>DR-02 «آخر القطع» (AR)</td><td>urgency stories · final boost</td></tr>
+    <tr><td>Day 51</td><td>SET D Sahel · piece</td><td>SET D Reel + SP-02 UGC</td><td>SET D + groups ×5 (AR)</td><td>reviews + countdown</td></tr>
+    <tr><td>Day 52</td><td>PV-01 POV (urgency hook)</td><td>GL-01 + DR-02</td><td>ED-01 value (AR)</td><td>poll + اتباعت loop</td></tr>
+    <tr><td>Day 53</td><td>DR-03 transformation · piece</td><td>SP-01 اتباعت Reel + creator content</td><td>DR-02 spotlight (AR) + groups</td><td>question box + BTS</td></tr>
+    <tr><td>Day 54</td><td>Winner format · piece</td><td>SP-02 UGC Reel · real customer</td><td>SP-02 review (AR)</td><td>tease "coming: Drop 3"</td></tr>
+    <tr><td>Day 55</td><td>PV-02 price-guess · piece</td><td>PV-02 Reel + review</td><td>PV-02 احزري السعر (AR) + groups</td><td>urgency all day</td></tr>
+    <tr><td>Day 56<br><b>RECAP</b></td><td>2-month recap reel «شكراً لكل بنت»</td><td>Recap reel + best-sellers carousel</td><td>2-month recap + شكر (AR)</td><td>celebrate + Month-3 waitlist</td></tr>
+  </table>
+  <div class="note"><b>End of Month 2:</b> we sit down with 2 months of data — top formats, top pieces, best posting times, creator ROI, ad ROAS — and design Month 3 to be mostly proven winners + real customer proof. The machine now runs itself; we just feed it fuel.</div>
+</div>
+</section>
+
+<!-- ============ ADS PLAN ============ -->
+<section id="ads">
+<div class="wrap">
+  <div class="eyebrow">1,000 EGP · I'm your media buyer</div>
+  <h2>Paid Ads Plan</h2>
+  <p class="lead"><b>The iron rule:</b> never boost a cold idea. Only put money behind a post that ALREADY went off organically (top 10% views/saves/clicks). Ads amplify proof — they don't create it.</p>
+  <div class="grid g2">
+    <div class="card">
+      <h3>The spend ladder</h3>
+      <table>
+        <tr><th>Week</th><th>Spend</th><th>What</th></tr>
+        <tr><td>1</td><td>0 EGP</td><td>find organic winners</td></tr>
+        <tr><td>2</td><td>~400 EGP</td><td>boost the #1 winner (~50–70 EGP/day, 6–7 days)</td></tr>
+        <tr><td>3</td><td>~400 EGP</td><td>scale winner + test 1 new / messages campaign</td></tr>
+        <tr><td>4</td><td>~200 EGP</td><td>final push on the best sales-driving asset</td></tr>
+      </table>
+      <p style="color:var(--muted);margin-top:8px">Month 2: reinvest a slice of revenue — budget we set together from the data.</p>
+    </div>
+    <div class="card">
+      <h3>Targeting (tell me the post → I give the exact setup)</h3>
+      <div class="kv">
+        <div class="k"><span class="badge b-fb">FB</span></div><div>Women <b>25–50</b>, Egypt (Cairo/Giza/Alex first), interests: fashion, online shopping, women's clothing brands. Objective: <b>Messages</b> or Traffic. Placement: FB feed + Reels.</div>
+        <div class="k"><span class="badge b-ig">IG</span></div><div>Women <b>18–40</b>, Egypt, interests: fashion/style/boutiques. Objective: <b>Profile visits / Traffic</b>. Placement: Reels + Stories + feed.</div>
+        <div class="k"><span class="badge b-tt">TT</span></div><div>Women <b>16–40</b>, Egypt. Objective: <b>Video views</b> (cheap reach) or Profile visits. Promote your top organic clip only.</div>
+      </div>
+      <div class="warn" style="margin-top:10px"><b>How we run it:</b> you tell me "this post is winning" + its stats → I give you platform, objective, audience, daily budget, duration, button-by-button setup → you launch → we check every 24h → I say scale, hold, or kill.</div>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- ============ DM & SALES ============ -->
+<section id="dms">
+<div class="wrap">
+  <div class="eyebrow">Where the 50 actually close</div>
+  <h2>DM / WhatsApp Scripts &amp; Conversion</h2>
+  <p class="lead">Reply within the hour, always. Fast replies = the difference between a sale and a ghost. Older FB buyers especially prefer DM/WhatsApp over self-checkout — make it effortless. All Arabic.</p>
+  <div class="grid g2">
+    <div class="card">
+      <h3>Scripts (Egyptian Arabic)</h3>
+      <h4>Greeting</h4>
+      <div class="copyline arb ar">أهلاً بيكي في بيولومين 🤍 تحت أمرك — تحبي أساعدك في أنهي قطعة؟</div>
+      <h4>"بكام؟"</h4>
+      <div class="copyline arb ar">سعرها [X] جنيه، ودي قطعة واحدة بس متوفرة. تحبي أحجزهالك؟</div>
+      <h4>Sold — always offer an alternative</h4>
+      <div class="copyline arb ar">للأسف القطعة دي اتباعت 🤍 بس عندي قطعة ذوقها قريب منها، أبعتهالك؟</div>
+      <h4>Close</h4>
+      <div class="copyline arb ar">تمام، محجوزة باسمك. التوصيل [X] والدفع عند الاستلام أو أونلاين. أأكد الأوردر؟</div>
+    </div>
+    <div class="card">
+      <h3>Objection handling + trust</h3>
+      <ul class="clean">
+        <li><b>Price:</b> «القطعة واحدة بس ومفصّلة كويس — بتفرق عن أي حاجة تانية، ودي بتفضل معاكي سنين.»</li>
+        <li><b>Trust:</b> lead with «بدل خلال ٣ أيام» + «ادفعي عند الاستلام» + «احنا معاكي على الواتس خطوة بخطوة.»</li>
+        <li><b>Sizing:</b> «ابعتيلي مقاسك المعتاد وأنا أقولك القطعة دي هتظبط إزاي.»</li>
+        <li><b>Shipping time:</b> «التوصيل من ٢ لـ ٤ أيام حسب المحافظة.»</li>
+        <li><b>Exchange:</b> «تقدري تبدّلي خلال ٣ أيام من الاستلام، من غير قلق.»</li>
+      </ul>
+      <div class="note"><b>Prepay perk:</b> offer a small perk (free scarf / tiny discount) for InstaPay/Vodafone Cash prepay → cuts COD risk. Never fake stock, reviews, or guarantees — trust is the whole game.</div>
+    </div>
+  </div>
+  <div class="card" style="margin-top:16px">
+    <h3>Creator seeding DM (barter — your #1 free growth lever)</h3>
+    <div class="copyline arb ar">أهلاً [الاسم] 🤍 أنا من بيولومين، براند فاشون مصري كل قطعة فيه واحدة بس في الدنيا. ذوقك بيعجبني جداً وحسّيت إن ستايلنا هيبان حلو عليكي. نحب نبعتلك قطعة تختاريها هدية، وإنتي حرة تماماً لو حبيتيها تعمليلها كونتنت بصدق. مهتمة أبعتلك الكتالوج؟</div>
+    <p style="color:var(--muted);margin-top:8px">Target 10–15 EG micro-influencers (fashion, 5k–50k, taste over follower count). Even 2–3 yeses = a reach + trust explosion.</p>
+  </div>
+</div>
+</section>
+
+<!-- ============ METRICS & ROUTINE ============ -->
+<section id="metrics">
+<div class="wrap">
+  <div class="eyebrow">Decide with numbers</div>
+  <h2>Metrics &amp; Daily Routine</h2>
+  <div class="grid g2">
+    <div class="card">
+      <h3>The dashboard (check daily)</h3>
+      <table>
+        <tr><th>Metric</th><th>Week-1</th><th>Month-1</th></tr>
+        <tr><td>Followers (total)</td><td>300+</td><td>1,000+</td></tr>
+        <tr><td>Views (TT+IG)</td><td>30–40K</td><td>100K+</td></tr>
+        <tr><td>Profile visits / day</td><td>100+</td><td>growing</td></tr>
+        <tr><td>Link clicks → shop / day</td><td>30+</td><td>growing</td></tr>
+        <tr><td><b>Sales</b></td><td>8–12</td><td><b>50+</b></td></tr>
+      </table>
+      <p style="color:var(--muted);margin-top:8px">Track per post: views, saves, shares, comments, profile visits, link clicks. The top 3 posts each week = next week's template.</p>
+    </div>
+    <div class="card">
+      <h3>Daily founder routine (~90 min, ADHD-friendly)</h3>
+      <ul class="clean">
+        <li><b>Morning (30m):</b> post the day's TikTok + IG Reel + FB post (from the bank). 3 stories.</li>
+        <li><b>Midday (15m):</b> reply to ALL comments/DMs. Fire any "اتباعت" stories.</li>
+        <li><b>Evening (30m):</b> post 2nd TikTok + stories. Reply again. Engage in FB groups.</li>
+        <li><b>Night (15m):</b> send me the day's numbers → I adjust tomorrow's plan.</li>
+        <li><b>Weekly (30m):</b> review with me — what sold, what drove it, what to double down on.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="card" style="margin-top:16px">
+    <h3>✅ The 3 numbers I check every day</h3>
+    <div class="grid g3">
+      <div class="stat"><div class="n">1</div><div class="l">views per post</div></div>
+      <div class="stat"><div class="n">2</div><div class="l">profile visits</div></div>
+      <div class="stat"><div class="n">3</div><div class="l">link clicks → shop</div></div>
+    </div>
+    <p style="color:var(--muted);margin-top:10px;text-align:center">Sales follow these three. We flood, we learn what hits, we pour fuel on winners. This is survival mode. We execute, we adapt, we win.</p>
+  </div>
+</div>
+</section>
+
+<div class="foot">
+  <div class="brandmark" style="margin-bottom:8px">B I O L U M I N</div>
+  نورِك يبان · Wear your light<br>
+  <span style="color:var(--greige)">Content Command Center · 2-Month System · Built to hit 1,000 followers &amp; 50 pieces sold in Month 1.</span>
+</div>
+
+</body>
+</html>
