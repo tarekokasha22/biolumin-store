@@ -36,15 +36,6 @@ export function HomeHero({ heroImage, availableCount }: Props) {
         }}
       />
 
-      {availableCount > 0 && (
-        <div className="absolute top-4 start-4 inline-flex items-center gap-1.5 rounded-(--radius-pill) border border-aqua/30 bg-[rgba(10,10,12,.5)] px-3 py-1.5 backdrop-blur-sm">
-          <span className="h-1.5 w-1.5 rounded-full bg-aqua shadow-[0_0_8px_#48d6c2]" style={{ animation: "biopulse 1.8s infinite" }} />
-          <span className="font-body text-[10px] tracking-[0.18em] text-aqua-light uppercase">
-            {t("dropAvailable", { count: availableCount })}
-          </span>
-        </div>
-      )}
-
       <div className="relative z-[2] w-full px-[22px] pb-[30px]">
         <div className="font-body mb-3.5 text-[10.5px] tracking-[0.34em] text-champagne-bright uppercase">
           {t("heroKicker")}

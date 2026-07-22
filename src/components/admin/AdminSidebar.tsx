@@ -317,12 +317,24 @@ export function AdminSidebar({ pendingOrders = 0 }: { pendingOrders?: number }) 
         <div className="md:hidden fixed inset-0 z-50 flex">
           {/* Backdrop */}
           <div
-            className="absolute inset-0 bg-obsidian/70 backdrop-blur-sm"
+            className="absolute inset-0 bg-obsidian/80 backdrop-blur-sm"
             onClick={() => setMobileOpen(false)}
           />
           {/* Drawer panel */}
-          <aside className="relative z-10 w-[260px] h-full border-r border-ivory/10 bg-obsidian-soft">
-            <SidebarContent />
+          <aside className="relative z-10 w-[270px] max-w-[85vw] h-full border-r border-ivory/10 bg-obsidian-soft flex flex-col shadow-2xl">
+            <div className="flex items-center justify-between px-4 py-3.5 border-b border-ivory/10">
+              <span className="font-display text-base tracking-[0.2em] text-champagne">BIOLUMIN</span>
+              <button
+                onClick={() => setMobileOpen(false)}
+                className="p-2 text-ivory/60 hover:text-ivory text-sm rounded-lg bg-ivory/5"
+                aria-label="Close menu"
+              >
+                ✕
+              </button>
+            </div>
+            <div className="flex-1 overflow-y-auto">
+              <SidebarContent />
+            </div>
           </aside>
         </div>
       )}
