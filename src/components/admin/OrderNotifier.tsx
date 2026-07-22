@@ -10,7 +10,7 @@ type Pulse = {
 
 type Toast = { id: string; name: string; total: number; governorate: string };
 
-const POLL_MS = 15000;
+const POLL_MS = 60000;
 
 // Shopify-style "cha-ching" cash-register bell, synthesized with Web Audio —
 // no asset to load. A short noise transient (the drawer) leads two bright,

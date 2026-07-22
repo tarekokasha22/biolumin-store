@@ -32,8 +32,9 @@ export async function loginAction(formData: FormData) {
     path: "/",
     maxAge: 60 * 60 * 24 * 7,
   });
-  redirect("/admin/products");
+  redirect("/admin/dashboard");
 }
+
 
 export async function logoutAction() {
   (await cookies()).delete(ADMIN_COOKIE);
@@ -385,3 +386,40 @@ export async function deleteReview(formData: FormData) {
   revalidatePath("/");
   redirect("/admin/reviews");
 }
+
+// ── Product Sort Order ───────────────────────────────────────────────────────
+
+export async function reorderProducts(formData: FormData) {
+  await requireAdmin();
+  const ids = String(formData.get("ids")).split(",").filter(Boolean);
+  await prisma.$transaction(
+    ids.map((id, i) =>
+      prisma.product.update({ where: { id }, data: { sortOrder: ids.length - i } }),
+    ),
+  );
+  revalidatePath("/admin/products/sorting");
+  revalidatePath("/");
+}
+
+export async function pinProductToTop(formData: FormData) {
+  await requireAdmin();
+  const id = String(formData.get("id"));
+  const top = await prisma.product.findFirst({
+    orderBy: { sortOrder: "desc" },
+    select: { sortOrder: true },
+  });
+  const newOrder = (top?.sortOrder ?? 0) + 1;
+  await prisma.product.update({ where: { id }, data: { sortOrder: newOrder } });
+  revalidatePath("/admin/products/sorting");
+  revalidatePath("/admin/products");
+  revalidatePath("/");
+}
+
+export async function resetProductSort(formData: FormData) {
+  await requireAdmin();
+  const id = String(formData.get("id"));
+  await prisma.product.update({ where: { id }, data: { sortOrder: 0 } });
+  revalidatePath("/admin/products/sorting");
+  revalidatePath("/");
+}
+

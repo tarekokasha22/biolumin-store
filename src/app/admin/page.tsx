@@ -4,7 +4,7 @@ import { loginAction, isAdmin } from "@/lib/admin-actions";
 type Props = { searchParams: Promise<{ error?: string }> };
 
 export default async function AdminLoginPage({ searchParams }: Props) {
-  if (await isAdmin()) redirect("/admin/inventory");
+  if (await isAdmin()) redirect("/admin/dashboard");
   const { error } = await searchParams;
 
   return (

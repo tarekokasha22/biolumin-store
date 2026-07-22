@@ -12,17 +12,23 @@ export async function GET() {
     return Response.json({ error: "unauthorized" }, { status: 401 });
   }
 
-  const [total, pending, latest] = await Promise.all([
-    prisma.order.count(),
-    prisma.order.count({ where: { status: "PENDING" } }),
-    prisma.order.findFirst({
-      orderBy: { createdAt: "desc" },
-      select: { id: true, customerName: true, total: true, governorate: true },
-    }),
-  ]);
-
-  return Response.json(
-    { total, pending, latest },
-    { headers: { "Cache-Control": "no-store" } },
-  );
+  try {
+    const [total, pending, latest] = await Promise.all([
+      prisma.order.count(),
+      prisma.order.count({ where: { status: "PENDING" } }),
+      prisma.order.findFirst({
+        orderBy: { createdAt: "desc" },
+        select: { id: true, customerName: true, total: true, governorate: true },
+      }),
+    ]);
+    return Response.json(
+      { total, pending, latest },
+      { headers: { "Cache-Control": "no-store" } },
+    );
+  } catch {
+    return Response.json(
+      { total: 0, pending: 0, latest: null },
+      { headers: { "Cache-Control": "no-store" } },
+    );
+  }
 }

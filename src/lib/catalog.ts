@@ -23,7 +23,7 @@ export async function releaseExpiredReservations(force = false) {
 export async function getProducts() {
   await releaseExpiredReservations();
   return prisma.product.findMany({
-    orderBy: [{ status: "asc" }, { createdAt: "desc" }],
+    orderBy: [{ status: "asc" }, { sortOrder: "desc" }, { createdAt: "desc" }],
     include: { images: { orderBy: { order: "asc" } } },
   });
 }
