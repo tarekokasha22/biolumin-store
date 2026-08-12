@@ -4,7 +4,8 @@
       "Bash(mkdir -p /home/tarek/Biolumin/store/public/uploads/products)",
       "Bash(mkdir -p /home/tarek/Biolumin/store/src/app/admin/products /home/tarek/Biolumin/store/src/app/admin/products/new \"/home/tarek/Biolumin/store/src/app/admin/products/[id]/edit\" /home/tarek/Biolumin/store/src/app/api/admin/upload)",
       "Bash(npx tsc *)",
-      "Bash(npx next *)"
+      "Bash(npx next *)",
+      "mcp__Claude_Code_Remote__send_later"
     ]
   }
 }
