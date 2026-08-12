@@ -17,6 +17,7 @@ export type ShopProduct = {
   image: string;
   status: "AVAILABLE" | "RESERVED" | "SOLD";
   category: string;
+  size: string;
   ratingSummary?: RatingSummary;
 };
 
@@ -26,6 +27,7 @@ export function ShopGrid({ products }: { products: ShopProduct[] }) {
   const t = useTranslations("shop");
   const locale = useLocale();
   const [category, setCategory] = useState<string>("__all");
+  const [size, setSize] = useState<string>("__all");
   const [sortBy, setSortBy] = useState<SortKey>("featured");
   const [sortOpen, setSortOpen] = useState(false);
 
@@ -37,12 +39,22 @@ export function ShopGrid({ products }: { products: ShopProduct[] }) {
     return Array.from(map, ([value, label]) => ({ value, label }));
   }, [products, locale]);
 
+  // Sizes are free text on each one-of-one piece (S/M/L, shoe sizes, "OS")
+  // so the chip set is derived from what's actually in stock, not a fixed list.
+  const sizes = useMemo(() => {
+    const set = new Set<string>();
+    for (const p of products) if (p.size) set.add(p.size);
+    return Array.from(set);
+  }, [products]);
+
   const list = useMemo(() => {
-    let out = category === "__all" ? products : products.filter((p) => p.category === category);
+    let out = products;
+    if (category !== "__all") out = out.filter((p) => p.category === category);
+    if (size !== "__all") out = out.filter((p) => p.size === size);
     if (sortBy === "price-asc") out = [...out].sort((a, b) => a.price - b.price);
     if (sortBy === "price-desc") out = [...out].sort((a, b) => b.price - a.price);
     return out;
-  }, [products, category, sortBy]);
+  }, [products, category, size, sortBy]);
 
   return (
     <div>
@@ -69,6 +81,20 @@ export function ShopGrid({ products }: { products: ShopProduct[] }) {
           </svg>
         </button>
       </div>
+
+      {sizes.length > 1 && (
+        <div className="no-scrollbar mt-1.5 flex gap-1.5 overflow-x-auto">
+          <FilterChip
+            label={t("filterAll")}
+            active={size === "__all"}
+            onClick={() => setSize("__all")}
+            accent="aqua"
+          />
+          {sizes.map((s) => (
+            <FilterChip key={s} label={s} active={size === s} onClick={() => setSize(s)} accent="aqua" />
+          ))}
+        </div>
+      )}
 
       <div className="font-body px-0.5 py-2.5 text-[11.5px] tracking-[0.04em] text-ivory/50">
         {t("resultsCount", { count: list.length })}
@@ -123,13 +149,25 @@ export function ShopGrid({ products }: { products: ShopProduct[] }) {
   );
 }
 
-function FilterChip({ label, active, onClick }: { label: string; active: boolean; onClick: () => void }) {
+function FilterChip({
+  label,
+  active,
+  onClick,
+  accent = "champagne",
+}: {
+  label: string;
+  active: boolean;
+  onClick: () => void;
+  accent?: "champagne" | "aqua";
+}) {
+  const activeClass =
+    accent === "aqua" ? "border-aqua bg-aqua/10 text-aqua-light" : "border-champagne bg-champagne/14 text-champagne-bright";
   return (
     <button
       type="button"
       onClick={onClick}
       className={`font-body flex-none rounded-(--radius-pill) border px-[15px] py-2 text-xs whitespace-nowrap ${
-        active ? "border-champagne bg-champagne/14 text-champagne-bright" : "border-greige/34 text-ivory/70"
+        active ? activeClass : "border-greige/34 text-ivory/70"
       }`}
     >
       {label}
