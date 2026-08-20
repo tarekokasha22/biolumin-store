@@ -27,6 +27,7 @@ export default async function ShopPage({ params }: Props) {
     image: p.images[0]?.url ?? gradientPlaceholder(p.slug, p.nameEn),
     status: p.status,
     category: p.category,
+    size: p.size,
     ratingSummary: ratings.get(p.id),
   }));
 
